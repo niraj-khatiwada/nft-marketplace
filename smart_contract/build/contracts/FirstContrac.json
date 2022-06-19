@@ -1,0 +1,277 @@
+{
+  "contractName": "FirstContrac",
+  "abi": [
+    {
+      "stateMutability": "payable",
+      "type": "receive",
+      "payable": true
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.14+commit.80d49f37\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/FirstContract.sol\":\"FirstContrac\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/FirstContract.sol\":{\"keccak256\":\"0xe15af56e296c74828365d20176c9aa67c85db5ca824af812a0746f3497485918\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://dbba89bf5eb86baaf7adf4cb8c850b9afe4898006f50c01e41597697f5c4f124\",\"dweb:/ipfs/QmVbpgte1ofeDLRtUj3ooZLJpYhEpjVV12WB6sQBH8EvGc\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50604580601d6000396000f3fe608060405236600a57005b600080fdfea2646970667358221220c348de375adcb74c6cf981e334b061dfd86fc766aa1c9d4484307d7952c768a064736f6c634300080e0033",
+  "deployedBytecode": "0x608060405236600a57005b600080fdfea2646970667358221220c348de375adcb74c6cf981e334b061dfd86fc766aa1c9d4484307d7952c768a064736f6c634300080e0033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "58:192:0:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "58:192:0:-:0;;;;;;;;;;",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.14;\n\ncontract FirstContrac {\n    Person[] people;\n    mapping(string => uint256) mapPerson;\n\n    struct Person {\n        string name;\n        uint256 age;\n    }\n\n    receive() external payable {}\n}\n",
+  "sourcePath": "/home/niraj/Documents/solidity-etherium/smart_contract/contracts/FirstContract.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/FirstContract.sol",
+    "exportedSymbols": {
+      "FirstContrac": [
+        19
+      ]
+    },
+    "id": 20,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".14"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:24:0"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "FirstContrac",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 19,
+        "linearizedBaseContracts": [
+          19
+        ],
+        "name": "FirstContrac",
+        "nameLocation": "67:12:0",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 5,
+            "mutability": "mutable",
+            "name": "people",
+            "nameLocation": "95:6:0",
+            "nodeType": "VariableDeclaration",
+            "scope": 19,
+            "src": "86:15:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_Person_$14_storage_$dyn_storage",
+              "typeString": "struct FirstContrac.Person[]"
+            },
+            "typeName": {
+              "baseType": {
+                "id": 3,
+                "nodeType": "UserDefinedTypeName",
+                "pathNode": {
+                  "id": 2,
+                  "name": "Person",
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 14,
+                  "src": "86:6:0"
+                },
+                "referencedDeclaration": 14,
+                "src": "86:6:0",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Person_$14_storage_ptr",
+                  "typeString": "struct FirstContrac.Person"
+                }
+              },
+              "id": 4,
+              "nodeType": "ArrayTypeName",
+              "src": "86:8:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_Person_$14_storage_$dyn_storage_ptr",
+                "typeString": "struct FirstContrac.Person[]"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 9,
+            "mutability": "mutable",
+            "name": "mapPerson",
+            "nameLocation": "134:9:0",
+            "nodeType": "VariableDeclaration",
+            "scope": 19,
+            "src": "107:36:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
+              "typeString": "mapping(string => uint256)"
+            },
+            "typeName": {
+              "id": 8,
+              "keyType": {
+                "id": 6,
+                "name": "string",
+                "nodeType": "ElementaryTypeName",
+                "src": "115:6:0",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "107:26:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_string_memory_ptr_$_t_uint256_$",
+                "typeString": "mapping(string => uint256)"
+              },
+              "valueType": {
+                "id": 7,
+                "name": "uint256",
+                "nodeType": "ElementaryTypeName",
+                "src": "125:7:0",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "FirstContrac.Person",
+            "id": 14,
+            "members": [
+              {
+                "constant": false,
+                "id": 11,
+                "mutability": "mutable",
+                "name": "name",
+                "nameLocation": "181:4:0",
+                "nodeType": "VariableDeclaration",
+                "scope": 14,
+                "src": "174:11:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 10,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "174:6:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 13,
+                "mutability": "mutable",
+                "name": "age",
+                "nameLocation": "203:3:0",
+                "nodeType": "VariableDeclaration",
+                "scope": 14,
+                "src": "195:11:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 12,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "195:7:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Person",
+            "nameLocation": "157:6:0",
+            "nodeType": "StructDefinition",
+            "scope": 19,
+            "src": "150:63:0",
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 17,
+              "nodeType": "Block",
+              "src": "246:2:0",
+              "statements": []
+            },
+            "id": 18,
+            "implemented": true,
+            "kind": "receive",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 15,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "226:2:0"
+            },
+            "returnParameters": {
+              "id": 16,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "246:0:0"
+            },
+            "scope": 19,
+            "src": "219:29:0",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 20,
+        "src": "58:192:0",
+        "usedErrors": []
+      }
+    ],
+    "src": "32:219:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.14+commit.80d49f37.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x3961CdFf3fF39d2Ac49f6C31f36176a59Fdc1e7B",
+      "transactionHash": "0xdee13db003e98097addde9304198fc57b87bfeb2c8830bd6c8d4293ece933eb7"
+    }
+  },
+  "schemaVersion": "3.4.7",
+  "updatedAt": "2022-06-18T12:13:31.285Z",
+  "networkType": "ethereum",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

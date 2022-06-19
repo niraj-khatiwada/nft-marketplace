@@ -1,0 +1,18 @@
+{
+  "value": {
+    "code": -32603,
+    "data": {
+      "message": "VM Exception while processing transaction: revert",
+      "code": -32000,
+      "data": {
+        "0x08ae3ff68c4f3c0d74466a98223939cb9ae8e53dd60fd255cc2a33b05d974692": {
+          "error": "revert",
+          "program_counter": 464,
+          "return": "0x"
+        },
+        "stack": "RuntimeError: VM Exception while processing transaction: revert\n    at Function.RuntimeError.fromResults (/tmp/.mount_ganachEbxmGI/resources/static/node/node_modules/ganache-core/lib/utils/runtimeerror.js:94:13)\n    at BlockchainDouble.processBlock (/tmp/.mount_ganachEbxmGI/resources/static/node/node_modules/ganache-core/lib/blockchain_double.js:627:24)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (internal/process/task_queues.js:93:5)",
+        "name": "RuntimeError"
+      }
+    }
+  }
+}
