@@ -1,1 +1,1 @@
-## React and Solidity
+## NFT Marketplace: React and Solidity

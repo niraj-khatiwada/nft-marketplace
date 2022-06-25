@@ -7,12 +7,29 @@ export default function SendFundToOwner() {
   const { library, account } = useWeb3React()
   const { contract } = useContract()
 
+  React.useEffect(() => {
+    contract?.methods
+      ?.symbol?.()
+      .call?.()
+      ?.then((res) => console.log(res))
+  }, [contract])
+
   const sendFund = async () => {
     try {
-      const response = await contract?.methods?.storeAddress().send({
-        from: account,
-        value: library?.utils?.toWei('2.1', 'ether'),
-      })
+      const response = await contract?.methods
+        ?.addCourse(1, library?.utils?.toWei('11', 'ether'))
+        .send({
+          from: account,
+        })
+
+      console.log('---Success--', response)
+    } catch (error) {
+      console.log('---', error)
+    }
+  }
+  const getCourses = async () => {
+    try {
+      const response = await contract?.methods?.getAllCourses().call()
 
       console.log('---Success--', response)
     } catch (error) {
@@ -20,9 +37,31 @@ export default function SendFundToOwner() {
     }
   }
 
-  return (
-    <div>
-      <button onClick={sendFund}>Send</button>
-    </div>
-  )
+  const getCourseById = async () => {
+    try {
+      const response = await contract?.methods?.getCourse(1).call()
+
+      console.log('---Success--', response)
+    } catch (error) {
+      const endIndex = error.message.search('{')
+
+      if (endIndex >= 0) {
+        throw error.message.substring(0, endIndex)
+      }
+    }
+  }
+
+  const getCoursesByOwner = async () => {
+    try {
+      const response = await contract?.methods
+        ?.getCoursesByOwner(account)
+        .call()
+
+      console.log('---Success--', response)
+    } catch (error) {
+      console.log('---', error)
+    }
+  }
+
+  return <div></div>
 }

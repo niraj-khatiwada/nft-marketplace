@@ -1,5 +1,6 @@
 import React from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { Button, Spinner } from 'react-bootstrap'
 
 import {
   injected,
@@ -10,69 +11,18 @@ import Balance from './Balance'
 import Network from './Network'
 import SendFundToOwner from './SendFundToOwner'
 
+import useWeb3 from '../hooks/useWeb3'
+
 const Web3ReactConnectionComponent = () => {
-  const web3 = useWeb3React()
-
-  const firstRef = React.useRef(true)
-
-  const disconnectWallet = () => {
-    try {
-      web3.deactivate()
-      localStorage.removeItem('connector')
-      localStorage.removeItem('walletconnect')
-      localStorage.removeItem('WALLETCONNECT_DEEPLINK_CHOICE')
-    } catch (ex) {
-      console.log(ex)
-    }
-  }
-
-  //web3react context
-  const checkInfoSimple = async () => {
-    try {
-      console.log(web3)
-    } catch (ex) {
-      console.log(ex)
-    }
-  }
-
-  //web3react metamask
-  const connectMetamaskSimple = async () => {
-    try {
-      await web3.activate(injected)
-      window.localStorage.setItem('connector', 'metamask')
-    } catch (ex) {
-      console.log(ex)
-      disconnectWallet()
-    }
-  }
-
-  //web3react walletconnect
-  const connectWalletConnectSimple = async () => {
-    try {
-      resetWalletConnector(walletconnect)
-      const abc = await web3.activate(walletconnect)
-      window.localStorage.setItem('connector', 'walletconnect')
-    } catch (ex) {
-      console.log(ex)
-      disconnectWallet()
-    }
-  }
-
-  React.useEffect(() => {
-    if (!(web3 == null) && firstRef.current) {
-      firstRef.current = false
-      const savedConnector = window.localStorage.getItem('connector')
-      switch (savedConnector) {
-        case 'metamask':
-          connectMetamaskSimple()
-          break
-        case 'walletconnect':
-          connectWalletConnectSimple()
-          break
-        default:
-      }
-    }
-  }, [web3, connectMetamaskSimple, connectWalletConnectSimple])
+  const {
+    custom: {
+      connectMetamask,
+      connectWalletConnect,
+      disconnectWallet,
+      isLoading,
+    },
+    ...web3
+  } = useWeb3()
 
   return (
     <div>
@@ -87,25 +37,17 @@ const Web3ReactConnectionComponent = () => {
       ) : (
         <p>Not connected</p>
       )}
-      {web3.error == null ? null : (
+      {web3?.error == null ? null : (
         <p style={{ color: 'tomato' }}>{web3.error.message}</p>
       )}
-      <div>
-        <button
-          onClick={checkInfoSimple}
-          style={{ display: 'block', margin: '10px 0' }}
-        >
-          Check web3react Context
-        </button>
-      </div>
       {!web3.account ? (
         <div className="flex space-x-3">
-          <button
-            onClick={connectMetamaskSimple}
+          <Button
+            onClick={connectMetamask}
             style={{ display: 'block', margin: '10px 0' }}
           >
             Connect Metamask Via Web3-React
-          </button>
+          </Button>
         </div>
       ) : null}
       {!web3.account ? (
@@ -113,18 +55,18 @@ const Web3ReactConnectionComponent = () => {
           className="flex space-x-3"
           style={{ display: 'block', margin: '10px 0' }}
         >
-          <button onClick={connectWalletConnectSimple}>
+          <Button onClick={connectWalletConnect}>
             Connect walletconnect Via Web3-React
-          </button>
+          </Button>
         </div>
       ) : null}
       {web3?.account || !(web3.error == null) ? (
-        <button
+        <Button
           onClick={disconnectWallet}
           style={{ display: 'block', margin: '10px 0' }}
         >
           Disconnect Web3React
-        </button>
+        </Button>
       ) : null}
     </div>
   )

@@ -17,7 +17,8 @@ export default function useBalance() {
         console.log('--', error)
       }
     })()
-  }, [account, library.eth])
+  }, [account, library])
+
   return {
     balance,
     currency: CURRENCY?.[chainId],

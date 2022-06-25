@@ -1,12 +1,12 @@
 import React from 'react'
 
-import Wallet from './components/Wallets'
+import Router from './Router'
 import { WalletProvider } from './providers'
 
 export default function App() {
   return (
     <WalletProvider>
-      <Wallet />
+      <Router />
     </WalletProvider>
   )
 }
