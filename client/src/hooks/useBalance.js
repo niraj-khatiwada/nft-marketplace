@@ -1,29 +1,31 @@
 import React from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { useQuery } from 'react-query'
 
 import { CURRENCY } from '../helpers/connectors'
 
 export default function useBalance() {
   const { library, account, chainId } = useWeb3React()
 
-  const [balance, setBalance] = React.useState(0)
+  const getBalance = React.useCallback(async () => {
+    const balance = await library?.eth?.getBalance(account)
+    return library?.utils?.fromWei(balance.toString(), 'ether')
+  }, [library])
 
-  React.useEffect(() => {
-    ;(async function () {
-      try {
-        const _balance = await library?.eth?.getBalance(account)
-        setBalance(library?.utils?.fromWei(_balance.toString(), 'ether'))
-      } catch (error) {
-        console.log('--', error)
-      }
-    })()
-  }, [account, library])
+  const { isLoading, data, isError, error } = useQuery(
+    'useBalance',
+    getBalance,
+    {
+      enabled: !(library == null),
+    }
+  )
 
   return {
-    balance,
+    isLoading,
+    isError,
+    error,
+    balance: data,
     currency: CURRENCY?.[chainId],
-    formatted: !(balance == null)
-      ? `${balance} ${CURRENCY?.[chainId] ?? ''}`
-      : '',
+    formatted: !(data == null) ? `${data} ${CURRENCY?.[chainId] ?? ''}` : '',
   }
 }

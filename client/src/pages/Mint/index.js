@@ -1,13 +1,19 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 
 import Navbar from '../../components/Navbar'
 import useWeb3 from '../../hooks/useWeb3'
 import useContract from '../../hooks/useContract'
 
 export default function Home() {
-  const { account, library } = useWeb3()
-  const { contract } = useContract()
+  const {
+    account,
+    library,
+    custom: { waitTransaction },
+  } = useWeb3()
+  const { contract, contractAddress } = useContract()
+  const history = useHistory()
 
   const [error, setError] = React.useState('')
 
@@ -21,10 +27,7 @@ export default function Home() {
   const mintToken = async () => {
     try {
       setError('')
-
       const listingPrice = await contract?.methods?.itemListingPrice().call()
-      console.log('Listing Price', listingPrice)
-
       const doesTokenURIExists = await contract?.methods
         ?.doesTokenURIExists(tokenURI)
         .call()
@@ -32,10 +35,25 @@ export default function Home() {
         setError('Token URI already exists')
         return
       }
-      const response = await contract?.methods
-        ?.mintToken(+tokenId, tokenURI, price)
-        .send({ from: account, value: listingPrice })
-      console.log('---', response)
+
+      // // TODO: Get signature request from backend
+      // const signature = await library?.eth?.personal?.sign(
+      //   JSON.stringify({ contract: contractAddress }),
+      //   account
+      // )
+      // // TODO: Verify this signature with backend
+      // console.log('Signature', signature)
+
+      const transaction = await contract?.methods
+        ?.mintToken(+tokenId, tokenURI, library?.utils?.toWei(price, 'ether'))
+        .send({
+          from: account,
+          value: listingPrice,
+        })
+
+      const receipt = await waitTransaction(transaction?.transactionHash)
+      console.log('---', receipt)
+      history.push('/')
     } catch (error) {
       console.log('Mint Error', error)
       setError('Something went wrong...')

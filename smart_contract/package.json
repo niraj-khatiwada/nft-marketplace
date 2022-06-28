@@ -7,12 +7,17 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "contract-size": "truffle run contract-size --checkMaxSize",
+    "truffle-migrate": "truffle migrate --reset"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@openzeppelin/contracts": "^4.6.0"
+  },
+  "devDependencies": {
+    "truffle-contract-size": "^2.0.1"
   }
 }

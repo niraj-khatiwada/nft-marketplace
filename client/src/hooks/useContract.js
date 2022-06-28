@@ -1,24 +1,39 @@
 import React from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { useQuery } from 'react-query'
 
 // const TOKEN_CONTRACT_ADDRESS = process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS
-const TOKEN_CONTRACT_ADDRESS = '0x9A08D7E98Aba8cBc16A8525A828942dB380dfC2C'
+const TOKEN_CONTRACT_ADDRESS = '0x0D70DD12A7F59b891cCB6287D30B456374028fab'
 
 export default function useContract() {
   const { library } = useWeb3React()
 
-  const [contract, setContract] = React.useState(null)
-
-  React.useEffect(() => {
-    library?.eth?.Contract &&
-      (async function () {
-        const contractJson = await fetch('/contracts/NFTMarketplace.json')
-        const artifacts = await contractJson.json()
-        setContract(
-          new library.eth.Contract(artifacts.abi, TOKEN_CONTRACT_ADDRESS)
-        )
-      })()
+  const getContract = React.useCallback(async () => {
+    if (library?.eth?.Contract) {
+      const contractJson = await fetch('/contracts/NFTMarketplace.json')
+      const artifacts = await contractJson.json()
+      const contract = new library.eth.Contract(
+        artifacts.abi,
+        TOKEN_CONTRACT_ADDRESS
+      )
+      return contract
+    }
+    return null
   }, [library])
 
-  return { contract }
+  const { isLoading, data, isError, error } = useQuery(
+    'useContract',
+    getContract,
+    {
+      enabled: !(library == null),
+    }
+  )
+
+  return {
+    contractAddress: TOKEN_CONTRACT_ADDRESS,
+    contract: data,
+    isLoading,
+    isError,
+    error,
+  }
 }

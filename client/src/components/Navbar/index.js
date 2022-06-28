@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Button, Spinner } from 'react-bootstrap'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import { Link } from 'react-router-dom'
 
 import useWeb3 from '../../hooks/useWeb3'
 
@@ -42,7 +43,14 @@ function CollapsibleExample() {
           </div>
         )
       default:
-        return <p className="text-danger m-0">Something went wrong...</p>
+        return (
+          <div className="d-flex align-items-center my-3">
+            <p className="text-danger m-0">Something went wrong...</p>
+            <Button className="ms-2" onClick={disconnectWallet}>
+              Retry
+            </Button>
+          </div>
+        )
     }
   }, [error])
 
@@ -61,7 +69,7 @@ function CollapsibleExample() {
             </>
           ) : error == null ? (
             <Nav className="d-flex align-items-center">
-              <Nav.Link href="#deets">
+              <Nav.Link>
                 {account == null ? (
                   <>
                     <Button className="mx-2" onClick={connectMetamask}>
@@ -72,7 +80,14 @@ function CollapsibleExample() {
                     </Button>
                   </>
                 ) : (
-                  <p className="m-0 me-2">{account}</p>
+                  <div className="d-flex align-items-center">
+                    <Link to="/profile">
+                      <p className="m-0 me-2">My Profile</p>
+                    </Link>
+                    <p className="m-0 me-2">
+                      {account?.slice(0, 10)}...{account?.slice(-10)}
+                    </p>
+                  </div>
                 )}
               </Nav.Link>
               <Nav.Item>

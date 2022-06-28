@@ -1,3 +1,4 @@
+// @ts-check
 import React from 'react'
 import { useWeb3React } from '@web3-react/core'
 
@@ -6,6 +7,10 @@ import {
   walletconnect,
   resetWalletConnector,
 } from '../helpers/connectors'
+import { CURRENCY } from '../helpers/connectors'
+
+const DEFAULT_INTERVAL = 500
+const DEFAULT_BLOCKS_TO_WAIT = 0
 
 export default function useWeb3() {
   const web3 = useWeb3React()
@@ -70,6 +75,77 @@ export default function useWeb3() {
     }
   }, [web3 == null, connectMetamask, connectWalletConnect])
 
+  const formatBalance = (balance) => {
+    return !(balance == null)
+      ? `${balance} ${CURRENCY?.[web3?.chainId] ?? ''}`
+      : ''
+  }
+
+  function waitTransaction(txnHash) {
+    const interval = DEFAULT_INTERVAL
+    const blocksToWait = DEFAULT_BLOCKS_TO_WAIT
+    var transactionReceiptAsync = async function (txnHash, resolve, reject) {
+      try {
+        var receipt = web3.library?.eth?.getTransactionReceipt(txnHash)
+        if (!receipt) {
+          setTimeout(function () {
+            transactionReceiptAsync(txnHash, resolve, reject)
+          }, interval)
+        } else {
+          if (blocksToWait > 0) {
+            var resolvedReceipt = await receipt
+            if (!resolvedReceipt || !resolvedReceipt.blockNumber)
+              setTimeout(function () {
+                transactionReceiptAsync(txnHash, resolve, reject)
+              }, interval)
+            else {
+              try {
+                var block = await web3.library?.eth.getBlock(
+                  resolvedReceipt.blockNumber
+                )
+                var current = await web3.library?.eth.getBlock('latest')
+                if (current.number - block.number >= blocksToWait) {
+                  var txn = await web3.library?.eth.getTransaction(txnHash)
+                  if (txn.blockNumber != null) resolve(resolvedReceipt)
+                  else
+                    reject(
+                      new Error(
+                        'Transaction with hash: ' +
+                          txnHash +
+                          ' ended up in an uncle block.'
+                      )
+                    )
+                } else
+                  setTimeout(function () {
+                    transactionReceiptAsync(txnHash, resolve, reject)
+                  }, interval)
+              } catch (e) {
+                setTimeout(function () {
+                  transactionReceiptAsync(txnHash, resolve, reject)
+                }, interval)
+              }
+            }
+          } else resolve(receipt)
+        }
+      } catch (e) {
+        reject(e)
+      }
+    }
+
+    // Resolve multiple transactions once
+    if (Array.isArray(txnHash)) {
+      var promises = []
+      txnHash.forEach(function (oneTxHash) {
+        promises.push(waitTransaction(oneTxHash))
+      })
+      return Promise.all(promises)
+    } else {
+      return new Promise(function (resolve, reject) {
+        transactionReceiptAsync(txnHash, resolve, reject)
+      })
+    }
+  }
+
   return {
     ...web3,
     custom: {
@@ -77,6 +153,8 @@ export default function useWeb3() {
       connectMetamask,
       connectWalletConnect,
       disconnectWallet,
+      formatBalance,
+      waitTransaction,
     },
   }
 }

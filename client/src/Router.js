@@ -10,6 +10,7 @@ import { Spinner } from 'react-bootstrap'
 
 const LazyLoadedHomePage = React.lazy(() => import('./pages/Home/index'))
 const LazyLoadedMintPage = React.lazy(() => import('./pages/Mint/index'))
+const LazyLoadedProfilePage = React.lazy(() => import('./pages/Profile/index'))
 
 export default function Router() {
   return (
@@ -25,6 +26,11 @@ export default function Router() {
             exact
             path="/mint"
             render={(...props) => <LazyLoadedMintPage {...props} />}
+          />
+          <Route
+            exact
+            path="/profile"
+            render={(...props) => <LazyLoadedProfilePage {...props} />}
           />
         </Switch>
       </React.Suspense>
