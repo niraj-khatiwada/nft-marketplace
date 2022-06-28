@@ -6,19 +6,29 @@ import useContract from '../../hooks/useContract'
 import useWeb3 from '../../hooks/useWeb3'
 
 export default function BuyNFT({ item, onSuccess = () => null }) {
-  const { contract } = useContract()
+  const { contract, contractAddress } = useContract()
   const {
+    library,
     account,
-    custom: { waitTransaction },
+    custom: { waitTransactionToConfirm },
   } = useWeb3()
 
   const { mutate, isLoading, isError } = useMutation(
     async () => {
+      // // TODO: Get signature request from backend
+      const signature = await library?.eth?.personal?.sign(
+        JSON.stringify({ contract: contractAddress }),
+        account
+      )
+      // // TODO: Verify this signature with backend
+      console.log('Signature', signature)
       const transaction = await contract?.methods?.buyNFT(item?.tokenId).send({
         from: account,
         value: item?.price,
       })
-      const receipt = await waitTransaction(transaction?.transactionHash)
+      const receipt = await waitTransactionToConfirm(
+        transaction?.transactionHash
+      )
       console.log('---', receipt)
       return receipt
     },

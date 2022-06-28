@@ -1,7 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { useQuery } from 'react-query'
-import { Button, Spinner } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 
 import styles from './style.module.css'
 import useWeb3 from '../../hooks/useWeb3'
@@ -43,6 +41,7 @@ function NFTsForSale() {
                           library?.utils?.fromWei(item?.price, 'ether')
                         )}
                   </p>
+                  <p>Is For Sale: {`${item?.isForSale}` ?? 'false'}</p>
 
                   {item?.owner == account ? (
                     <p
@@ -52,9 +51,9 @@ function NFTsForSale() {
                       {' '}
                       My Item{' '}
                     </p>
-                  ) : (
+                  ) : item?.creator !== account ? (
                     <BuyNFT item={item} onSuccess={onSuccess} />
-                  )}
+                  ) : null}
                 </div>
               ))
             ) : (

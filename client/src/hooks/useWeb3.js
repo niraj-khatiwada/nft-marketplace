@@ -81,7 +81,7 @@ export default function useWeb3() {
       : ''
   }
 
-  function waitTransaction(txnHash) {
+  function waitTransactionToConfirm(txnHash) {
     const interval = DEFAULT_INTERVAL
     const blocksToWait = DEFAULT_BLOCKS_TO_WAIT
     var transactionReceiptAsync = async function (txnHash, resolve, reject) {
@@ -136,7 +136,7 @@ export default function useWeb3() {
     if (Array.isArray(txnHash)) {
       var promises = []
       txnHash.forEach(function (oneTxHash) {
-        promises.push(waitTransaction(oneTxHash))
+        promises.push(waitTransactionToConfirm(oneTxHash))
       })
       return Promise.all(promises)
     } else {
@@ -154,7 +154,7 @@ export default function useWeb3() {
       connectWalletConnect,
       disconnectWallet,
       formatBalance,
-      waitTransaction,
+      waitTransactionToConfirm,
     },
   }
 }

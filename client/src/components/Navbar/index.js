@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import { Link } from 'react-router-dom'
 
 import useWeb3 from '../../hooks/useWeb3'
+import useBalance from '../../hooks/useBalance'
 
 function CollapsibleExample() {
   const {
@@ -18,6 +19,7 @@ function CollapsibleExample() {
       isLoading,
     },
   } = useWeb3()
+  const { formatted } = useBalance()
 
   const renderError = React.useMemo(() => {
     switch (error?.name) {
@@ -84,6 +86,9 @@ function CollapsibleExample() {
                     <Link to="/profile">
                       <p className="m-0 me-2">My Profile</p>
                     </Link>
+                    <p className="text-light m-0 p-0 mx-3 ">
+                      Balance: {formatted}
+                    </p>
                     <p className="m-0 me-2">
                       {account?.slice(0, 10)}...{account?.slice(-10)}
                     </p>

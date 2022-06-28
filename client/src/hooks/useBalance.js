@@ -10,7 +10,7 @@ export default function useBalance() {
   const getBalance = React.useCallback(async () => {
     const balance = await library?.eth?.getBalance(account)
     return library?.utils?.fromWei(balance.toString(), 'ether')
-  }, [library])
+  }, [library, account])
 
   const { isLoading, data, isError, error } = useQuery(
     'useBalance',

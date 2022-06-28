@@ -2,18 +2,20 @@ import React from 'react'
 import { useQuery } from 'react-query'
 
 import useContract from './useContract'
+import useWeb3 from './useWeb3'
 
 export default function useNFTItemsForSale() {
   const { contract } = useContract()
+  const { account } = useWeb3()
 
-  const getItemsForSale = React.useCallback(
-    async () => contract?.methods?.getItemsForSale().call(),
-    [contract]
+  const getItemsNotForSaleByOwner = React.useCallback(
+    async () => contract?.methods?.getItemsNotForSaleByOwner(account).call(),
+    [contract, account]
   )
 
   const { isLoading, data, isError, error, refetch } = useQuery(
-    'getItemsForSale',
-    getItemsForSale,
+    'getItemsNotForSaleByOwner',
+    getItemsNotForSaleByOwner,
     {
       enabled: !(contract == null),
     }

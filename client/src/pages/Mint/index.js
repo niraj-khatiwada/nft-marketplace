@@ -10,7 +10,7 @@ export default function Home() {
   const {
     account,
     library,
-    custom: { waitTransaction },
+    custom: { waitTransactionToConfirm },
   } = useWeb3()
   const { contract, contractAddress } = useContract()
   const history = useHistory()
@@ -27,31 +27,28 @@ export default function Home() {
   const mintToken = async () => {
     try {
       setError('')
-      const listingPrice = await contract?.methods?.itemListingPrice().call()
-      const doesTokenURIExists = await contract?.methods
-        ?.doesTokenURIExists(tokenURI)
-        .call()
-      if (doesTokenURIExists) {
-        setError('Token URI already exists')
-        return
-      }
-
       // // TODO: Get signature request from backend
-      // const signature = await library?.eth?.personal?.sign(
-      //   JSON.stringify({ contract: contractAddress }),
-      //   account
-      // )
+      const signature = await library?.eth?.personal?.sign(
+        JSON.stringify({ contract: contractAddress }),
+        account
+      )
       // // TODO: Verify this signature with backend
-      // console.log('Signature', signature)
+      console.log('Signature', signature)
 
       const transaction = await contract?.methods
-        ?.mintToken(+tokenId, tokenURI, library?.utils?.toWei(price, 'ether'))
+        ?.mintToken(
+          +tokenId,
+          tokenURI,
+          library?.utils?.toWei(price, 'ether'),
+          true // Is for Sale
+        )
         .send({
           from: account,
-          value: listingPrice,
         })
 
-      const receipt = await waitTransaction(transaction?.transactionHash)
+      const receipt = await waitTransactionToConfirm(
+        transaction?.transactionHash
+      )
       console.log('---', receipt)
       history.push('/')
     } catch (error) {

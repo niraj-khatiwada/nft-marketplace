@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Spinner } from 'react-bootstrap'
 
 import styles from './style.module.css'
-import useNFTItemsOwnedByUser from '../../hooks/useNFTItemsOwnedByUser'
+import useNFTItemsSoldByUser from '../../hooks/useNFTItemsSoldByUser'
 import useWeb3 from '../../hooks/useWeb3'
 import { NFTItem } from '.'
 
@@ -13,7 +13,7 @@ export default function Owned() {
     custom: { formatBalance },
   } = useWeb3()
 
-  const { data, isLoading, isError, refetch } = useNFTItemsOwnedByUser()
+  const { data, isLoading, isError, refetch } = useNFTItemsSoldByUser()
 
   return (
     <>
