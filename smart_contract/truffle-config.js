@@ -11,12 +11,15 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: '0.8.14',
+      version: '0.8.14+commit.80d49f37',
       optimizer: {
         enabled: true,
-        runs: 1,
+        runs: 200,
       },
+      evmVersion: 'istanbul',
     },
   },
+  evmVersion: 'istanbul',
+
   plugins: ['truffle-contract-size'],
 }

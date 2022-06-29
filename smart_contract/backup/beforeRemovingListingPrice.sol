@@ -5,31 +5,22 @@ pragma solidity ^0.8.14;
 import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
-import "../node_modules/@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "../node_modules/@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
-contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
+contract NFTMarketplace is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
     struct NFTItem {
         uint256 tokenId;
-        string tokenURI; // Only pass ipfs hash, not the whole URI
+        string tokenURI;
         uint256 price;
         address creator;
         address owner;
         bool isForSale;
     }
-
-    struct NFTVoucher {
-        uint256 tokenId;
-        string tokenURI;
-        uint256 price;
-        bool isForSale;
-        bytes signature;
-    }
+    uint256 public itemListingPrice = 250000000000000; // 0.00025 Ether by default
 
     uint256 public serviceCharge = 5000; // 5% by default. 1000 -> 1%
-    string public baseURI; // Base URI for token URI. MUST end with '/' like https://gateway.pinata.cloud/ipfs/
+
     uint256[] private _nftItems; // Array of item token id
 
     mapping(string => bool) private _doesTokenURIExistsMapping; /* tokenURI: true */
@@ -46,15 +37,7 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
     Counters.Counter private _numberOfItems; // Does not keep track of burned tokens
     Counters.Counter private _numberOfItemsForSale; // Keep track of active number of items on sale
 
-    constructor(
-        string memory _name,
-        string memory _symbol,
-        string memory _initBaseURI,
-        string memory sig_domain,
-        string memory sign_version
-    ) ERC721(_name, _symbol) EIP712(sig_domain, sign_version) {
-        changeBaseURI(_initBaseURI);
-    }
+    constructor() ERC721("Xungible NFT", "XNFT") {}
 
     receive() external payable {}
 
@@ -63,78 +46,18 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         payable(msg.sender).transfer(address(this).balance);
     }
 
-    // function mintToken(
-    //     uint256 tokenId,
-    //     string memory tokenURI,
-    //     uint256 price,
-    //     bool isForSale
-    // ) public payable {
-    //     require(!_doesTokenURIExistsMapping[tokenURI]); //URI_ALREADY_EXISTS
+    function mintToken(
+        uint256 tokenId,
+        string memory tokenURI,
+        uint256 price,
+        bool isForSale
+    ) public payable {
+        require(!_doesTokenURIExistsMapping[tokenURI]); //URI_ALREADY_EXISTS
+        require(itemListingPrice == msg.value); //PRICE_MISMATCH
 
-    //     _createNFTItem(tokenId, tokenURI, price, isForSale, msg.sender);
-    //     _safeMint(msg.sender, tokenId);
-    //     _setTokenURI(tokenId, string.concat(baseURI, tokenURI));
-    // }
-
-    // // Redeems an NFTVoucher for an actual NFT, creating it in the process.
-    // // @redeemer The address of the account which will receive the NFT upon success.
-    // // @voucher A signed NFTVoucher that describes the NFT to be redeemed.
-    // function redeemNFT(NFTVoucher calldata voucher, address redeemer)
-    //     public
-    //     payable
-    // {
-    //     address signer = _verifySignature(voucher);
-    //     require(signer != redeemer);
-    //     require(msg.value == voucher.price);
-    //     require(!_doesTokenURIExistsMapping[voucher.tokenURI]); //URI_ALREADY_EXISTS
-    //     _createNFTItem(
-    //         voucher.tokenId,
-    //         voucher.tokenURI,
-    //         voucher.price,
-    //         false,
-    //         signer
-    //     );
-    //     _safeMint(signer, voucher.tokenId);
-    //     _setTokenURI(voucher.tokenId, string.concat(baseURI, voucher.tokenURI));
-
-    //     // transfer the token to the redeemer
-    //     _mapOwnerToItemsSoldCount[signer] += 1;
-    //     _transfer(signer, redeemer, voucher.tokenId);
-    //     payable(signer).transfer(
-    //         msg.value - ((msg.value * serviceCharge) / (100000))
-    //     );
-    // }
-    function mintOrRedeemToken(NFTVoucher calldata voucher, bool isRedeem)
-        public
-        payable
-    {
-        require(!_doesTokenURIExistsMapping[voucher.tokenURI]); //URI_ALREADY_EXISTS
-        address _signer = msg.sender;
-        if (isRedeem) {
-            address signer = _verifySignature(voucher);
-            require(signer != msg.sender);
-            require(msg.value == voucher.price);
-            _signer = signer;
-        }
-
-        // Mint
-        _createNFTItem(
-            voucher.tokenId,
-            voucher.tokenURI,
-            voucher.price,
-            isRedeem ? false : voucher.isForSale,
-            isRedeem ? _signer : msg.sender
-        );
-        _safeMint(isRedeem ? _signer : msg.sender, voucher.tokenId);
-        _setTokenURI(voucher.tokenId, string.concat(baseURI, voucher.tokenURI));
-        if (isRedeem) {
-            // Transfer
-            _mapOwnerToItemsSoldCount[_signer] += 1;
-            _transfer(_signer, msg.sender, voucher.tokenId);
-            payable(_signer).transfer(
-                msg.value - ((msg.value * serviceCharge) / (100000))
-            );
-        }
+        _safeMint(msg.sender, tokenId);
+        _setTokenURI(tokenId, tokenURI);
+        _createNFTItem(tokenId, tokenURI, price, isForSale);
     }
 
     function buyNFT(uint256 tokenId) public payable {
@@ -174,6 +97,7 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
                 : _mapTokenIdToNFTItem[tokenId].isForSale
         ); // ALREADY_ON_SALE OR ALREADY_ON_NOT_FOR_SALE
         if (changeToIsForSale) {
+            require(itemListingPrice == msg.value); // PRICE_MISMATCH
             _mapTokenIdToNFTItem[tokenId].price = newPrice;
             _mapOwnerToItemsForSaleCount[ERC721.ownerOf(tokenId)] += 1;
             _numberOfItemsForSale.increment();
@@ -182,6 +106,46 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
             _numberOfItemsForSale.decrement();
         }
         _mapTokenIdToNFTItem[tokenId].isForSale = changeToIsForSale;
+    }
+
+    // Get All NFT Items by particular creator: All NFTs in the contract created by a user
+    function getItemsByCreator(address creator)
+        public
+        view
+        returns (NFTItem[] memory)
+    {
+        NFTItem[] memory allNftItemsByCreator = new NFTItem[](
+            _mapOwnerToItemsCreatedCount[creator]
+        );
+        uint256 currentIndex;
+        for (uint256 i = 0; i < _numberOfItems.current(); i++) {
+            NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
+            if (nftItem.creator == creator) {
+                allNftItemsByCreator[currentIndex] = nftItem;
+                currentIndex++;
+            }
+        }
+        return allNftItemsByCreator;
+    }
+
+    // Get All NFT Items by particular owner: NFT owned by a user (Sale + Not For Sale)
+    function getItemsByOwner(address owner)
+        public
+        view
+        returns (NFTItem[] memory)
+    {
+        NFTItem[] memory allNftItemsByOwner = new NFTItem[](
+            ERC721.balanceOf(owner)
+        );
+        uint256 currentIndex;
+        for (uint256 i = 0; i < _numberOfItems.current(); i++) {
+            NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
+            if (nftItem.owner == owner) {
+                allNftItemsByOwner[currentIndex] = nftItem;
+                currentIndex++;
+            }
+        }
+        return allNftItemsByOwner;
     }
 
     // Get All NFT Items for Sale: All NFTs in the contract that are for sale
@@ -193,7 +157,6 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         for (uint256 i = 0; i < _numberOfItems.current(); i++) {
             NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
             if (nftItem.isForSale) {
-                nftItem.tokenURI = string.concat(baseURI, nftItem.tokenURI);
                 itemsForSale[currentIndex] = nftItem;
                 currentIndex++;
             }
@@ -201,67 +164,71 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         return itemsForSale;
     }
 
-    // Get NFT Item by tokenId
-    function getNFTItem(uint256 tokenId) public view returns (NFTItem memory) {
-        NFTItem memory item = _mapTokenIdToNFTItem[tokenId];
-        item.tokenURI = string.concat(baseURI, item.tokenURI);
-        return item;
-    }
-
-    // 1 = All Items Created By User
-    // 2 = All Items Currently Owned By User
-    // 3 = All Items For Sale By User
-    // 4 =  All Items Not For Sale By User
-    // 5 = All Items Sold By User
-    function getItemsByUser(address user, uint256 kind)
+    // Get All NFT Items sold by a particular owner: All NFTs in the contract sold by a user
+    function getItemsSoldByOwner(address owner)
         public
         view
         returns (NFTItem[] memory)
     {
-        NFTItem[] memory items = new NFTItem[](
-            kind == 2 ? ERC721.balanceOf(user) : kind == 3
-                ? _mapOwnerToItemsForSaleCount[user]
-                : kind == 4
-                ? (ERC721.balanceOf(user) - _mapOwnerToItemsForSaleCount[user])
-                : kind == 5
-                ? _mapOwnerToItemsSoldCount[user]
-                : _mapOwnerToItemsCreatedCount[user]
+        NFTItem[] memory itemsSoldByOwner = new NFTItem[](
+            _mapOwnerToItemsSoldCount[owner]
         );
         uint256 currentIndex;
-        for (uint256 i = 0; i < _numberOfItems.current(); i++) {
+        for (uint256 i = 0; i < _nftItems.length; i++) {
             NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
-            nftItem.tokenURI = string.concat(baseURI, nftItem.tokenURI);
-            if (kind == 2) {
-                if (nftItem.owner == user) {
-                    items[currentIndex] = nftItem;
-                    currentIndex++;
-                }
-            } else if (kind == 3) {
-                if (nftItem.owner == user && nftItem.isForSale) {
-                    items[currentIndex] = nftItem;
-                    currentIndex++;
-                }
-            } else if (kind == 4) {
-                if (nftItem.owner == user && !nftItem.isForSale) {
-                    items[currentIndex] = nftItem;
-                    currentIndex++;
-                }
-            } else if (kind == 5) {
-                if (nftItem.creator == user && nftItem.owner != user) {
-                    items[currentIndex] = nftItem;
-                    currentIndex++;
-                }
-            } else {
-                if (nftItem.creator == user) {
-                    items[currentIndex] = nftItem;
-                    currentIndex++;
-                }
+            if (nftItem.creator == owner && nftItem.owner != owner) {
+                itemsSoldByOwner[currentIndex] = nftItem;
+                currentIndex++;
             }
         }
-        return items;
+        return itemsSoldByOwner;
     }
 
-    // Ge the user nft details count in one function
+    // Get All NFT Items for sale by particular user: All NFTs in the contract by a user that are for sale
+    function getItemsForSaleByOwner(address owner)
+        public
+        view
+        returns (NFTItem[] memory)
+    {
+        NFTItem[] memory itemsForSaleByOwner = new NFTItem[](
+            _mapOwnerToItemsForSaleCount[owner]
+        );
+        uint256 currentIndex;
+        for (uint256 i = 0; i < _nftItems.length; i++) {
+            NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
+            if (nftItem.owner == owner && nftItem.isForSale) {
+                itemsForSaleByOwner[currentIndex] = nftItem;
+                currentIndex++;
+            }
+        }
+        return itemsForSaleByOwner;
+    }
+
+    // Get All NFT Items  not for sale by particular user: All NFTs in the contract by a user that are not for sale
+    function getItemsNotForSaleByOwner(address owner)
+        public
+        view
+        returns (NFTItem[] memory)
+    {
+        NFTItem[] memory itemsForSaleByOwner = new NFTItem[](
+            ERC721.balanceOf(owner) - _mapOwnerToItemsForSaleCount[owner]
+        );
+        uint256 currentIndex;
+        for (uint256 i = 0; i < _nftItems.length; i++) {
+            NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
+            if (nftItem.owner == owner && !nftItem.isForSale) {
+                itemsForSaleByOwner[currentIndex] = nftItem;
+                currentIndex++;
+            }
+        }
+        return itemsForSaleByOwner;
+    }
+
+    // Get NFT Item by tokenId
+    function getNFTItem(uint256 tokenId) public view returns (NFTItem memory) {
+        return _mapTokenIdToNFTItem[tokenId];
+    }
+
     function getNFTItemCountUtilityByUser(address userAddress)
         public
         view
@@ -277,61 +244,38 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         ];
     }
 
-    // Change Service Charge: Only for admin
-    // Should sent percentage value like if 5% => 5000
-    function changeServiceCharge(uint256 newSc) public onlyOwner {
-        require(newSc < 100000);
-        serviceCharge = newSc;
+    // Change Listing Price: Only for admin
+    // Should sent wei value
+    function changeListingPrice(uint256 newPrice) external payable onlyOwner {
+        require(itemListingPrice != newPrice); // OLD_PRICE_SAME_AS_NEW_PRICE
+        itemListingPrice = newPrice;
     }
 
     // Change Service Charge: Only for admin
     // Should sent percentage value
-    function changeBaseURI(string memory uri) public onlyOwner {
-        baseURI = uri;
-    }
-
-    // Verifies the signature for a given NFTVoucher, returning the address of the signer.
-    // Will revert if the signature is invalid.
-    function _verifySignature(NFTVoucher calldata voucher)
-        internal
-        view
-        returns (address)
-    {
-        return
-            ECDSA.recover(
-                _hashTypedDataV4(
-                    keccak256(
-                        abi.encode(
-                            keccak256(
-                                "NFTVoucher(uint256 tokenId,uint256 minPrice,string uri)"
-                            ),
-                            voucher.tokenId
-                        )
-                    )
-                ),
-                voucher.signature
-            );
+    function changeServiceCharge(uint256 newSc) external payable onlyOwner {
+        require(newSc < 100000);
+        serviceCharge = newSc;
     }
 
     function _createNFTItem(
         uint256 tokenId,
         string memory tokenURI,
         uint256 price,
-        bool isForSale,
-        address creator
+        bool isForSale
     ) private {
         require(price > 0); // INVALID_PRICE
         _mapTokenIdToNFTItem[tokenId] = NFTItem(
             tokenId,
             tokenURI,
             price,
-            creator,
+            msg.sender,
             msg.sender,
             isForSale
         );
         _doesTokenURIExistsMapping[tokenURI] = true;
         _numberOfItems.increment();
-        _mapOwnerToItemsCreatedCount[creator] += 1;
+        _mapOwnerToItemsCreatedCount[msg.sender] += 1;
         if (isForSale) {
             _numberOfItemsForSale.increment();
             _mapOwnerToItemsForSaleCount[msg.sender] += 1;

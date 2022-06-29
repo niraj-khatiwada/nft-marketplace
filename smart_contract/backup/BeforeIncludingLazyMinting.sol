@@ -5,10 +5,8 @@ pragma solidity ^0.8.14;
 import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
-import "../node_modules/@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "../node_modules/@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
-contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
+contract NFTMarketplace is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
     struct NFTItem {
@@ -18,14 +16,6 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         address creator;
         address owner;
         bool isForSale;
-    }
-
-    struct NFTVoucher {
-        uint256 tokenId;
-        string tokenURI;
-        uint256 price;
-        bool isForSale;
-        bytes signature;
     }
 
     uint256 public serviceCharge = 5000; // 5% by default. 1000 -> 1%
@@ -49,10 +39,8 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
     constructor(
         string memory _name,
         string memory _symbol,
-        string memory _initBaseURI,
-        string memory sig_domain,
-        string memory sign_version
-    ) ERC721(_name, _symbol) EIP712(sig_domain, sign_version) {
+        string memory _initBaseURI
+    ) ERC721(_name, _symbol) {
         changeBaseURI(_initBaseURI);
     }
 
@@ -63,78 +51,17 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         payable(msg.sender).transfer(address(this).balance);
     }
 
-    // function mintToken(
-    //     uint256 tokenId,
-    //     string memory tokenURI,
-    //     uint256 price,
-    //     bool isForSale
-    // ) public payable {
-    //     require(!_doesTokenURIExistsMapping[tokenURI]); //URI_ALREADY_EXISTS
+    function mintToken(
+        uint256 tokenId,
+        string memory tokenURI,
+        uint256 price,
+        bool isForSale
+    ) public payable {
+        require(!_doesTokenURIExistsMapping[tokenURI]); //URI_ALREADY_EXISTS
 
-    //     _createNFTItem(tokenId, tokenURI, price, isForSale, msg.sender);
-    //     _safeMint(msg.sender, tokenId);
-    //     _setTokenURI(tokenId, string.concat(baseURI, tokenURI));
-    // }
-
-    // // Redeems an NFTVoucher for an actual NFT, creating it in the process.
-    // // @redeemer The address of the account which will receive the NFT upon success.
-    // // @voucher A signed NFTVoucher that describes the NFT to be redeemed.
-    // function redeemNFT(NFTVoucher calldata voucher, address redeemer)
-    //     public
-    //     payable
-    // {
-    //     address signer = _verifySignature(voucher);
-    //     require(signer != redeemer);
-    //     require(msg.value == voucher.price);
-    //     require(!_doesTokenURIExistsMapping[voucher.tokenURI]); //URI_ALREADY_EXISTS
-    //     _createNFTItem(
-    //         voucher.tokenId,
-    //         voucher.tokenURI,
-    //         voucher.price,
-    //         false,
-    //         signer
-    //     );
-    //     _safeMint(signer, voucher.tokenId);
-    //     _setTokenURI(voucher.tokenId, string.concat(baseURI, voucher.tokenURI));
-
-    //     // transfer the token to the redeemer
-    //     _mapOwnerToItemsSoldCount[signer] += 1;
-    //     _transfer(signer, redeemer, voucher.tokenId);
-    //     payable(signer).transfer(
-    //         msg.value - ((msg.value * serviceCharge) / (100000))
-    //     );
-    // }
-    function mintOrRedeemToken(NFTVoucher calldata voucher, bool isRedeem)
-        public
-        payable
-    {
-        require(!_doesTokenURIExistsMapping[voucher.tokenURI]); //URI_ALREADY_EXISTS
-        address _signer = msg.sender;
-        if (isRedeem) {
-            address signer = _verifySignature(voucher);
-            require(signer != msg.sender);
-            require(msg.value == voucher.price);
-            _signer = signer;
-        }
-
-        // Mint
-        _createNFTItem(
-            voucher.tokenId,
-            voucher.tokenURI,
-            voucher.price,
-            isRedeem ? false : voucher.isForSale,
-            isRedeem ? _signer : msg.sender
-        );
-        _safeMint(isRedeem ? _signer : msg.sender, voucher.tokenId);
-        _setTokenURI(voucher.tokenId, string.concat(baseURI, voucher.tokenURI));
-        if (isRedeem) {
-            // Transfer
-            _mapOwnerToItemsSoldCount[_signer] += 1;
-            _transfer(_signer, msg.sender, voucher.tokenId);
-            payable(_signer).transfer(
-                msg.value - ((msg.value * serviceCharge) / (100000))
-            );
-        }
+        _safeMint(msg.sender, tokenId);
+        _setTokenURI(tokenId, string.concat(baseURI, tokenURI));
+        _createNFTItem(tokenId, tokenURI, price, isForSale);
     }
 
     function buyNFT(uint256 tokenId) public payable {
@@ -290,48 +217,24 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         baseURI = uri;
     }
 
-    // Verifies the signature for a given NFTVoucher, returning the address of the signer.
-    // Will revert if the signature is invalid.
-    function _verifySignature(NFTVoucher calldata voucher)
-        internal
-        view
-        returns (address)
-    {
-        return
-            ECDSA.recover(
-                _hashTypedDataV4(
-                    keccak256(
-                        abi.encode(
-                            keccak256(
-                                "NFTVoucher(uint256 tokenId,uint256 minPrice,string uri)"
-                            ),
-                            voucher.tokenId
-                        )
-                    )
-                ),
-                voucher.signature
-            );
-    }
-
     function _createNFTItem(
         uint256 tokenId,
         string memory tokenURI,
         uint256 price,
-        bool isForSale,
-        address creator
+        bool isForSale
     ) private {
         require(price > 0); // INVALID_PRICE
         _mapTokenIdToNFTItem[tokenId] = NFTItem(
             tokenId,
             tokenURI,
             price,
-            creator,
+            msg.sender,
             msg.sender,
             isForSale
         );
         _doesTokenURIExistsMapping[tokenURI] = true;
         _numberOfItems.increment();
-        _mapOwnerToItemsCreatedCount[creator] += 1;
+        _mapOwnerToItemsCreatedCount[msg.sender] += 1;
         if (isForSale) {
             _numberOfItemsForSale.increment();
             _mapOwnerToItemsForSaleCount[msg.sender] += 1;
