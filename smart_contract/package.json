@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "contract-size": "truffle run contract-size --checkMaxSize",
-    "truffle-migrate": "truffle migrate --reset"
+    "truffle-migrate": "truffle migrate --reset",
+    "ganache-server": "ganache-cli --port 7545 --chainId 1337 --networkId 1337 --db ~/Documents/ganache-db --m '1234567891234'"
   },
   "keywords": [],
   "author": "",
