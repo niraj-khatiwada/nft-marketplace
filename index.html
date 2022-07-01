@@ -1,520 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+          sans-serif;
+        color: purple;
+        background-color: #ebe3fb;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .box-panel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 35px 0;
+      }
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xungible - Home Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/homepage.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+      .widget-container {
+        transition: all 0.3s ease;
+      }
+      .widget-container .common-flip-style {
+        width: 250px;
+        height: 250px;
+        cursor: pointer;
+      }
+      .widget-container .common-flip-style .common-box-style {
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-transition: all 0.6s ease-in-out;
+        -o-transition: all 0.6s ease-in-out;
+        transition: all 0.6s ease-in-out;
+        border-radius: 10px;
+      }
 
-</head>
+      .flip-box {
+        position: relative;
+        perspective: 1000px;
+        transform-style: preserve-3d;
+      }
+      .flip-box .box-front {
+        transform: none;
+        z-index: 1;
+        background-image: url('./photo.jpg');
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+      .flip-box .box-back {
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        transform: rotateX(0) rotateY(-180deg);
+        background: #fff;
+        border: 5px solid purple;
+      }
+      .flip-box:hover .box-front {
+        transform: rotateX(0) rotateY(180deg);
+      }
+      .flip-box:hover .box-back {
+        transform: none;
+      }
 
-<body>
-    <div class="main-wrapper">
-        <header class="">
-            <div class="d-flex justify-content-between align-items-center nav-container">
-                <div id="hamburgerBtn" class="hamburger-container">
-                    <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M1 12H17C17.55 12 18 11.55 18 11C18 10.45 17.55 10 17 10H1C0.45 10 0 10.45 0 11C0 11.55 0.45 12 1 12ZM1 7H17C17.55 7 18 6.55 18 6C18 5.45 17.55 5 17 5H1C0.45 5 0 5.45 0 6C0 6.55 0.45 7 1 7ZM0 1C0 1.55 0.45 2 1 2H17C17.55 2 18 1.55 18 1C18 0.45 17.55 0 17 0H1C0.45 0 0 0.45 0 1Z"
-                            fill="#1C304F" />
-                    </svg>
-
-                </div>
-                <div class="header-logo-container">
-                    <a href="/">
-                        <img src="/assets/images/xungibleLogo.png" alt="" class="logo">
-                    </a>
-                </div>
-                <nav id="menu">
-                    <ul class="d-flex align-items-center navbar-container">
-                        <li class="nav-list-item"><a href="/" class="link top-nav-link top-nav-link-active">Home</a></li>
-                        <li class="nav-list-item"><a href="/about" class="link top-nav-link">About us</a></li>
-                        <li class="nav-list-item"><a href="/marketingtoken" class="link top-nav-link">XGBL</a></li>
-                        <li class="nav-list-item"><a href="/xungibleballz"
-                                class="link top-nav-link">Xungiballz
-                                NFTs</a></li>
-                        <li class="nav-list-item"><a href="https://b4861a5b-790f-4bda-a5f0-2f85787dad17.filesusr.com/ugd/100109_fb53a04768c74c8987915cf6e6a52d37.pdf"
-                                class="link top-nav-link">Whitepaper</a></li>
-                        <li id="dropdownContainer" class="nav-list-item dropdown-container">
-                            <a href="#" class="link top-nav-link">Community
-                                <span class="chevron">
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1 10L7 4L13 10" stroke="#425A7E" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                </span>
-                            </a>
-
-                            <div id="" class="dropdown">
-                                <ul class="">
-                                    <li class="nav-list-item"><a href="https://twitter.com/Xungible" target="_blank"
-                                            class="ink top-nav-link dropdown-link">Twitter</a>
-                                    </li>
-                                    <li class="nav-list-item"><a href="https://discord.gg/y8h5hKhBXq"
-                                            class="ink top-nav-link dropdown-link" target="_blank">Discord</a>
-                                    </li>
-                                    <li class="nav-list-item"><a href="https://t.me/+bmp4rll6PeJjOWQ8"
-                                            class="ink top-nav-link dropdown-link" target="_blank">Telegram</a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
-                <a href="#newsletter" class=" btn-gradient getStarted-btn">
-                    Get Notified
-                </a>
+      .box-content-wrapper {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        text-align: center;
+        transform: translateZ(90px);
+      }
+    </style>
+  </head>
+  <body>
+    <section class="box-panel">
+      <div class="widget-container">
+        <div class="flip-box common-flip-style">
+          <div class="box-front common-box-style"></div>
+          <div class="box-back common-box-style box-bgi-effect">
+            <div class="box-content-wrapper">
+              <div class="box-content">
+                <h1>Code For Real</h1>
+                <p style="font-size: 50px">😎</p>
+              </div>
             </div>
-        </header>
-        <main>
-            <div class="d-flex align-items-center justify-content-center main-landing">
-                <div class="landing-content-container">
-                    <div class="landing-content">
-                        <h1 id="title" class="title landing-title">
-                            <%= it.home.title ? it.home.title : '' %>
-                        </h1>
-                        <h2 id="subtitle" class="tagline">
-                            <%= it.home.sub_title ? it.home.sub_title : '' %>
-                        </h2>
-                        <div class="btn-container landing-cta-container">
-                            <a href="#newsletter" class="btn btn-cta btn-gradient">Get Notified</a>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="landing-image-container">
-                    <div class="landing-images">
-                        <div class="swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img id="bannerImageOne"
-                                        src="<%= it.home.banner_image_1 ? it.home.banner_image_1 : '' %>" alt="">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img id="bannerImageTwo"
-                                        src="<%= it.home.banner_image_2 ? it.home.banner_image_2 : '' %>" alt="">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img id="bannerImageThree"
-                                        src="<%= it.home.banner_image_3 ? it.home.banner_image_3 : '' %>" alt="">
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <img id="landingImg" src="" alt="" class="landing-img"> -->
-                    </div>
-                </div>
-            </div>
-            <div class="product-info-section">
-                <div class="product-info-content">
-                    <h3 id="heading1" class="title section-title">
-                        <%= it.home.heading_1 ? it.home.heading_1 : '' %>
-                    </h3>
-                    <div class="d-flex product-info-container">
-                        <div class="product-info">
-                            <p id="leftParaHeading1" class="description section-description">
-                                <%= it.home.left_para_heading_1 ? it.home.left_para_heading_1 : '' %>
-                            </p>
-                        </div>
-                        <div class="product-info">
-                            <p id="rightParaHeading1" class="description section-description">
-                                <%= it.home.right_para_heading_1 ? it.home.right_para_heading_1 : '' %>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="product-info-img-container">
-                        <img id="bodyImage1" src="<%= it.home.body_image_1 ? it.home.body_image_1 : '' %>" alt=""
-                            class="img product-img product-img-1">
-                    </div>
-                </div>
-                <div class="product-info-content">
-                    <h3 id="heading2" class="title section-title">
-                        <%= it.home.heading_2 ? it.home.heading_2 : '' %>
-                    </h3>
-                    <div class="d-flex product-info-container">
-                        <div class="product-info">
-                            <p id="leftParaHeading2" class="description section-description">
-                                <%= it.home.left_para_heading_2 ? it.home.left_para_heading_2 : '' %>
-                            </p>
-                        </div>
-                        <div class="product-info">
-                            <p id="rightParaHeading2" class="description section-description">
-                                <%= it.home.right_para_heading_2 ? it.home.right_para_heading_2 : '' %>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="product-info-img-container">
-                        <img id="bodyImage2" src="<%= it.home.body_image_2 ? it.home.body_image_2 : '' %>" alt=""
-                            class="img product-img-2">
-                        <button class="btn-gradient play-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 18 22"
-                                fill="none">
-                                <path
-                                    d="M0 1.93501V20.065C0 21.4475 1.5225 22.2875 2.695 21.535L16.94 12.47C18.025 11.7875 18.025 10.2125 16.94 9.51252L2.695 0.465014C1.5225 -0.287486 0 0.552514 0 1.93501Z"
-                                    fill="white" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div id="roadmapSection" class="roadmap-container">
-                <h3 id="heading3" class="title section-title">
-                    <%= it.home.heading_3 ? it.home.heading_3 : '' %>
-                </h3>
-                <div class="d-flex flex-column align-items-center roadmap-cards-container">
-                    <div class="d-flex card-container">
-                        <div class="roadmap-card-number">
-                            <p>01</p>
-                        </div>
-                        <div class="card roadmap-card">
-                            <div class="card-header roadmap-card-header">
-                                <img id="roadmapPointOneImage" class="img card-header-img"
-                                    src="<%= it.home.roadmap_point_1_image ? it.home.roadmap_point_1_image : '' %>" />
-                                <h4 id="roadmapPointOneHeading" class="title card-title">
-                                    <%= it.home.roadmap_point_1_heading ? it.home.roadmap_point_1_heading : '' %>
-                                </h4>
-                            </div>
-                            <div class="card-body">
-                                <ul id="roadmapHeadingOnePoints" class="card-list-container">
-                                    <% it.roadmap_content.forEach(function(list){ %>
-                                        <% if(list.roadmap==0){ %>
-                                            <li class="d-flex card-list-item">
-
-                                                <span class="list-icon blue-checkmark">
-                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M16 8C16 12.412 12.4112 16 8 16C3.5888 16 0 12.412 0 8C0 3.5888 3.5888 0 8 0C12.4112 0 16 3.5888 16 8Z"
-                                                            fill="#3AA0FF" />
-                                                        <path
-                                                            d="M6.92988 11C6.72785 11 6.52582 10.9215 6.37159 10.7636L4.23134 8.57195C3.92289 8.25609 3.92289 7.74443 4.23134 7.42949C4.5398 7.11363 5.03856 7.11271 5.34701 7.42857L6.92988 9.04944L10.653 5.23693C10.9614 4.92106 11.4602 4.92106 11.7687 5.23693C12.0771 5.55279 12.0771 6.06445 11.7687 6.38031L7.48816 10.7636C7.33393 10.9215 7.13191 11 6.92988 11Z"
-                                                            fill="white" />
-                                                    </svg>
-                                                </span>
-                                                <span>
-                                                    <%= list.point ? list.point : '' %>
-                                                </span>
-                                            </li>
-                                            <%}%>
-                                                <% }) %>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex card-container">
-                        <div class="roadmap-card-number">
-                            <p>02</p>
-                        </div>
-                        <div class="card roadmap-card">
-                            <div class="card-header roadmap-card-header">
-                                <img id="roadmapPointTwoImage" class="img card-header-img"
-                                    src="<%= it.home.roadmap_point_2_image ? it.home.roadmap_point_2_image : '' %>" />
-                                <h4 id="roadmapPointTwoHeading" class="title card-title">
-                                    <%= it.home.roadmap_point_2_heading ? it.home.roadmap_point_2_heading : '' %>
-                                </h4>
-                            </div>
-                            <div class="card-body">
-                                <ul id="roadmapHeadingTwoPoints" class="card-list-container">
-                                    <% it.roadmap_content.forEach(function(list){ %>
-                                        <% if(list.roadmap==1){ %>
-                                            <li class="d-flex card-list-item">
-
-                                                <span class="list-icon blue-checkmark">
-                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M16 8C16 12.412 12.4112 16 8 16C3.5888 16 0 12.412 0 8C0 3.5888 3.5888 0 8 0C12.4112 0 16 3.5888 16 8Z"
-                                                            fill="#3AA0FF" />
-                                                        <path
-                                                            d="M6.92988 11C6.72785 11 6.52582 10.9215 6.37159 10.7636L4.23134 8.57195C3.92289 8.25609 3.92289 7.74443 4.23134 7.42949C4.5398 7.11363 5.03856 7.11271 5.34701 7.42857L6.92988 9.04944L10.653 5.23693C10.9614 4.92106 11.4602 4.92106 11.7687 5.23693C12.0771 5.55279 12.0771 6.06445 11.7687 6.38031L7.48816 10.7636C7.33393 10.9215 7.13191 11 6.92988 11Z"
-                                                            fill="white" />
-                                                    </svg>
-                                                </span>
-                                                <span>
-                                                    <%= list.point ? list.point : '' %>
-                                                </span>
-
-                                            </li>
-                                            <%}%>
-                                                <% }) %>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex card-container">
-                        <div class="roadmap-card-number">
-                            <p>03</p>
-                        </div>
-                        <div class="card roadmap-card">
-                            <div class="card-header roadmap-card-header">
-                                <img id="roadmapPointThreeImage" class="img card-header-img"
-                                    src="<%= it.home.roadmap_point_3_image ? it.home.roadmap_point_3_image : '' %>" />
-                                <h4 id="roadmapPointThreeHeading" class="title card-title">
-                                    <%= it.home.roadmap_point_3_heading ? it.home.roadmap_point_3_heading : '' %>
-                                </h4>
-                            </div>
-                            <div class="card-body">
-                                <ul id="roadmapHeadingThreePoints" class="card-list-container">
-                                    <% it.roadmap_content.forEach(function(list){ %>
-                                        <% if(list.roadmap==2){ %>
-                                            <li class="d-flex card-list-item">
-
-                                                <span class="list-icon blue-checkmark">
-                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M16 8C16 12.412 12.4112 16 8 16C3.5888 16 0 12.412 0 8C0 3.5888 3.5888 0 8 0C12.4112 0 16 3.5888 16 8Z"
-                                                            fill="#3AA0FF" />
-                                                        <path
-                                                            d="M6.92988 11C6.72785 11 6.52582 10.9215 6.37159 10.7636L4.23134 8.57195C3.92289 8.25609 3.92289 7.74443 4.23134 7.42949C4.5398 7.11363 5.03856 7.11271 5.34701 7.42857L6.92988 9.04944L10.653 5.23693C10.9614 4.92106 11.4602 4.92106 11.7687 5.23693C12.0771 5.55279 12.0771 6.06445 11.7687 6.38031L7.48816 10.7636C7.33393 10.9215 7.13191 11 6.92988 11Z"
-                                                            fill="white" />
-                                                    </svg>
-                                                </span>
-                                                <span>
-                                                    <%= list.point ? list.point : '' %>
-                                                </span>
-
-                                            </li>
-                                            <%}%>
-                                                <% }) %>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="feedsSection" class="d-flex flex-column align-items-center ">
-                <h3 id="communityTitle" class="title section-title">
-                    <%= it.home.ourcommunity_title ? it.home.ourcommunity_title : '' %>
-                </h3>
-                <a class="twitter-timeline" data-width="600" data-height="600" href="https://twitter.com/Xungible?ref_src=twsrc%5Etfw" data-tweet-limit="3">Tweets by Xungible</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                
-                <div id="communityImages" class="d-flex feeds-container">
-                    
-
-                </div>
-                <h3 class="text-center title">Join the Community
-                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="34" viewBox="0 0 36 34" fill="none">
-                        <path
-                            d="M18 0C8.059 0 0 6.17843 0 13.7999C0 18.1055 2.574 21.9498 6.604 24.4801C6.08 26.7561 4.859 30.1322 2 33.5142C7.758 32.5679 11.439 29.8069 13.716 27.1898C15.092 27.4481 16.521 27.5999 18 27.5999C27.941 27.5999 36 21.4215 36 13.7999C36 6.17843 27.941 0 18 0Z"
-                            fill="#BDDDF4" />
-                        <path
-                            d="M18 15.7715C19.1046 15.7715 20 14.8888 20 13.8C20 12.7113 19.1046 11.8286 18 11.8286C16.8954 11.8286 16 12.7113 16 13.8C16 14.8888 16.8954 15.7715 18 15.7715Z"
-                            fill="#2A6797" />
-                        <path
-                            d="M26 15.7715C27.1046 15.7715 28 14.8888 28 13.8C28 12.7113 27.1046 11.8286 26 11.8286C24.8954 11.8286 24 12.7113 24 13.8C24 14.8888 24.8954 15.7715 26 15.7715Z"
-                            fill="#2A6797" />
-                        <path
-                            d="M10 15.7715C11.1046 15.7715 12 14.8888 12 13.8C12 12.7113 11.1046 11.8286 10 11.8286C8.89543 11.8286 8 12.7113 8 13.8C8 14.8888 8.89543 15.7715 10 15.7715Z"
-                            fill="#2A6797" />
-                    </svg>
-                </h3>
-                <div class="d-flex justify-content-center social-platforms">
-                    <% it.community_link.forEach(function(link){ %>
-                        <% if(link.name){%>
-                            <div class="social-platform">
-                                <% if(link.name=="email" ){ %>
-                                    <a href="<%= link.link ? link.link : '' %>" class="link">
-                                        <span class="icon">
-                                            <svg width="21" height="16" viewBox="0 0 21 16" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M20.8007 13.4V2.60005C20.8007 1.60405 19.9967 0.800049 19.0007 0.800049H2.18867C1.19267 0.800049 0.388672 1.60405 0.388672 2.60005V13.4C0.388672 14.396 1.19267 15.2 2.18867 15.2H19.0007C19.9967 15.2 20.8007 14.396 20.8007 13.4ZM19.2287 2.46805C19.6247 2.86405 19.4087 3.27205 19.1927 3.47605L14.3207 7.94005L19.0007 12.812C19.1447 12.98 19.2407 13.2441 19.0727 13.4241C18.9167 13.616 18.5567 13.604 18.4007 13.484L13.1567 9.00805L10.5887 11.348L8.03267 9.00805L2.78867 13.484C2.63267 13.604 2.27267 13.616 2.11667 13.4241C1.94867 13.2441 2.04467 12.98 2.18867 12.812L6.86867 7.94005L1.99667 3.47605C1.78067 3.27205 1.56467 2.86405 1.96067 2.46805C2.35667 2.07205 2.76467 2.26405 3.10067 2.55205L10.5887 8.60005L18.0887 2.55205C18.4247 2.26405 18.8327 2.07205 19.2287 2.46805Z"
-                                                    fill="#9CA2BE" />
-                                            </svg>
-                                        </span>
-                                        <span class="text name">
-                                            <%= link.name ? link.name : '' %>
-                                        </span>
-                                    </a>
-                                    <%}else if(link.name=="discord" ){%>
-                                        <a href="<%= link.link ? link.link : '' %>" class="link">
-                                            <span class="icon">
-                                                <svg width="24" height="18" viewBox="0 0 24 18" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M20.3175 1.49197C18.7875 0.801974 17.1475 0.291974 15.4325 0.0019736C15.4172 -0.000958481 15.4014 0.000931061 15.3872 0.00738094C15.3731 0.0138308 15.3613 0.0245219 15.3535 0.0379736C15.1435 0.406974 14.9095 0.887974 14.7455 1.26797C12.9266 0.99621 11.0774 0.99621 9.25848 1.26797C9.07582 0.846834 8.86983 0.436198 8.64148 0.0379736C8.63374 0.0243563 8.62203 0.0134234 8.60792 0.00663373C8.5938 -0.000155898 8.57795 -0.00247938 8.56248 -2.64894e-05C6.84848 0.289973 5.20848 0.799974 3.67748 1.49097C3.66431 1.4965 3.65314 1.50592 3.64548 1.51797C0.533481 6.09297 -0.319519 10.555 0.0994806 14.961C0.100647 14.9718 0.103996 14.9822 0.109326 14.9917C0.114655 15.0011 0.121853 15.0094 0.130481 15.016C1.94687 16.3384 3.97282 17.3458 6.12348 17.996C6.13847 18.0006 6.15451 18.0006 6.16949 17.9959C6.18448 17.9913 6.19772 17.9823 6.20748 17.97C6.67028 17.351 7.08038 16.6944 7.43348 16.007C7.43838 15.9976 7.44121 15.9872 7.44176 15.9766C7.44232 15.9661 7.4406 15.9555 7.43671 15.9456C7.43282 15.9358 7.42686 15.9268 7.41923 15.9195C7.4116 15.9121 7.40248 15.9065 7.39248 15.903C6.74649 15.6597 6.12057 15.3661 5.52048 15.025C5.5097 15.0188 5.50061 15.0101 5.49404 14.9995C5.48746 14.989 5.48361 14.977 5.48281 14.9646C5.48202 14.9522 5.48432 14.9398 5.48949 14.9286C5.49467 14.9173 5.50257 14.9075 5.51248 14.9C5.63848 14.807 5.76448 14.71 5.88448 14.613C5.89528 14.6043 5.90829 14.5987 5.92206 14.5969C5.93584 14.5952 5.94983 14.5973 5.96248 14.603C9.88948 16.367 14.1425 16.367 18.0235 14.603C18.0362 14.5969 18.0503 14.5946 18.0643 14.5961C18.0782 14.5977 18.0915 14.6032 18.1025 14.612C18.2225 14.71 18.3475 14.807 18.4745 14.9C18.4845 14.9073 18.4925 14.917 18.4979 14.9282C18.5032 14.9394 18.5057 14.9517 18.5051 14.9641C18.5045 14.9765 18.5008 14.9885 18.4945 14.9991C18.4881 15.0098 18.4791 15.0186 18.4685 15.025C17.8705 15.369 17.2485 15.66 16.5955 15.902C16.5855 15.9056 16.5763 15.9114 16.5687 15.9188C16.561 15.9263 16.5551 15.9353 16.5512 15.9452C16.5473 15.9551 16.5456 15.9658 16.5462 15.9764C16.5467 15.9871 16.5496 15.9975 16.5545 16.007C16.9145 16.694 17.3265 17.348 17.7795 17.969C17.7889 17.9817 17.802 17.9912 17.8171 17.9963C17.8321 18.0013 17.8483 18.0015 17.8635 17.997C20.0178 17.3486 22.0471 16.3407 23.8655 15.016C23.8744 15.0098 23.8818 15.0017 23.8873 14.9924C23.8928 14.9831 23.8963 14.9727 23.8975 14.962C24.3975 9.86797 23.0595 5.44197 20.3485 1.51997C20.3418 1.50723 20.3308 1.49729 20.3175 1.49197ZM8.02048 12.278C6.83848 12.278 5.86348 11.209 5.86348 9.89797C5.86348 8.58597 6.81948 7.51797 8.02048 7.51797C9.23048 7.51797 10.1965 8.59497 10.1775 9.89797C10.1775 11.21 9.22148 12.278 8.02048 12.278ZM15.9955 12.278C14.8125 12.278 13.8385 11.209 13.8385 9.89797C13.8385 8.58597 14.7935 7.51797 15.9955 7.51797C17.2055 7.51797 18.1715 8.59497 18.1525 9.89797C18.1525 11.21 17.2065 12.278 15.9955 12.278Z"
-                                                        fill="#9CA2BE" />
-                                                </svg>
-                                            </span>
-                                            <span class="text name">
-                                                <%= link.name ? link.name : '' %>
-                                            </span>
-                                        </a>
-                                        <%}else if(link.name=="telegram" ){%>
-                                            <a href="<%= link.link ? link.link : '' %>" class="link">
-                                                <span class="icon">
-                                                    <svg width="22" height="18" viewBox="0 0 22 18" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M21.4399 1.62225L18.2711 16.566C18.0319 17.6205 17.4086 17.883 16.5229 17.3865L11.6944 13.8285L9.36488 16.0695C9.10688 16.3275 8.89163 16.5428 8.39438 16.5428L8.74163 11.6258L17.6899 3.54C18.0791 3.1935 17.6051 3.00075 17.0854 3.348L6.02288 10.314L1.26038 8.823C0.224631 8.49975 0.205881 7.78725 1.47638 7.29L20.1041 0.113253C20.9666 -0.209997 21.7211 0.305253 21.4399 1.623V1.62225Z"
-                                                            fill="#9CA2BE" />
-                                                    </svg>
-                                                </span>
-                                                <span class="text name">
-                                                    <%= link.name ? link.name : '' %>
-                                                </span>
-                                            </a>
-                                            <%}else if(link.name=="twitter" ){%>
-                                                <a href="<%= link.link ? link.link : '' %>" class="link">
-                                                    <span class="icon">
-                                                        <svg width="24" height="21" viewBox="0 0 24 21" fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M24 2.49098C23.0806 2.91193 22.093 3.19635 21.0547 3.32491C22.126 2.66254 22.9275 1.62005 23.3097 0.391954C22.3031 1.00971 21.2016 1.44453 20.0528 1.67754C19.2803 0.825258 18.2571 0.260353 17.142 0.0705279C16.027 -0.119297 14.8825 0.0765775 13.8862 0.627742C12.8899 1.17891 12.0976 2.05452 11.6323 3.11865C11.167 4.18277 11.0547 5.37587 11.3128 6.5127C9.27337 6.40689 7.27824 5.85916 5.45691 4.90504C3.63558 3.95093 2.02876 2.61176 0.740729 0.974449C0.300317 1.75945 0.0470802 2.6696 0.0470802 3.63891C0.0465888 4.51151 0.25455 5.37074 0.652513 6.14037C1.05048 6.91001 1.62614 7.56624 2.32842 8.05085C1.51396 8.02408 0.717468 7.79668 0.00524104 7.38758V7.45584C0.00515878 8.6797 0.41486 9.86589 1.16483 10.8132C1.91479 11.7604 2.95883 12.4104 4.11979 12.6528C3.36425 12.8641 2.57211 12.8952 1.80322 12.7438C2.13078 13.7969 2.76882 14.7177 3.62804 15.3775C4.48725 16.0372 5.52462 16.4028 6.59491 16.4231C4.77803 17.8969 2.53418 18.6963 0.224346 18.6928C-0.184818 18.6929 -0.593636 18.6682 -1 18.6188C1.34462 20.1765 4.07392 21.0032 6.86136 21C16.2972 21 21.4555 12.9247 21.4555 5.92111C21.4555 5.69357 21.45 5.46376 21.4401 5.23622C22.4435 4.48645 23.3096 3.55801 23.9978 2.4944L24 2.49098Z"
-                                                                fill="#9CA2BE" />
-                                                        </svg>
-                                                    </span>
-                                                    <span class="text name">
-                                                        <%= link.name ? link.name : '' %>
-                                                    </span>
-                                                </a>
-                                                <%}%>
-                            </div>
-                            <%}%>
-
-                                <% }) %>
-
-
-                </div>
-            </div>
-            <div id="newsletter" class="newsletter-container">
-                <div class="d-flex flex-column justify-content-center align-items-center newsletter">
-                    <div class="newsletter-content">
-                        <h3 class="text-center title newsletter-title">
-                            Stay in the NFT loop 👀
-                        </h3>
-                        <div class="newsletter-text-container">
-                            <p class="text-center text newsletter-text">
-                                XungiBallz will offer holders special access, privileges and benefits within the
-                                Xungible
-                                platform.
-                            </p>
-                        </div>
-                    </div>
-                    <form action="" id="emailForm" class="newsletter-form">
-                        <div class="d-flex align-items-center justify-content-center form-group">
-                            <input id="email" type="email" class="newsletter-input"
-                                placeholder="Enter your Email Address" required>
-                            <button type="submit" class="btn submit-btn">
-                                <svg width="36" height="34" viewBox="0 0 36 34" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M1.27875 30.5998L5.15875 17.1798L1.27875 3.75976C0.798753 2.11976 2.47875 0.659763 4.03875 1.39976L34.2388 15.3798C35.7788 16.0998 35.7788 18.2998 34.2388 18.9998L4.03875 32.9798C2.47875 33.6998 0.798753 32.2598 1.27875 30.5998Z"
-                                        stroke="white" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                    <path d="M5.16016 17.1797H14.7402" stroke="white" stroke-width="1.2"
-                                        stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </main>
-        <footer>
-            <div class="footer-container">
-                <div class="d-flex footer-main-content">
-                    <div class="footer-content-container">
-                        <div class="logo-container">
-                            <a href="/">
-                                <img src="/assets/images/xungibleLogo.png" alt="" class="logo">
-                            </a>
-                        </div>
-                        <p class="description footer-description">
-                            Supporting blockchain communities all over the world.
-                        </p>
-                    </div>
-                    <div class="d-flex justify-content-between footer-nav-wrapper">
-                        <div class="footer-nav-container">
-                            <h5 class="title footer-nav-title">About Us</h5>
-                            <ul class="footer-nav">
-                                <li class="list-item footer-list-item">
-                                    <a href="/about" class="link footer-nav-link">About Us</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="footer-nav-container">
-                            <h5 class="title footer-nav-title">Community</h5>
-                            <ul class="footer-nav">
-                                
-                                <li class="list-item footer-list-item">
-                                    <a href="https://twitter.com/Xungible" target="_blank" class="link footer-nav-link">Twitter</a>
-                                </li>
-                                <li class="list-item footer-list-item">
-                                    <a href="https://discord.gg/y8h5hKhBXq" target="_blank" class="link footer-nav-link">Discord</a>
-                                </li>
-                                <li class="list-item footer-list-item">
-                                    <a href="https://t.me/+bmp4rll6PeJjOWQ8" class="link footer-nav-link">Telegram</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="footer-nav-container">
-                            <h5 class="title footer-nav-title">Explore</h5>
-                            <ul class="footer-nav">
-                                <li class="list-item footer-list-item">
-                                    <a href="/marketingtoken" class="link footer-nav-link">XGBL</a>
-                                </li>
-                                <li class="list-item footer-list-item"><a href="/xungibleballz"
-                                        class="link footer-nav-link">Xungiballs NFTs</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="d-flex justify-content-start footer-end">
-                    <% /* <div class="footer-links">
-                        <a href="" class="link footer-link">Privacy Policy</a>
-                        <a href="" class="link footer-link">Terms and Conditions</a>
-                    </div> */ %>
-                    <p class="copyrights">
-                        2022 &copy; Xungible
-                    </p>
-                </div>
-            </div>
-
-        </footer>
-    </div>
-
-    <script src="/js/frontend.js"></script>
-    <script>
-
-
-        const swiper = new Swiper('.swiper', {
-            speed: 400,
-            slidesPerView: 1,
-            spaceBetween: -250,
-            loop: true,
-            autoplay: {
-                delay: 2000,
-            },
-            effect: 'cards',
-            grabCursor: true,
-            slideShadows: false,
-
-            cardsEffect: {
-                rotate: false,
-            },
-            effect: 'coverflow',
-            coverflowEffect: {
-                rotate: 30,
-                slideShadows: false,
-                scale: .2
-            },
-
-        });
-
-    </script>
-
-</body>
-
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>

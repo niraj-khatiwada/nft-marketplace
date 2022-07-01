@@ -61,7 +61,7 @@ export default function Profile() {
           </Nav.Item>
           <Nav.Item>
             <Nav.Link href="/profile#sold" active={current === '#sold'}>
-              Sold {data == null ? '' : `(${data?.[4] ?? 0})`}
+              Sold {data == null ? '' : `(${data?.[3] ?? 0})`}
               {/* Index 1 = Items Sold */}
             </Nav.Link>
           </Nav.Item>
@@ -70,7 +70,8 @@ export default function Profile() {
               href="/profile#not-for-sale"
               active={current === '#not-for-sale'}
             >
-              Not For Sale {data == null ? '' : `(${data?.[3] ?? 0})`}
+              Not For Sale{' '}
+              {data == null ? '' : `(${data?.[1] - data?.[2] ?? 0})`}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>

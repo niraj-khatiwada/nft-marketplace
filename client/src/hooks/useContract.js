@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useQuery } from 'react-query'
 
 // const TOKEN_CONTRACT_ADDRESS = process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS
-const TOKEN_CONTRACT_ADDRESS = '0x6E5E4d5005e10632bd077f83975Ff0DC54e16795'
+const TOKEN_CONTRACT_ADDRESS = '0xc054b34db7dEeBA1FA102CA2E688363a3418273B'
 
 export default function useContract() {
   const { library } = useWeb3React()

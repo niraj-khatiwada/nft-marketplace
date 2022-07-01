@@ -146,6 +146,33 @@ export default function useWeb3() {
     }
   }
 
+  function signTypedDataForVoucher({ domain, types, message, from }) {
+    return new Promise((resolve, reject) =>
+      web3.library?.currentProvider?.send(
+        {
+          method: 'eth_signTypedData_v4',
+          params: [
+            from,
+            JSON.stringify({
+              domain,
+              types,
+              message,
+              primaryType: 'NFTVoucher',
+            }),
+          ],
+          from: from,
+        },
+        function (err, result) {
+          if (err) return reject(err)
+          if (result.error) {
+            return reject(result.error)
+          }
+          resolve(result.result)
+        }
+      )
+    )
+  }
+
   return {
     ...web3,
     custom: {
@@ -155,6 +182,7 @@ export default function useWeb3() {
       disconnectWallet,
       formatBalance,
       waitTransactionToConfirm,
+      signTypedDataForVoucher,
     },
   }
 }

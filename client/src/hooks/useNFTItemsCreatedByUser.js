@@ -9,7 +9,7 @@ export default function useNFTItemsCreated() {
   const { account } = useWeb3()
 
   const getItemsByCreator = React.useCallback(
-    async () => contract?.methods?.getItemsByCreator(account).call(),
+    async () => contract?.methods?.getItemsByUser(account, 1).call(),
     [contract, account]
   )
 

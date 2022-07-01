@@ -9,7 +9,7 @@ export default function useNFTItemsOwned() {
   const { account } = useWeb3()
 
   const getItemsByOwner = React.useCallback(
-    async () => contract?.methods?.getItemsByOwner(account).call(),
+    async () => contract?.methods?.getItemsByUser(account, 2).call(),
     [contract, account]
   )
 

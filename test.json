@@ -4,23 +4,49 @@
 
 // import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 // import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-// import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
+// import "../node_modules/@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+// import "../node_modules/@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
-// contract NFTMarketplace is ERC721URIStorage, Ownable {
-//     using Counters for Counters.Counter;
+// contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
+//     string constant DOM = "XungibleEIP712";
+//     string constant DOM_VER = "1";
+
+//     bytes32 internal constant DOM_HASH =
+//         keccak256(
+//             "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
+//         );
+//     bytes32 internal constant VOUCHER_HASH =
+//         keccak256(
+//             "NFTVoucher(uint256 tokenId,string tokenURI,uint256 price,bool isForSale,bool isAuction,address target,bool isRedeem)"
+//         );
+
+//     bytes32 private DOM_SEP =
+//         keccak256(
+//             abi.encode(DOM_HASH, DOM, DOM_VER, getChainID(), address(this))
+//         );
 
 //     struct NFTItem {
 //         uint256 tokenId;
-//         string tokenURI;
+//         string tokenURI; // Only pass ipfs hash, not the whole URI. Actual URL will be baseURI+tokenURI(hash)
 //         uint256 price;
 //         address creator;
 //         address owner;
 //         bool isForSale;
 //     }
-//     uint256 public itemListingPrice = 250000000000000; // 0.00025 Ether by default
+
+//     struct NFTVoucher {
+//         uint256 tokenId;
+//         string tokenURI;
+//         uint256 price;
+//         bool isForSale;
+//         bytes signature;
+//         bool isAuction;
+//         address target;
+//         bool isRedeem;
+//     }
 
 //     uint256 public serviceCharge = 5000; // 5% by default. 1000 -> 1%
-
+//     string public baseURI; // Base URI for token URI. MUST end with '/' like https://gateway.pinata.cloud/ipfs/
 //     uint256[] private _nftItems; // Array of item token id
 
 //     mapping(string => bool) private _doesTokenURIExistsMapping; /* tokenURI: true */
@@ -34,10 +60,16 @@
 //     mapping(address => uint256) private _mapOwnerToItemsForSaleCount; /* address: nft item for sale count */
 //     mapping(address => uint256) private _mapOwnerToItemsSoldCount; /* address: nft item sold count */
 
-//     Counters.Counter private _numberOfItems; // Does not keep track of burned tokens
-//     Counters.Counter private _numberOfItemsForSale; // Keep track of active number of items on sale
+//     uint256 private _numberOfItems; // Does not keep track of burned tokens
+//     uint256 private _numberOfItemsForSale; // Keep track of active number of items on sale
 
-//     constructor() ERC721("Xungible NFT", "XNFT") {}
+//     constructor(
+//         string memory _name,
+//         string memory _symbol,
+//         string memory _initBaseURI
+//     ) ERC721(_name, _symbol) EIP712(DOM, DOM_VER) {
+//         changeBaseURI(_initBaseURI);
+//     }
 
 //     receive() external payable {}
 
@@ -46,18 +78,55 @@
 //         payable(msg.sender).transfer(address(this).balance);
 //     }
 
-//     function mintToken(
-//         uint256 tokenId,
-//         string memory tokenURI,
-//         uint256 price,
-//         bool isForSale
-//     ) public payable {
-//         require(!_doesTokenURIExistsMapping[tokenURI]); //URI_ALREADY_EXISTS
-//         require(itemListingPrice == msg.value); //PRICE_MISMATCH
+//     function sendSigAddr(NFTVoucher calldata voucher)
+//         public
+//         view
+//         returns (address)
+//     {
+//         return _verifySignature(voucher);
+//     }
 
-//         _safeMint(msg.sender, tokenId);
-//         _setTokenURI(tokenId, tokenURI);
-//         _createNFTItem(tokenId, tokenURI, price, isForSale);
+//     function mintToken(NFTVoucher calldata voucher) public payable {
+//         require(!voucher.isRedeem);
+//         address _signer = _verifySignature(voucher);
+//         require(_signer == msg.sender && _signer == voucher.target);
+//         _createNFTItem(
+//             voucher.tokenId,
+//             voucher.tokenURI,
+//             voucher.price,
+//             voucher.isForSale,
+//             _signer
+//         );
+//         _safeMint(_signer, voucher.tokenId);
+//         _setTokenURI(voucher.tokenId, string.concat(baseURI, voucher.tokenURI));
+//     }
+
+//     function redeemToken(NFTVoucher calldata voucher) public payable {
+//         require(voucher.isRedeem);
+//         require(msg.value == voucher.price);
+//         address _signer = _verifySignature(voucher);
+//         require(_signer != msg.sender);
+
+//         if (voucher.isAuction) {
+//             require(voucher.target == msg.sender);
+//         }
+
+//         // Mint
+//         _createNFTItem(
+//             voucher.tokenId,
+//             voucher.tokenURI,
+//             voucher.price,
+//             voucher.isRedeem ? false : voucher.isForSale,
+//             voucher.isRedeem ? _signer : msg.sender
+//         );
+//         _safeMint(voucher.isRedeem ? _signer : msg.sender, voucher.tokenId);
+//         _setTokenURI(voucher.tokenId, string.concat(baseURI, voucher.tokenURI));
+//         // Transfer
+//         _mapOwnerToItemsSoldCount[_signer] += 1;
+//         _transfer(_signer, msg.sender, voucher.tokenId);
+//         payable(_signer).transfer(
+//             msg.value - ((msg.value * serviceCharge) / (100000))
+//         );
 //     }
 
 //     function buyNFT(uint256 tokenId) public payable {
@@ -69,7 +138,7 @@
 //         require(msg.value == _mapTokenIdToNFTItem[tokenId].price); //PRICE_MISTMATCH
 //         _mapOwnerToItemsForSaleCount[ownerAddress] -= 1;
 //         _mapTokenIdToNFTItem[tokenId].isForSale = false;
-//         _numberOfItemsForSale.decrement();
+//         _numberOfItemsForSale -= 1;
 //         _mapOwnerToItemsSoldCount[ownerAddress] += 1;
 //         _mapTokenIdToNFTItem[tokenId].owner = msg.sender;
 
@@ -81,8 +150,8 @@
 
 //     function burnToken(uint256 tokenId) public payable {
 //         require(msg.sender == ERC721.ownerOf(tokenId)); // NOT_THE_NFT_OWNER
-//         _burn(tokenId);
 //         _removeNFT(tokenId);
+//         _burn(tokenId);
 //     }
 
 //     function changeNFTSaleStatus(
@@ -97,66 +166,24 @@
 //                 : _mapTokenIdToNFTItem[tokenId].isForSale
 //         ); // ALREADY_ON_SALE OR ALREADY_ON_NOT_FOR_SALE
 //         if (changeToIsForSale) {
-//             require(itemListingPrice == msg.value); // PRICE_MISMATCH
 //             _mapTokenIdToNFTItem[tokenId].price = newPrice;
 //             _mapOwnerToItemsForSaleCount[ERC721.ownerOf(tokenId)] += 1;
-//             _numberOfItemsForSale.increment();
+//             _numberOfItemsForSale += 1;
 //         } else {
 //             _mapOwnerToItemsForSaleCount[ERC721.ownerOf(tokenId)] -= 1;
-//             _numberOfItemsForSale.decrement();
+//             _numberOfItemsForSale -= 1;
 //         }
 //         _mapTokenIdToNFTItem[tokenId].isForSale = changeToIsForSale;
 //     }
 
-//     // Get All NFT Items by particular creator: All NFTs in the contract created by a user
-//     function getItemsByCreator(address creator)
-//         public
-//         view
-//         returns (NFTItem[] memory)
-//     {
-//         NFTItem[] memory allNftItemsByCreator = new NFTItem[](
-//             _mapOwnerToItemsCreatedCount[creator]
-//         );
-//         uint256 currentIndex;
-//         for (uint256 i = 0; i < _numberOfItems.current(); i++) {
-//             NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
-//             if (nftItem.creator == creator) {
-//                 allNftItemsByCreator[currentIndex] = nftItem;
-//                 currentIndex++;
-//             }
-//         }
-//         return allNftItemsByCreator;
-//     }
-
-//     // Get All NFT Items by particular owner: NFT owned by a user (Sale + Not For Sale)
-//     function getItemsByOwner(address owner)
-//         public
-//         view
-//         returns (NFTItem[] memory)
-//     {
-//         NFTItem[] memory allNftItemsByOwner = new NFTItem[](
-//             ERC721.balanceOf(owner)
-//         );
-//         uint256 currentIndex;
-//         for (uint256 i = 0; i < _numberOfItems.current(); i++) {
-//             NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
-//             if (nftItem.owner == owner) {
-//                 allNftItemsByOwner[currentIndex] = nftItem;
-//                 currentIndex++;
-//             }
-//         }
-//         return allNftItemsByOwner;
-//     }
-
 //     // Get All NFT Items for Sale: All NFTs in the contract that are for sale
 //     function getItemsForSale() public view returns (NFTItem[] memory) {
-//         NFTItem[] memory itemsForSale = new NFTItem[](
-//             _numberOfItemsForSale.current()
-//         );
+//         NFTItem[] memory itemsForSale = new NFTItem[](_numberOfItemsForSale);
 //         uint256 currentIndex;
-//         for (uint256 i = 0; i < _numberOfItems.current(); i++) {
+//         for (uint256 i = 0; i < _numberOfItems; i++) {
 //             NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
 //             if (nftItem.isForSale) {
+//                 nftItem.tokenURI = string.concat(baseURI, nftItem.tokenURI);
 //                 itemsForSale[currentIndex] = nftItem;
 //                 currentIndex++;
 //             }
@@ -164,120 +191,155 @@
 //         return itemsForSale;
 //     }
 
-//     // Get All NFT Items sold by a particular owner: All NFTs in the contract sold by a user
-//     function getItemsSoldByOwner(address owner)
-//         public
-//         view
-//         returns (NFTItem[] memory)
-//     {
-//         NFTItem[] memory itemsSoldByOwner = new NFTItem[](
-//             _mapOwnerToItemsSoldCount[owner]
-//         );
-//         uint256 currentIndex;
-//         for (uint256 i = 0; i < _nftItems.length; i++) {
-//             NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
-//             if (nftItem.creator == owner && nftItem.owner != owner) {
-//                 itemsSoldByOwner[currentIndex] = nftItem;
-//                 currentIndex++;
-//             }
-//         }
-//         return itemsSoldByOwner;
-//     }
-
-//     // Get All NFT Items for sale by particular user: All NFTs in the contract by a user that are for sale
-//     function getItemsForSaleByOwner(address owner)
-//         public
-//         view
-//         returns (NFTItem[] memory)
-//     {
-//         NFTItem[] memory itemsForSaleByOwner = new NFTItem[](
-//             _mapOwnerToItemsForSaleCount[owner]
-//         );
-//         uint256 currentIndex;
-//         for (uint256 i = 0; i < _nftItems.length; i++) {
-//             NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
-//             if (nftItem.owner == owner && nftItem.isForSale) {
-//                 itemsForSaleByOwner[currentIndex] = nftItem;
-//                 currentIndex++;
-//             }
-//         }
-//         return itemsForSaleByOwner;
-//     }
-
-//     // Get All NFT Items  not for sale by particular user: All NFTs in the contract by a user that are not for sale
-//     function getItemsNotForSaleByOwner(address owner)
-//         public
-//         view
-//         returns (NFTItem[] memory)
-//     {
-//         NFTItem[] memory itemsForSaleByOwner = new NFTItem[](
-//             ERC721.balanceOf(owner) - _mapOwnerToItemsForSaleCount[owner]
-//         );
-//         uint256 currentIndex;
-//         for (uint256 i = 0; i < _nftItems.length; i++) {
-//             NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
-//             if (nftItem.owner == owner && !nftItem.isForSale) {
-//                 itemsForSaleByOwner[currentIndex] = nftItem;
-//                 currentIndex++;
-//             }
-//         }
-//         return itemsForSaleByOwner;
-//     }
-
 //     // Get NFT Item by tokenId
 //     function getNFTItem(uint256 tokenId) public view returns (NFTItem memory) {
-//         return _mapTokenIdToNFTItem[tokenId];
+//         NFTItem memory item = _mapTokenIdToNFTItem[tokenId];
+//         item.tokenURI = string.concat(baseURI, item.tokenURI);
+//         return item;
 //     }
 
+//     // 1 = All Items Created By User
+//     // 2 = All Items Currently Owned By User
+//     // 3 = All Items For Sale By User
+//     // 4 =  All Items Not For Sale By User
+//     // 5 = All Items Sold By User
+//     function getItemsByUser(address user, uint256 kind)
+//         public
+//         view
+//         returns (NFTItem[] memory)
+//     {
+//         NFTItem[] memory items = new NFTItem[](
+//             kind == 2 ? ERC721.balanceOf(user) : kind == 3
+//                 ? _mapOwnerToItemsForSaleCount[user]
+//                 : kind == 4
+//                 ? (ERC721.balanceOf(user) - _mapOwnerToItemsForSaleCount[user])
+//                 : kind == 5
+//                 ? _mapOwnerToItemsSoldCount[user]
+//                 : _mapOwnerToItemsCreatedCount[user]
+//         );
+//         uint256 currentIndex;
+//         for (uint256 i = 0; i < _numberOfItems; i++) {
+//             NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
+//             nftItem.tokenURI = string.concat(baseURI, nftItem.tokenURI);
+//             if (kind == 2) {
+//                 if (nftItem.owner == user) {
+//                     items[currentIndex] = nftItem;
+//                     currentIndex++;
+//                 }
+//             } else if (kind == 3) {
+//                 if (nftItem.owner == user && nftItem.isForSale) {
+//                     items[currentIndex] = nftItem;
+//                     currentIndex++;
+//                 }
+//             } else if (kind == 4) {
+//                 if (nftItem.owner == user && !nftItem.isForSale) {
+//                     items[currentIndex] = nftItem;
+//                     currentIndex++;
+//                 }
+//             } else if (kind == 5) {
+//                 if (nftItem.creator == user && nftItem.owner != user) {
+//                     items[currentIndex] = nftItem;
+//                     currentIndex++;
+//                 }
+//             } else {
+//                 if (nftItem.creator == user) {
+//                     items[currentIndex] = nftItem;
+//                     currentIndex++;
+//                 }
+//             }
+//         }
+//         return items;
+//     }
+
+//     // Ge the user nft details count in one function
 //     function getNFTItemCountUtilityByUser(address userAddress)
 //         public
 //         view
-//         returns (uint256[5] memory)
+//         returns (uint256[4] memory)
 //     {
 //         return [
 //             _mapOwnerToItemsCreatedCount[userAddress], // Total NFT Items Created
 //             ERC721.balanceOf(userAddress), // Total NFT Items Owned
 //             _mapOwnerToItemsForSaleCount[userAddress], // Total NFT Items Owned for sale
-//             ERC721.balanceOf(userAddress) -
-//                 _mapOwnerToItemsForSaleCount[userAddress], // Total NFT Items owned not for sale
 //             _mapOwnerToItemsSoldCount[userAddress] // Total NFT Items Sold,
 //         ];
 //     }
 
-//     // Change Listing Price: Only for admin
-//     // Should sent wei value
-//     function changeListingPrice(uint256 newPrice) external payable onlyOwner {
-//         require(itemListingPrice != newPrice); // OLD_PRICE_SAME_AS_NEW_PRICE
-//         itemListingPrice = newPrice;
+//     // Get chain id of contract
+//     function getChainID() public view returns (uint256) {
+//         uint256 id;
+//         assembly {
+//             id := chainid()
+//         }
+//         return id;
+//     }
+
+//     // Change Service Charge: Only for admin
+//     // Should sent percentage value like if 5% => 5000
+//     function changeServiceCharge(uint256 newSc) public onlyOwner {
+//         require(newSc < 100000);
+//         serviceCharge = newSc;
 //     }
 
 //     // Change Service Charge: Only for admin
 //     // Should sent percentage value
-//     function changeServiceCharge(uint256 newSc) external payable onlyOwner {
-//         require(newSc < 100000);
-//         serviceCharge = newSc;
+//     function changeBaseURI(string memory uri) public onlyOwner {
+//         baseURI = uri;
+//     }
+
+//     // Verifies the signature for a given NFTVoucher, returning the address of the signer.
+//     // This call may not revert if the signature is invalid, or if the signer is otherwise unable to be retrieved. In those scenarios, the zero address is returned. So make sure to do require check after addreess is returned from this function
+
+//     function _verifySignature(NFTVoucher calldata voucher)
+//         internal
+//         view
+//         returns (address)
+//     {
+//         bytes32 digest = _hashTypedDataV4(
+//             keccak256(
+//                 abi.encodePacked(
+//                     "\x19\x01",
+//                     DOM_SEP,
+//                     keccak256(
+//                         abi.encode(
+//                             VOUCHER_HASH,
+//                             voucher.tokenId,
+//                             voucher.tokenURI,
+//                             voucher.price,
+//                             voucher.isForSale,
+//                             voucher.isAuction,
+//                             voucher.target,
+//                             voucher.isRedeem
+//                         )
+//                     )
+//                 )
+//             )
+//         );
+//         return ECDSA.recover(digest, voucher.signature);
 //     }
 
 //     function _createNFTItem(
 //         uint256 tokenId,
 //         string memory tokenURI,
 //         uint256 price,
-//         bool isForSale
+//         bool isForSale,
+//         address creator
 //     ) private {
+//         require(!_doesTokenURIExistsMapping[tokenURI]);
 //         require(price > 0); // INVALID_PRICE
 //         _mapTokenIdToNFTItem[tokenId] = NFTItem(
 //             tokenId,
 //             tokenURI,
 //             price,
-//             msg.sender,
+//             creator,
 //             msg.sender,
 //             isForSale
 //         );
 //         _doesTokenURIExistsMapping[tokenURI] = true;
-//         _numberOfItems.increment();
-//         _mapOwnerToItemsCreatedCount[msg.sender] += 1;
+//         _numberOfItems += 1;
+//         _mapOwnerToItemsCreatedCount[creator] += 1;
 //         if (isForSale) {
-//             _numberOfItemsForSale.increment();
+//             _numberOfItemsForSale += 1;
 //             _mapOwnerToItemsForSaleCount[msg.sender] += 1;
 //         }
 //     }
@@ -286,10 +348,10 @@
 //         NFTItem memory nftItem = _mapTokenIdToNFTItem[tokenId];
 //         delete _doesTokenURIExistsMapping[nftItem.tokenURI];
 //         delete _mapTokenIdToNFTItem[tokenId];
-//         _numberOfItems.decrement();
+//         _numberOfItems -= 1;
 //         _mapOwnerToItemsCreatedCount[msg.sender] -= 1;
 //         if (nftItem.isForSale) {
-//             _numberOfItemsForSale.decrement();
+//             _numberOfItemsForSale -= 1;
 //             _mapOwnerToItemsForSaleCount[msg.sender] += 1;
 //         }
 //     }

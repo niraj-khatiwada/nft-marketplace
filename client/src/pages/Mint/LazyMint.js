@@ -86,7 +86,7 @@ export default function Home() {
       {account?.length ? (
         <div className="m-3">
           <h4 className="text-dark">
-            <strong>Normal Mint</strong>
+            <strong>Lazy Mint</strong>
           </h4>
 
           <div>
