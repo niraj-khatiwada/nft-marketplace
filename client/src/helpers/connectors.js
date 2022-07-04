@@ -76,10 +76,7 @@ export function resetWalletConnector(connector) {
 /*
   ChainId for networks:
     Mainnet: 1
-    Kovan: 42
-    Ropsten: 3
     Rinkeby: 4
-    Goerli: 5
 
   ChainList: https://chainlist.org/
 
@@ -88,5 +85,6 @@ export function resetWalletConnector(connector) {
     Polygon Mainnet: 137
   
   For development,
-   Mumbai Testnet(Polygon): 80001
+  Rinkeby Testnet(ETH): 4
+   Mumbai Testnet(Matic): 80001
 */
