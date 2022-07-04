@@ -13,10 +13,6 @@ function Home() {
 
   const { contract, contractAddress } = useContract()
 
-  console.log(library)
-
-  library?.eth?.getBalance(contractAddress)?.then((res) => console.log(res))
-
   return (
     <>
       <Navbar />

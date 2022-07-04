@@ -6,6 +6,7 @@ const mode = process.env.REACT_APP_MODE
 
 export const NETWORKS = {
   1: 'Ethereum Mainnet',
+  4: 'Rinkeby Testnet',
   137: 'Polygon Mainnet',
   80001: 'Polygon TestNet(Mumbai)',
   //
@@ -19,6 +20,7 @@ const NETWORK_MAPPING = {
     137: NETWORKS[137],
   },
   testnet: {
+    4: NETWORKS[4],
     80001: NETWORKS[80001],
   },
   local: {
@@ -28,6 +30,7 @@ const NETWORK_MAPPING = {
 
 export const RPC_URLS = {
   1: 'https://mainnet.infura.io/v3/',
+  3: 'https://rinkeby.infura.io/v3/981bab6ba769415fbec4cedf4120d0b9',
   137: 'https://polygon-rpc.com/',
   80001: 'https://rpc-mumbai.maticvigil.com/',
   [localChainId]: process.env.REACT_APP_RPC_SERVER,
@@ -35,6 +38,7 @@ export const RPC_URLS = {
 
 export const CURRENCY = {
   1: 'ETH',
+  4: 'ETH',
   137: 'MATIC',
   80001: 'MATIC',
   1337: 'ETH',
