@@ -45,7 +45,7 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
 
     mapping(address => uint256) private _mapOwnerToItemsCreatedCount; /* address: nft item created count */
     mapping(address => uint256) private _mapOwnerToItemsForSaleCount; /* address: nft item for sale count */
-    mapping(address => uint256) private _mapOwnerToItemsSoldCount; /* address: nft item sold count */
+    mapping(address => uint256[]) private _mapOwnerToTokenIdOfItemsSold; /* address: token id of nft item sold */
 
     uint256 private _numberOfItems; // Does not keep track of burned tokens
     uint256 private _numberOfItemsForSale; // Keep track of active number of items on sale
@@ -101,7 +101,7 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         _safeMint(voucher.isRedeem ? _signer : msg.sender, voucher.tokenId);
         _setTokenURI(voucher.tokenId, voucher.tokenURI);
         // Transfer
-        _mapOwnerToItemsSoldCount[_signer] += 1;
+        _mapOwnerToTokenIdOfItemsSold[_signer].push(voucher.tokenId);
         _transfer(_signer, msg.sender, voucher.tokenId);
         payable(_signer).transfer(
             msg.value - ((msg.value * serviceCharge) / (100000))
@@ -110,15 +110,12 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
 
     function buyNFT(uint256 tokenId) public payable {
         address ownerAddress = ERC721.ownerOf(tokenId);
-        require(
-            msg.sender != ownerAddress &&
-                msg.sender != _mapTokenIdToNFTItem[tokenId].creator
-        ); //ALREADY_NFT_OWNER Or CANNOT_BUY_YOUR_OWN_CREATION
+        require(msg.sender != ownerAddress); //ALREADY_NFT_OWNER
         require(msg.value == _mapTokenIdToNFTItem[tokenId].price); //PRICE_MISTMATCH
         _mapOwnerToItemsForSaleCount[ownerAddress] -= 1;
         _mapTokenIdToNFTItem[tokenId].isForSale = false;
         _numberOfItemsForSale -= 1;
-        _mapOwnerToItemsSoldCount[ownerAddress] += 1;
+        _mapOwnerToTokenIdOfItemsSold[ownerAddress].push(tokenId);
         _mapTokenIdToNFTItem[tokenId].owner = msg.sender;
 
         _transfer(ownerAddress, msg.sender, tokenId);
@@ -181,7 +178,6 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
     // 2 = All Items Currently Owned By User
     // 3 = All Items For Sale By User
     // 4 =  All Items Not For Sale By User
-    // 5 = All Items Sold By User
     function getItemsByUser(address user, uint256 kind)
         public
         view
@@ -193,9 +189,20 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
                 : kind == 4
                 ? (ERC721.balanceOf(user) - _mapOwnerToItemsForSaleCount[user])
                 : kind == 5
-                ? _mapOwnerToItemsSoldCount[user]
+                ? _mapOwnerToTokenIdOfItemsSold[user].length
                 : _mapOwnerToItemsCreatedCount[user]
         );
+
+        if (kind == 5) {
+            uint256[] memory _itemsSoldTokenIds = _mapOwnerToTokenIdOfItemsSold[
+                user
+            ];
+            for (uint256 i = 0; i < _itemsSoldTokenIds.length; i++) {
+                items[i] = _mapTokenIdToNFTItem[_itemsSoldTokenIds[i]];
+            }
+            return items;
+        }
+
         uint256 currentIndex;
         for (uint256 i = 0; i < _numberOfItems; i++) {
             NFTItem memory nftItem = _mapTokenIdToNFTItem[_nftItems[i]];
@@ -212,11 +219,6 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
                 }
             } else if (kind == 4) {
                 if (nftItem.owner == user && !nftItem.isForSale) {
-                    items[currentIndex] = nftItem;
-                    currentIndex++;
-                }
-            } else if (kind == 5) {
-                if (nftItem.creator == user && nftItem.owner != user) {
                     items[currentIndex] = nftItem;
                     currentIndex++;
                 }
@@ -240,7 +242,7 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
             _mapOwnerToItemsCreatedCount[userAddress], // Total NFT Items Created
             ERC721.balanceOf(userAddress), // Total NFT Items Owned
             _mapOwnerToItemsForSaleCount[userAddress], // Total NFT Items Owned for sale
-            _mapOwnerToItemsSoldCount[userAddress] // Total NFT Items Sold,
+            _mapOwnerToTokenIdOfItemsSold[userAddress].length // Total NFT Items Sold,
         ];
     }
 
