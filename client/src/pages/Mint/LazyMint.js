@@ -40,13 +40,24 @@ export default function Home() {
         tokenId: +tokenId,
         tokenURI: tokenURI,
       }
+
+      // // For example
+      // const voucher = {
+      //   isAuction: false,
+      //   isForSale: true,
+      //   isRedeem: false,
+      //   price: '10000000000000000',
+      //   target: '0x8af64d0B00D8243E2555d9322DD077100E90e717',
+      //   tokenId: 1,
+      //   tokenURI: 'bafkreieprgphlig4r2tifye2o4w5qg74jndt2ehu2gke5ksokpch3jidg4',
+      // }
+
       const voucherService = new VoucherService(
         contract,
         contractAddress,
         chainId
       )
       const voucherParams = await voucherService.createVoucherParams(voucher)
-      console.log(JSON.stringify(voucherParams, null, 2))
       const signature = await signTypedDataForVoucher({
         domain: voucherParams.domain,
         types: voucherParams.types,
@@ -54,24 +65,19 @@ export default function Home() {
         from: account,
       })
 
-      // Verify signature with backend
-      // @voucherPrams, @signature
+      // confirm the post with backend directly now
 
-      const transaction = await contract?.methods
-        ?.mintToken({
-          ...voucher,
-          signature: signature,
-        })
-        .send({
-          from: account,
-        })
+      console.log(signature, JSON.stringify(voucherParams, null, 2))
 
-      const receipt = await waitTransactionToConfirm(
-        transaction?.transactionHash
-      )
-      console.log('---', receipt)
-      // Send backend for confirmation
-      history.push('/')
+      // Call this graphql mutation for backend confirmation
+      // Base64 encode message
+
+      // const {data} =  await confirmPostEVM({message: btoa(JSON.stringify(voucherParams.message)), signature})
+
+      // isSuccess = data?.confirmPostEVM?.success
+
+      // If success go to post details
+      // else throw error
     } catch (error) {
       console.log('Mint Error', error)
       setError('Something went wrong...')

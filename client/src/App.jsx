@@ -15,3 +15,6 @@ export default function App() {
     </WalletProvider>
   )
 }
+
+// Graphql => Our Server
+// REST API => Blockchain Server

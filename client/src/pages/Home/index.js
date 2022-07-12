@@ -18,9 +18,12 @@ function Home() {
       <Navbar />
       {account?.length ? (
         <>
-          <div className="mx-5 my-3">
-            <Button as={Link} to="/mint">
+          <div className="mx-5 my-3 d-flex flex-column align-items-start">
+            {/* <Button as={Link} to="/mint">
               Mint new NFT
+            </Button> */}
+            <Button as={Link} to="/lazy-mint" className="mt-4">
+              Lazy Mint new NFT
             </Button>
           </div>
           <NFTsForSale />

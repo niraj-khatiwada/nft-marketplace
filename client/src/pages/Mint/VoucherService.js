@@ -49,8 +49,8 @@ class VoucherService {
   async _signingDomain() {
     return {
       data: {
-        name: 'XungibleEIP712',
-        version: '1',
+        name: SIGNING_DOMAIN_NAME,
+        version: SIGNING_DOMAIN_VERSION,
         chainId: this.chainId,
         verifyingContract: this.contractAddress,
       },

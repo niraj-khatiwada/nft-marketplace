@@ -37,6 +37,8 @@ export default function useWeb3() {
       setIsLoading(true)
       await web3.activate(injected)
       window.localStorage.setItem('connector', 'metamask')
+      // connected to metamask
+      
     } catch (ex) {
       console.log(ex)
       disconnectWallet()

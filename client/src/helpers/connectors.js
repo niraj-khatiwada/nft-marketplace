@@ -30,7 +30,7 @@ const NETWORK_MAPPING = {
 
 export const RPC_URLS = {
   1: 'https://mainnet.infura.io/v3/',
-  3: 'https://rinkeby.infura.io/v3/981bab6ba769415fbec4cedf4120d0b9',
+  4: 'https://rinkeby.infura.io/v3/981bab6ba769415fbec4cedf4120d0b9',
   137: 'https://polygon-rpc.com/',
   80001: 'https://rpc-mumbai.maticvigil.com/',
   [localChainId]: process.env.REACT_APP_RPC_SERVER,

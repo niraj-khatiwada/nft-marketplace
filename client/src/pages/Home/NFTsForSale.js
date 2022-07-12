@@ -51,9 +51,9 @@ function NFTsForSale() {
                       {' '}
                       My Item{' '}
                     </p>
-                  ) : item?.creator !== account ? (
+                  ) : (
                     <BuyNFT item={item} onSuccess={onSuccess} />
-                  ) : null}
+                  )}
                 </div>
               ))
             ) : (
