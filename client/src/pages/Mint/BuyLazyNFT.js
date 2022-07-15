@@ -25,10 +25,10 @@ export default function Home() {
     isRedeem: true,
     isAuction: false,
     isForSale: true,
-    price: '3000000000000000',
-    target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
+    price: '10000000000000000',
+    target: '0x8af64d0B00D8243E2555d9322DD077100E90e717',
     tokenId: 1,
-    tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
+    tokenURI: 'bafkreiclh6yc55vj3vne4capxscufl7mvycrynoot224srshnm2gmtd57u',
   }
 
   const redeemToken = async () => {
@@ -70,7 +70,7 @@ export default function Home() {
 
       // // For example
       const signature =
-        '0x2536ab450f4f107bced9c74775a9b1db4635aac70a00c11cb254654641c519a660048b25aa8c71eb240432df7e4072faa7d7220cf5b3b1eaa43eb39b0b1c87b61c'
+        '0x02353abc7be6d511d1a61ccbb9fb74cfd607d77126e91f7a9b57fc3eb6751660583648ec79521af2ed8838ad9cf7d8aee29c169250e6c3bf2e90e2f190385d231b'
 
       const transaction = await contract?.methods
         ?.redeemToken({

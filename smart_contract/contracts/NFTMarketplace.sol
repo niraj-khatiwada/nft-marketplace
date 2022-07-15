@@ -85,11 +85,11 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         require(msg.value == voucher.price);
         address _signer = verifyVoucher(voucher);
         require(_signer != msg.sender);
-
-        if (voucher.isAuction) {
-            require(voucher.target == msg.sender);
-        }
-
+        require(
+            voucher.isAuction
+                ? voucher.target == msg.sender
+                : voucher.target == _signer
+        );
         // Mint
         _createNFTItem(
             voucher.tokenId,
