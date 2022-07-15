@@ -25,6 +25,9 @@ function Home() {
             <Button as={Link} to="/lazy-mint" className="mt-4">
               Lazy Mint new NFT
             </Button>
+            <Button as={Link} to="/buy-lazy-nft" className="mt-4">
+              Buy Lazy Minted NFT
+            </Button>
           </div>
           <NFTsForSale />
         </>

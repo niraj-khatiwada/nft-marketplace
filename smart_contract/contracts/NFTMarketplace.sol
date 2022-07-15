@@ -81,7 +81,7 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
     }
 
     function redeemToken(NFTVoucher calldata voucher) public payable {
-        require(voucher.isRedeem);
+        require(voucher.isRedeem && voucher.isForSale);
         require(msg.value == voucher.price);
         address _signer = verifyVoucher(voucher);
         require(_signer != msg.sender);
@@ -111,7 +111,9 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
     function buyNFT(uint256 tokenId) public payable {
         address ownerAddress = ERC721.ownerOf(tokenId);
         require(msg.sender != ownerAddress); //ALREADY_NFT_OWNER
-        require(msg.value == _mapTokenIdToNFTItem[tokenId].price); //PRICE_MISTMATCH
+        NFTItem memory item = _mapTokenIdToNFTItem[tokenId];
+        require(item.isForSale); // Should be in sale to buyt it
+        require(msg.value == item.price); //PRICE_MISTMATCH
         _mapOwnerToItemsForSaleCount[ownerAddress] -= 1;
         _mapTokenIdToNFTItem[tokenId].isForSale = false;
         _numberOfItemsForSale -= 1;

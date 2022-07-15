@@ -31,26 +31,26 @@ export default function Home() {
     try {
       setError('')
 
-      const voucher = {
-        isAuction: false,
-        isForSale: true,
-        isRedeem: false,
-        price: library?.utils?.toWei(price, 'ether'),
-        target: account,
-        tokenId: +tokenId,
-        tokenURI: tokenURI,
-      }
-
-      // // For example
       // const voucher = {
       //   isAuction: false,
       //   isForSale: true,
       //   isRedeem: false,
-      //   price: '10000000000000000',
-      //   target: '0x8af64d0B00D8243E2555d9322DD077100E90e717',
-      //   tokenId: 1,
-      //   tokenURI: 'bafkreieprgphlig4r2tifye2o4w5qg74jndt2ehu2gke5ksokpch3jidg4',
+      //   price: library?.utils?.toWei(price, 'ether'),
+      //   target: account,
+      //   tokenId: +tokenId,
+      //   tokenURI: tokenURI,
       // }
+
+      // // For example
+      const voucher = {
+        isAuction: false,
+        isForSale: true,
+        isRedeem: true,
+        price: '3000000000000000',
+        target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
+        tokenId: 1,
+        tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
+      }
 
       const voucherService = new VoucherService(
         contract,

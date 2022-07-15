@@ -1,0 +1,161 @@
+{
+  "data": {
+    "createPost": {
+      "success": true,
+      "message": "Post created successfully. Proceed to minting and confirm to make it live",
+      "data": {
+        "postId": "40",
+        "voucher": {
+          "isAuction": false,
+          "isForSale": true,
+          "isRedeem": true,
+          "price": "3000000000000000",
+          "target": "0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4",
+          "tokenId": 5,
+          "tokenURI": "bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4"
+        }
+      }
+    }
+  }
+}
+
+0x62765df9b511e3283e45da58f5deba4e1a324d8674db94c5e466dea1d0afdd881dd5f7761ca02bc86e0fc61a595cb7a1266c62c04b7f21f7d245f14240fcca591c {
+  "types": {
+    "EIP712Domain": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "version",
+        "type": "string"
+      },
+      {
+        "name": "chainId",
+        "type": "uint256"
+      },
+      {
+        "name": "verifyingContract",
+        "type": "address"
+      }
+    ],
+    "NFTVoucher": [
+      {
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "name": "tokenURI",
+        "type": "string"
+      },
+      {
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "name": "isForSale",
+        "type": "bool"
+      },
+      {
+        "name": "isAuction",
+        "type": "bool"
+      },
+      {
+        "name": "target",
+        "type": "address"
+      },
+      {
+        "name": "isRedeem",
+        "type": "bool"
+      }
+    ]
+  },
+  "domain": {
+    "name": "XungibleEIP712",
+    "version": "1",
+    "chainId": 1337,
+    "verifyingContract": "0x4De78C84de6deA22014f249929E17372B6AdCE8D"
+  },
+  "message": {
+    "tokenId": 5,
+    "tokenURI": "bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4",
+    "price": "3000000000000000",
+    "isForSale": true,
+    "isAuction": false,
+    "target": "0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4",
+    "isRedeem": true
+  }
+}
+
+Buy NFT Token Id: 5
+txn hash: "0x45388d862f5ca9c49aa5db7f73b47e7a21a73d1224e36fb15d1b8e8c194bf70c"
+
+{
+    "transactionHash": "0x45388d862f5ca9c49aa5db7f73b47e7a21a73d1224e36fb15d1b8e8c194bf70c",
+    "transactionIndex": 0,
+    "blockHash": "0x40828a441a48ab77a991ea3b557877112a13570f2e8042e505c713c6d1491e11",
+    "blockNumber": 43,
+    "from": "0x6907af89c3df4e885820ac19751e63de2699d9bc",
+    "to": "0x4de78c84de6dea22014f249929e17372b6adce8d",
+    "gasUsed": 460420,
+    "cumulativeGasUsed": 460420,
+    "contractAddress": null,
+    "logs": [
+        {
+            "logIndex": 0,
+            "transactionIndex": 0,
+            "transactionHash": "0x45388d862f5ca9c49aa5db7f73b47e7a21a73d1224e36fb15d1b8e8c194bf70c",
+            "blockHash": "0x40828a441a48ab77a991ea3b557877112a13570f2e8042e505c713c6d1491e11",
+            "blockNumber": 43,
+            "address": "0x4De78C84de6deA22014f249929E17372B6AdCE8D",
+            "data": "0x",
+            "topics": [
+                "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+                "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "0x0000000000000000000000009859c69d69e0f3ab2d8826dc73764d0dc5f050d4",
+                "0x0000000000000000000000000000000000000000000000000000000000000005"
+            ],
+            "type": "mined",
+            "removed": false,
+            "id": "log_db8c8566"
+        },
+        {
+            "logIndex": 1,
+            "transactionIndex": 0,
+            "transactionHash": "0x45388d862f5ca9c49aa5db7f73b47e7a21a73d1224e36fb15d1b8e8c194bf70c",
+            "blockHash": "0x40828a441a48ab77a991ea3b557877112a13570f2e8042e505c713c6d1491e11",
+            "blockNumber": 43,
+            "address": "0x4De78C84de6deA22014f249929E17372B6AdCE8D",
+            "data": "0x",
+            "topics": [
+                "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925",
+                "0x0000000000000000000000009859c69d69e0f3ab2d8826dc73764d0dc5f050d4",
+                "0x0000000000000000000000000000000000000000000000000000000000000000",
+                "0x0000000000000000000000000000000000000000000000000000000000000005"
+            ],
+            "type": "mined",
+            "removed": false,
+            "id": "log_a9630945"
+        },
+        {
+            "logIndex": 2,
+            "transactionIndex": 0,
+            "transactionHash": "0x45388d862f5ca9c49aa5db7f73b47e7a21a73d1224e36fb15d1b8e8c194bf70c",
+            "blockHash": "0x40828a441a48ab77a991ea3b557877112a13570f2e8042e505c713c6d1491e11",
+            "blockNumber": 43,
+            "address": "0x4De78C84de6deA22014f249929E17372B6AdCE8D",
+            "data": "0x",
+            "topics": [
+                "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+                "0x0000000000000000000000009859c69d69e0f3ab2d8826dc73764d0dc5f050d4",
+                "0x0000000000000000000000006907af89c3df4e885820ac19751e63de2699d9bc",
+                "0x0000000000000000000000000000000000000000000000000000000000000005"
+            ],
+            "type": "mined",
+            "removed": false,
+            "id": "log_67f62b70"
+        }
+    ],
+    "status": true,
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000202000000010000000000000080008000000000000000000000000000000000000000000000000020000000000000080000800000000000000000000000010000000000000400000000000000000000000001000000800002000000000000000000000020000000000000000000000000000000000000000020000000000000000000000000002000000000000000000000000000000000000000000000000000020000010000000000000000000000000000000000000000000000000000000004080"
+}

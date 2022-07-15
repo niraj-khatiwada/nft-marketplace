@@ -7,6 +7,10 @@ const LazyLoadedMintPage = React.lazy(() => import('./pages/Mint/index'))
 const LazyLoadedLazyMintPage = React.lazy(() => import('./pages/Mint/LazyMint'))
 const LazyLoadedProfilePage = React.lazy(() => import('./pages/Profile/index'))
 
+const LazyLoadedBuyLazyNFTPage = React.lazy(() =>
+  import('./pages/Mint/BuyLazyNFT')
+)
+
 export default function Router() {
   return (
     <BrowserRouter>
@@ -26,6 +30,11 @@ export default function Router() {
             exact
             path="/lazy-mint"
             render={(...props) => <LazyLoadedLazyMintPage {...props} />}
+          />
+          <Route
+            exact
+            path="/buy-lazy-nft"
+            render={(...props) => <LazyLoadedBuyLazyNFTPage {...props} />}
           />
           <Route
             exact
