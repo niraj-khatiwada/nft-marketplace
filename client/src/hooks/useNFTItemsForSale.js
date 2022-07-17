@@ -27,3 +27,7 @@ export default function useNFTItemsForSale() {
     refetch,
   }
 }
+
+
+So noisy is taking "Math.min" as an argument which is a function(method) and its returning another function that rests(...) all the argument passed to it. 
+In line 13 its calling Math.min by spreading args that means it will be f(3,2,1). When you spread an array it will passed...
