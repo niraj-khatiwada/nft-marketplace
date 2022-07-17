@@ -46,10 +46,10 @@ export default function Home() {
         isAuction: false,
         isForSale: true,
         isRedeem: true,
-        price: '2000000000000000000',
+        price: '50000000000000000',
         target: '0x36C10991DFf0ea1ea2e2982D4e840c2B0544cE2c',
-        tokenId: 2,
-        tokenURI: 'bafkreihwsjruqbjimsvnc4dhrjejamg7fn5r3ids4yz7y37ig45dbz6fza',
+        tokenId: 4,
+        tokenURI: 'bafkreig5htoszduyx2oas2n6a5jqtqjza7y43tubcirzxcpy4hlffhjcfm',
       }
 
       const voucherService = new VoucherService(

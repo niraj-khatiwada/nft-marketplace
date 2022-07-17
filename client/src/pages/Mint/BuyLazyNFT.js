@@ -20,15 +20,16 @@ export default function Home() {
 
   const [error, setError] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
+  const [receipt, setReceipt] = React.useState(null)
 
   const voucher = {
     isRedeem: true,
     isAuction: false,
     isForSale: true,
-    price: '10000000000000000',
-    target: '0x8af64d0B00D8243E2555d9322DD077100E90e717',
-    tokenId: 1,
-    tokenURI: 'bafkreiclh6yc55vj3vne4capxscufl7mvycrynoot224srshnm2gmtd57u',
+    price: '50000000000000000',
+    target: '0x36C10991DFf0ea1ea2e2982D4e840c2B0544cE2c',
+    tokenId: 4,
+    tokenURI: 'bafkreig5htoszduyx2oas2n6a5jqtqjza7y43tubcirzxcpy4hlffhjcfm',
   }
 
   const redeemToken = async () => {
@@ -69,23 +70,27 @@ export default function Home() {
       //   Lets assume the API returned is_lazy_minted =  true then the below is an example of voucher returned
 
       // // For example
-      const signature =
-        '0x02353abc7be6d511d1a61ccbb9fb74cfd607d77126e91f7a9b57fc3eb6751660583648ec79521af2ed8838ad9cf7d8aee29c169250e6c3bf2e90e2f190385d231b'
+      if (receipt == null) {
+        const signature =
+          '0xc11436441fbeed8d51fae4fc4e3e3ffed30a999f677f3eb348a08374ff0e0e7b5de15eebfeff838ce9ab434537adcc8d4ef2a7155f9b6c8ce9b626e073ce71771b'
 
-      const transaction = await contract?.methods
-        ?.redeemToken({
-          ...voucher,
-          signature: signature,
-        })
-        .send({
-          from: account,
-          value: voucher.price,
-        })
+        const transaction = await contract?.methods
+          ?.redeemToken({
+            ...voucher,
+            signature: signature,
+          })
+          .send({
+            from: account,
+            value: voucher.price,
+          })
 
-      const receipt = await waitTransactionToConfirm(
-        transaction?.transactionHash
-      )
-      console.log('---', receipt)
+        const _receipt = await waitTransactionToConfirm(
+          transaction?.transactionHash
+        )
+        setReceipt(_receipt)
+        console.log('---', _receipt)
+      }
+      // Confirm with server
 
       // else throw error
     } catch (error) {
