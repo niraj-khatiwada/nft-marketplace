@@ -1,5 +1,5 @@
 import React from 'react'
-import { Nav, Button } from 'react-bootstrap'
+import { Nav, Button, Spinner } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 import { useMutation } from 'react-query'
 
@@ -12,7 +12,6 @@ import NotForSale from './NotForSale'
 import Created from './Created'
 import useWeb3 from '../../hooks/useWeb3'
 import styles from './style.module.css'
-import { Spinner } from 'react-bootstrap'
 import useContract from '../../hooks/useContract'
 import AdminFunctionalities from './AdminFunctionalities'
 import useContractOwner from '../../hooks/useContractOwner'
@@ -91,8 +90,41 @@ export function NFTItem({ item = null, updateItems = () => null }) {
   const {
     account,
     library,
-    custom: { formatBalance },
+    custom: { formatBalance, waitTransactionToConfirm },
   } = useWeb3()
+  const { contract, contractAddress } = useContract()
+
+  const [error, setError] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  const handleNFTBurn = async (tokenId) => {
+    /*
+    - If the item is lazy minted, we dont have to call any methods from from smart contract since that item has not even entered the contract. So we just call deleteNFTEvm(postId, is_lazy: true).
+    - But if its not lazy minted, then we need to call the burnToken first from the contract and then confirm with deleteNFTEvm(postId, is_lazy: false, transaction_hash: '...')
+    */
+    try {
+      setIsLoading(true)
+      setError('')
+
+      const owner = await contract?.methods?.ownerOf(+tokenId).call()
+      const ownerItemCount = await contract?.methods?.balanceOf(account).call()
+
+      console.log('---owner', owner, ownerItemCount)
+
+      const transaction = await contract?.methods?.burnToken(+tokenId).send({
+        from: account,
+      })
+
+      const _receipt = await waitTransactionToConfirm(
+        transaction?.transactionHash
+      )
+      console.log('---', _receipt)
+    } catch (error) {
+      setError('Something went wrong...')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div
@@ -110,8 +142,23 @@ export function NFTItem({ item = null, updateItems = () => null }) {
       </p>
       <p>Is For Sale: {`${item?.isForSale}` ?? 'false'}</p>
       {item?.owner == account ? (
-        <SaleStatus item={item} onSuccess={updateItems} />
+        <>
+          <SaleStatus item={item} onSuccess={updateItems} />
+          {isLoading ? (
+            <Spinner animation="border" role="status" variant="primary">
+              <span className="visually-hidden ">Loading...</span>
+            </Spinner>
+          ) : (
+            <Button
+              onClick={handleNFTBurn.bind(null, item?.tokenId)}
+              className="mt-4 bg-danger"
+            >
+              Burn NFT
+            </Button>
+          )}
+        </>
       ) : null}{' '}
+      {error?.length > 0 ? <p className="text-danger">{error}</p> : null}
     </div>
   )
 }

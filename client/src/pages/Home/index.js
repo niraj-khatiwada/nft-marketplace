@@ -19,14 +19,21 @@ function Home() {
       {account?.length ? (
         <>
           <div className="mx-5 my-3 d-flex flex-column align-items-start">
-            {/* <Button as={Link} to="/mint">
-              Mint new NFT
-            </Button> */}
-            <Button as={Link} to="/lazy-mint" className="mt-4">
+            <Button as={Link} to="/lazy-mint" className="mt-4 ">
               Lazy Mint new NFT
             </Button>
-            <Button as={Link} to="/buy-lazy-nft" className="mt-4">
+            <Button as={Link} to="/buy-lazy-nft" className="mt-4 bg-info">
               Buy Lazy Minted NFT
+            </Button>
+            <Button as={Link} to="/buy-nft" className="mt-4 bg-success">
+              Buy Fully Minted NFT
+            </Button>
+            <Button
+              as={Link}
+              to="/restore-lazy-nft"
+              className="mt-4 bg-warning"
+            >
+              Restore Lazy Minted NFT
             </Button>
           </div>
           <NFTsForSale />

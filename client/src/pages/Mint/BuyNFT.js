@@ -22,14 +22,22 @@ export default function Home() {
   const [isLoading, setIsLoading] = React.useState(false)
   const [receipt, setReceipt] = React.useState(null)
 
-  const voucher = {
-    isRedeem: true,
-    isAuction: false,
-    isForSale: true,
-    price: '50000000000000000',
-    target: '0x36C10991DFf0ea1ea2e2982D4e840c2B0544cE2c',
-    tokenId: 4,
-    tokenURI: 'bafkreig5htoszduyx2oas2n6a5jqtqjza7y43tubcirzxcpy4hlffhjcfm',
+  // Place this below after calling verify. This is just for demo
+  const { data } = {
+    data: {
+      verifyNFTBeforeBuyingEVM: {
+        success: true,
+        message: null,
+        data: {
+          id: '50',
+          is_lazy_minted: false,
+          token_id: 1,
+          price: '3000000000000000',
+          signature: null,
+          voucher: null,
+        },
+      },
+    },
   }
 
   const redeemToken = async () => {
@@ -41,58 +49,24 @@ export default function Home() {
       //   await verifyNFTBeforeBuyingEVM({variables:{postId: 10}})
       //   Now there will be 2 steps, depending upon is_lazy_minted_response returned by verifyNFTBeforeBuyingEVM API. Response will look like below:
 
-      const { data } = {
-        data: {
-          verifyNFTBeforeBuyingEVM: {
-            success: true,
-            message: null,
-            data: {
-              id: '35',
-              is_lazy_minted: true,
-              token_id: 7,
-              signature:
-                '0x819dcb81561b9a089e680a274c8b5fc51803c5a50959ce06a878cc6c21e4136b73d92bbdc1c2b1f20596f9b06f7d899d4fcdbf538a09f5b3388e1c6c0cd2f5391b',
-              voucher: {
-                isRedeem: true,
-                isAuction: false,
-                isForSale: true,
-                price: '1000000000000000000',
-                target: '0x6907Af89C3DF4E885820AC19751e63DE2699D9bC',
-                tokenId: 7,
-              },
-            },
-          },
-        },
-      }
-
-      // If is_lazy_minted is true then we need to call redeemToken from contract. It will accept signature and voucher which is both returned from API. If not we need to call buyNFT from contract, it will take token_id directly.
-
-      //   Lets assume the API returned is_lazy_minted =  true then the below is an example of voucher returned
-
       const isLazyMinted = data?.verifyNFTBeforeBuyingEVM?.data?.is_lazy_minted
+      const tokenId = data?.verifyNFTBeforeBuyingEVM?.data?.token_id
+      const price = data?.verifyNFTBeforeBuyingEVM?.data?.price
 
       // // For example
       if (isLazyMinted) {
-        const signature =
-          '0xc11436441fbeed8d51fae4fc4e3e3ffed30a999f677f3eb348a08374ff0e0e7b5de15eebfeff838ce9ab434537adcc8d4ef2a7155f9b6c8ce9b626e073ce71771b'
-
-        const transaction = await contract?.methods
-          ?.redeemToken({
-            ...voucher,
-            signature: signature,
-          })
-          .send({
-            from: account,
-            value: voucher.price,
-          })
+        // see ./BuyLazyNFT.js
+      } else {
+        const transaction = await contract?.methods?.buyNFT(+tokenId).send({
+          from: account,
+          value: price,
+        })
 
         const _receipt = await waitTransactionToConfirm(
           transaction?.transactionHash
         )
         setReceipt(_receipt)
         console.log('---', _receipt)
-      } else {
-        // See ./BuyNFTCode
       }
 
       // Confirm with server confirmNFTBuyEVM(postId, transaction_hash)
@@ -112,10 +86,12 @@ export default function Home() {
       {account?.length ? (
         <div className="m-3">
           <h4 className="text-dark">
-            <strong>Buy Lazy Minted NFT</strong>
+            <strong>Buy Fully Minted NFT</strong>
           </h4>
 
-          <pre>{JSON.stringify(voucher, null, 2)}</pre>
+          <pre>
+            {JSON.stringify(data?.verifyNFTBeforeBuyingEVM?.data, null, 2)}
+          </pre>
           {isLoading ? (
             <Spinner animation="border" role="status" variant="primary">
               <span className="visually-hidden ">Loading...</span>

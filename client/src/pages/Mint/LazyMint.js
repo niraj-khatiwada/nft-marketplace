@@ -20,37 +20,19 @@ export default function Home() {
 
   const [error, setError] = React.useState('')
 
-  const [tokenId, setTokenId] = React.useState() // Token id will be returned along with post id.
-  const [price, setPrice] = React.useState() // Price is what the user set
-
-  const [tokenURI, setTokenURI] = React.useState(
-    'bafkreifs7mbxapo4aei3k66mk6s75oitvs3tkakiugonytlrcau3dwyw6u'
-  ) //  This will be returned along with post id.
+  const voucher = {
+    isAuction: false,
+    isForSale: true,
+    isRedeem: true,
+    price: '3000000000000000',
+    target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
+    tokenId: 1,
+    tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
+  }
 
   const mintToken = async () => {
     try {
       setError('')
-
-      // const voucher = {
-      //   isAuction: false,
-      //   isForSale: true,
-      //   isRedeem: false,
-      //   price: library?.utils?.toWei(price, 'ether'),
-      //   target: account,
-      //   tokenId: +tokenId,
-      //   tokenURI: tokenURI,
-      // }
-
-      // // For example
-      const voucher = {
-        isAuction: false,
-        isForSale: true,
-        isRedeem: true,
-        price: '50000000000000000',
-        target: '0x36C10991DFf0ea1ea2e2982D4e840c2B0544cE2c',
-        tokenId: 4,
-        tokenURI: 'bafkreig5htoszduyx2oas2n6a5jqtqjza7y43tubcirzxcpy4hlffhjcfm',
-      }
 
       const voucherService = new VoucherService(
         contract,
@@ -67,7 +49,7 @@ export default function Home() {
 
       // confirm the post with backend directly now
 
-      console.log(signature, JSON.stringify(voucherParams, null, 2))
+      console.log(signature, JSON.stringify(voucherParams, null, 4))
 
       // Call this graphql mutation for backend confirmation
       // Base64 encode message
@@ -84,8 +66,6 @@ export default function Home() {
     }
   }
 
-  const isDisabled = tokenURI?.trim()?.length == 0 || tokenId == null
-
   return (
     <>
       <Navbar />
@@ -95,40 +75,9 @@ export default function Home() {
             <strong>Lazy Mint</strong>
           </h4>
 
-          <div>
-            <div className="my-2">
-              <label>Token Id: </label>
-              <input
-                className="mx-2"
-                type="number"
-                value={tokenId}
-                step={1}
-                onChange={(evt) =>
-                  !isNaN(evt?.target?.value) && setTokenId(evt?.target?.value)
-                }
-              />
-            </div>
+          <pre>{JSON.stringify(voucher, null, 2)}</pre>
 
-            <div className="my-2">
-              <label>Token URI: </label>
-              <input
-                className="mx-2 w-75"
-                value={tokenURI}
-                onChange={(evt) => setTokenURI(evt?.target?.value)}
-              />
-            </div>
-            <div className="my-2">
-              <label>Price: </label>
-              <input
-                className="mx-2"
-                value={price}
-                onChange={(evt) =>
-                  !isNaN(evt?.target?.value) && setPrice(evt?.target?.value)
-                }
-              />
-            </div>
-          </div>
-          <Button className="my-4" onClick={mintToken} disabled={isDisabled}>
+          <Button className="my-4" onClick={mintToken}>
             Mint
           </Button>
           {error?.length > 0 ? <p className="text-danger">{error}</p> : null}
