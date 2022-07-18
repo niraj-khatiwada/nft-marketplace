@@ -66,7 +66,6 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
     }
 
     function mintToken(NFTVoucher calldata voucher) public payable {
-        require(!voucher.isRedeem);
         address _signer = verifyVoucher(voucher);
         require(_signer == msg.sender && _signer == voucher.target);
         _createNFTItem(
@@ -90,15 +89,15 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
                 ? voucher.target == msg.sender
                 : voucher.target == _signer
         );
-        // Mint
         _createNFTItem(
             voucher.tokenId,
             voucher.tokenURI,
             voucher.price,
-            voucher.isRedeem ? false : voucher.isForSale,
-            voucher.isRedeem ? _signer : msg.sender
+            false,
+            _signer
         );
-        _safeMint(voucher.isRedeem ? _signer : msg.sender, voucher.tokenId);
+        // Mint
+        _safeMint(_signer, voucher.tokenId);
         _setTokenURI(voucher.tokenId, voucher.tokenURI);
         // Transfer
         _mapOwnerToTokenIdOfItemsSold[_signer].push(voucher.tokenId);
@@ -336,10 +335,10 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         NFTItem memory nftItem = _mapTokenIdToNFTItem[tokenId];
         delete _mapTokenIdToNFTItem[tokenId];
         _numberOfItems -= 1;
-        _mapOwnerToItemsCreatedCount[msg.sender] -= 1;
+        _mapOwnerToItemsCreatedCount[nftItem.creator] -= 1;
         if (nftItem.isForSale) {
             _numberOfItemsForSale -= 1;
-            _mapOwnerToItemsForSaleCount[msg.sender] += 1;
+            _mapOwnerToItemsForSaleCount[nftItem.owner] += 1;
         }
     }
 
