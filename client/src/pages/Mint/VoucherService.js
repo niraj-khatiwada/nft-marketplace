@@ -16,6 +16,8 @@ class VoucherService {
     isAuction,
     target,
     isRedeem,
+    startDate,
+    endDate,
   }) {
     const voucher = {
       tokenId,
@@ -25,6 +27,8 @@ class VoucherService {
       isAuction,
       target,
       isRedeem,
+      startDate,
+      endDate,
     }
     const domain = await this._signingDomain()
     const types = {
@@ -37,6 +41,8 @@ class VoucherService {
         { name: 'isAuction', type: 'bool' },
         { name: 'target', type: 'address' },
         { name: 'isRedeem', type: 'bool' },
+        { name: 'startDate', type: 'uint256' },
+        { name: 'endDate', type: 'uint256' },
       ],
     }
     return {

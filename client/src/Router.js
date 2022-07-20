@@ -10,6 +10,9 @@ const LazyLoadedRestoreLazyNFTPage = React.lazy(() =>
   import('./pages/Mint/RestoreNFT')
 )
 const LazyLoadedBuyNFTPage = React.lazy(() => import('./pages/Mint/BuyNFT'))
+const LazyLoadedNFTSaleStatusChangePage = React.lazy(() =>
+  import('./pages/Mint/ChangeLazyNFTSaleStatus')
+)
 
 const LazyLoadedBuyLazyNFTPage = React.lazy(() =>
   import('./pages/Mint/BuyLazyNFT')
@@ -49,6 +52,13 @@ export default function Router() {
             exact
             path="/buy-nft"
             render={(...props) => <LazyLoadedBuyNFTPage {...props} />}
+          />
+          <Route
+            exact
+            path="/change-lazy-sale-status"
+            render={(...props) => (
+              <LazyLoadedNFTSaleStatusChangePage {...props} />
+            )}
           />
           <Route
             exact

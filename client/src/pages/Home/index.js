@@ -13,6 +13,12 @@ function Home() {
 
   const { contract, contractAddress } = useContract()
 
+  const { chainId, network } = useNetwork()
+
+  console.log('--account', account)
+
+  console.log('--chainId', chainId)
+
   return (
     <>
       <Navbar />
@@ -34,6 +40,13 @@ function Home() {
               className="mt-4 bg-warning"
             >
               Restore Lazy Minted NFT
+            </Button>
+            <Button
+              as={Link}
+              to="/change-lazy-sale-status"
+              className="mt-4 bg-primary"
+            >
+              Change Lazy NFT Sale Status
             </Button>
           </div>
           <NFTsForSale />

@@ -106,11 +106,6 @@ export function NFTItem({ item = null, updateItems = () => null }) {
       setIsLoading(true)
       setError('')
 
-      const owner = await contract?.methods?.ownerOf(+tokenId).call()
-      const ownerItemCount = await contract?.methods?.balanceOf(account).call()
-
-      console.log('---owner', owner, ownerItemCount)
-
       const transaction = await contract?.methods?.burnToken(+tokenId).send({
         from: account,
       })
@@ -177,13 +172,6 @@ function SaleStatus({ item = null, onSuccess = () => null }) {
 
   const { mutate, isLoading, isError } = useMutation(
     async () => {
-      // // TODO: Get signature request from backend
-      const signature = await library?.eth?.personal?.sign(
-        JSON.stringify({ contract: contractAddress }),
-        account
-      )
-      // // TODO: Verify this signature with backend
-      console.log('Signature', signature)
       const transaction = await contract?.methods
         ?.changeNFTSaleStatus(
           item?.tokenId,

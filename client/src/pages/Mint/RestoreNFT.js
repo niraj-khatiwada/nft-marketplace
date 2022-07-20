@@ -26,7 +26,7 @@ export default function Home() {
   const voucher = {
     tokenId: 1,
     tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
-    price: '3000000000000000',
+    price: '2000000000000000',
     isForSale: true,
     isRedeem: true,
     isAuction: false,
@@ -68,7 +68,7 @@ export default function Home() {
       */
 
       const signature =
-        '0xb72a7ba5e210259882d841e04978d96d8d249db51e32b745acac13faa47f9fae09cda5c31dae06bcd4d9502bfbbce151bd13167f0982a2664c2ee70a7f461c3b1b'
+        '0x7c3d7a2cc5182e92c85f397c3d1e1cb0004f419248b9fcc48e823f024f2bcf261c8d0972d21924f94d4ffee6e0c8416dfd11072d8e073765b1edaac55328110b1c'
 
       const transaction = await contract?.methods
         ?.mintToken({
