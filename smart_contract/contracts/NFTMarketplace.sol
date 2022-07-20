@@ -10,7 +10,7 @@ import "../node_modules/@openzeppelin/contracts/utils/cryptography/draft-EIP712.
 contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
     bytes32 internal constant V_HASH =
         keccak256(
-            "NFTVoucher(uint256 tokenId,string tokenURI,uint256 price,bool isForSale,bool isAuction,address target,bool isRedeem)"
+            "NFTVoucher(uint256 tokenId,string tokenURI,uint256 price,bool isForSale,bool isAuction,address target,bool isRedeem,uint256 startTime, uint256 endTime)"
         );
 
     struct NFTItem {
@@ -31,6 +31,8 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         bool isAuction;
         address target;
         bool isRedeem;
+        uint256 startTime;
+        uint256 endTime;
     }
 
     uint256 public serviceCharge = 5000; // 5% by default. 1000 -> 1%
@@ -66,6 +68,7 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
     }
 
     function mintToken(NFTVoucher calldata voucher) public payable {
+        require(!voucher.isAuction); // Cannot mint auction type directly
         address _signer = verifyVoucher(voucher);
         require(_signer == msg.sender && _signer == voucher.target);
         _createNFTItem(
@@ -84,6 +87,9 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         require(msg.value == voucher.price);
         address _signer = verifyVoucher(voucher);
         require(_signer != msg.sender);
+        if (voucher.isAuction) {
+            require(block.timestamp > voucher.endTime);
+        }
         require(
             voucher.isAuction
                 ? voucher.target == msg.sender
@@ -286,7 +292,9 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
                     voucher.isForSale,
                     voucher.isAuction,
                     voucher.target,
-                    voucher.isRedeem
+                    voucher.isRedeem,
+                    voucher.startTime,
+                    voucher.endTime
                 )
             )
         );

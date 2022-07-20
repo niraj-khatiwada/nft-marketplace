@@ -4,197 +4,98 @@
       "success": true,
       "message": "Post created successfully. Proceed to minting and confirm to make it live",
       "data": {
-        "postId": "52",
+        "postId": "58",
         "voucher": {
           "isAuction": false,
           "isForSale": true,
           "isRedeem": true,
           "price": "3000000000000000",
           "target": "0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4",
-          "tokenId": 1,
-          "tokenURI": "bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4"
-        }
-      }
-    }
-  }
-}
-
-
-0xb72a7ba5e210259882d841e04978d96d8d249db51e32b745acac13faa47f9fae09cda5c31dae06bcd4d9502bfbbce151bd13167f0982a2664c2ee70a7f461c3b1b {
-  "types": {
-      "EIP712Domain": [
-          {
-              "name": "name",
-              "type": "string"
-          },
-          {
-              "name": "version",
-              "type": "string"
-          },
-          {
-              "name": "chainId",
-              "type": "uint256"
-          },
-          {
-              "name": "verifyingContract",
-              "type": "address"
-          }
-      ],
-      "NFTVoucher": [
-          {
-              "name": "tokenId",
-              "type": "uint256"
-          },
-          {
-              "name": "tokenURI",
-              "type": "string"
-          },
-          {
-              "name": "price",
-              "type": "uint256"
-          },
-          {
-              "name": "isForSale",
-              "type": "bool"
-          },
-          {
-              "name": "isAuction",
-              "type": "bool"
-          },
-          {
-              "name": "target",
-              "type": "address"
-          },
-          {
-              "name": "isRedeem",
-              "type": "bool"
-          }
-      ]
-  },
-  "domain": {
-      "name": "XungibleEIP712",
-      "version": "1",
-      "chainId": 1337,
-      "verifyingContract": "0x468A2faFFaAD33439E52A9F82aA4e0EE83fCDCe6"
-  },
-  "message": {
-      "tokenId": 1,
-      "tokenURI": "bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4",
-      "price": "3000000000000000",
-      "isForSale": true,
-      "isAuction": false,
-      "target": "0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4",
-      "isRedeem": true
-  }
-}
-
-{
-  "data": {
-    "verifyNFTBeforeRestoringToWalletEVM": {
-      "success": true,
-      "message": null,
-      "data": {
-        "id": "52",
-        "token_id": 1,
-        "signature": "0xb72a7ba5e210259882d841e04978d96d8d249db51e32b745acac13faa47f9fae09cda5c31dae06bcd4d9502bfbbce151bd13167f0982a2664c2ee70a7f461c3b1b",
-        "voucher": {
-          "tokenId": 1,
+          "tokenId": 5,
           "tokenURI": "bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4",
-          "price": "3000000000000000",
-          "isForSale": true,
-          "isRedeem": true,
-          "isAuction": false,
-          "target": "0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4"
+          "startDate": "0",
+          "endDate": "0"
         }
       }
     }
   }
 }
 
-// Restore
-{
-  "transactionHash": "0x8c454349c197d76c332367e57bbe8a154f749fea9d13b716847bae3a96f75020",
-  "transactionIndex": 0,
-  "blockHash": "0xf8c551646c05073d0d5319c49303d8f1654d24dc43d797418274d7c353cc2133",
-  "blockNumber": 54,
-  "from": "0x9859c69d69e0f3ab2d8826dc73764d0dc5f050d4",
-  "to": "0x468a2faffaad33439e52a9f82aa4e0ee83fcdce6",
-  "gasUsed": 432288,
-  "cumulativeGasUsed": 432288,
-  "contractAddress": null,
-  "logs": [
-      {
-          "logIndex": 0,
-          "transactionIndex": 0,
-          "transactionHash": "0x8c454349c197d76c332367e57bbe8a154f749fea9d13b716847bae3a96f75020",
-          "blockHash": "0xf8c551646c05073d0d5319c49303d8f1654d24dc43d797418274d7c353cc2133",
-          "blockNumber": 54,
-          "address": "0x468A2faFFaAD33439E52A9F82aA4e0EE83fCDCe6",
-          "data": "0x",
-          "topics": [
-              "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
-              "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "0x0000000000000000000000009859c69d69e0f3ab2d8826dc73764d0dc5f050d4",
-              "0x0000000000000000000000000000000000000000000000000000000000000001"
-          ],
-          "type": "mined",
-          "removed": false,
-          "id": "log_1cc10be6"
-      }
-  ],
-  "status": true,
-  "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000042000000000000000000000080008000000000000000000040000000000000000000020000000020000000040000000000800000000000000000000000010000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000000"
-}
 
-//Burn
-{
-  "transactionHash": "0xbb89fb1a45d3878d5ea69482e813f6b395d1017515c09b4cdb4c3bddc643db42",
-  "transactionIndex": 0,
-  "blockHash": "0xbd8295f482e18b739452019f2af65120fb78b5f40e73e5809be70d5985938a65",
-  "blockNumber": 55,
-  "from": "0x9859c69d69e0f3ab2d8826dc73764d0dc5f050d4",
-  "to": "0x468a2faffaad33439e52a9f82aa4e0ee83fcdce6",
-  "gasUsed": 77153,
-  "cumulativeGasUsed": 77153,
-  "contractAddress": null,
-  "logs": [
-      {
-          "logIndex": 0,
-          "transactionIndex": 0,
-          "transactionHash": "0xbb89fb1a45d3878d5ea69482e813f6b395d1017515c09b4cdb4c3bddc643db42",
-          "blockHash": "0xbd8295f482e18b739452019f2af65120fb78b5f40e73e5809be70d5985938a65",
-          "blockNumber": 55,
-          "address": "0x468A2faFFaAD33439E52A9F82aA4e0EE83fCDCe6",
-          "data": "0x",
-          "topics": [
-              "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925",
-              "0x0000000000000000000000009859c69d69e0f3ab2d8826dc73764d0dc5f050d4",
-              "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "0x0000000000000000000000000000000000000000000000000000000000000001"
-          ],
-          "type": "mined",
-          "removed": false,
-          "id": "log_f6e224ee"
-      },
-      {
-          "logIndex": 1,
-          "transactionIndex": 0,
-          "transactionHash": "0xbb89fb1a45d3878d5ea69482e813f6b395d1017515c09b4cdb4c3bddc643db42",
-          "blockHash": "0xbd8295f482e18b739452019f2af65120fb78b5f40e73e5809be70d5985938a65",
-          "blockNumber": 55,
-          "address": "0x468A2faFFaAD33439E52A9F82aA4e0EE83fCDCe6",
-          "data": "0x",
-          "topics": [
-              "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
-              "0x0000000000000000000000009859c69d69e0f3ab2d8826dc73764d0dc5f050d4",
-              "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "0x0000000000000000000000000000000000000000000000000000000000000001"
-          ],
-          "type": "mined",
-          "removed": false,
-          "id": "log_532a991d"
-      }
-  ],
-  "status": true,
-  "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000242000000000000000000000080008000000000000000000040000000000000000000020000000020000000040000000000800000000000000000000000010000000000000000000000000000000000000000000000000002000000000000000000000020000000000000000000000200000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000060000010000000000000000000000000000000000000000000000000000000000000"
+0xb3c0c7e2df9576f0308f8c512d097f1d7259bf75660c984dea26ac1386666c10245212acb60c8c0b9dc3cb38a3dcdb41284cde729c8b5a9200bb823b9646196f1c {
+    "types": {
+        "EIP712Domain": [
+            {
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "name": "version",
+                "type": "string"
+            },
+            {
+                "name": "chainId",
+                "type": "uint256"
+            },
+            {
+                "name": "verifyingContract",
+                "type": "address"
+            }
+        ],
+        "NFTVoucher": [
+            {
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "name": "tokenURI",
+                "type": "string"
+            },
+            {
+                "name": "price",
+                "type": "uint256"
+            },
+            {
+                "name": "isForSale",
+                "type": "bool"
+            },
+            {
+                "name": "isAuction",
+                "type": "bool"
+            },
+            {
+                "name": "target",
+                "type": "address"
+            },
+            {
+                "name": "isRedeem",
+                "type": "bool"
+            },
+            {
+                "name": "startDate",
+                "type": "uint256"
+            },
+            {
+                "name": "endDate",
+                "type": "uint256"
+            }
+        ]
+    },
+    "domain": {
+        "name": "XungibleEIP712",
+        "version": "1",
+        "chainId": 1337,
+        "verifyingContract": "0x7624eC6AC2fEa6AEd9D4790a860E12259e665294"
+    },
+    "message": {
+        "tokenId": 5,
+        "tokenURI": "bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4",
+        "price": "3000000000000000",
+        "isForSale": true,
+        "isAuction": false,
+        "target": "0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4",
+        "isRedeem": true,
+        "startDate": "0",
+        "endDate": "0"
+    }
 }
