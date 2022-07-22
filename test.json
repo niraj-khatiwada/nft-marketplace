@@ -1,28 +1,27 @@
 {
   "data": {
-    "createPost": {
+    "verifyNFTBeforeBiddingEVM": {
       "success": true,
-      "message": "Post created successfully. Proceed to minting and confirm to make it live",
+      "message": null,
       "data": {
-        "postId": "58",
-        "voucher": {
-          "isAuction": false,
-          "isForSale": true,
-          "isRedeem": true,
-          "price": "3000000000000000",
-          "target": "0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4",
-          "tokenId": 5,
-          "tokenURI": "bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4",
-          "startDate": "0",
-          "endDate": "0"
+        "id": "61",
+        "token_id": 8,
+        "last_bid_amount": null,
+        "should_bid_atleast_amount": 0.003,
+        "minimum_bid_amount": 0.003,
+        "bid_voucher": {
+          "tokenId": 8,
+          "startDate": "1658421842000",
+          "endDate": "1658771042000",
+          "amount": "3000000000000000",
+          "timestamp": "1658500688911"
         }
       }
     }
   }
 }
 
-
-0xb3c0c7e2df9576f0308f8c512d097f1d7259bf75660c984dea26ac1386666c10245212acb60c8c0b9dc3cb38a3dcdb41284cde729c8b5a9200bb823b9646196f1c {
+0xf8b545f1a0fcd0dd147c68bbc977ecae4204a14e5447e35a70e156f69905eeb4600b9bfad0a4da7d43bbfa8e5af45f7706ab078a8adc248bcee94d09933f77bd1b {
     "types": {
         "EIP712Domain": [
             {
@@ -42,34 +41,14 @@
                 "type": "address"
             }
         ],
-        "NFTVoucher": [
+        "BidVoucher": [
             {
                 "name": "tokenId",
                 "type": "uint256"
             },
             {
-                "name": "tokenURI",
-                "type": "string"
-            },
-            {
-                "name": "price",
+                "name": "amount",
                 "type": "uint256"
-            },
-            {
-                "name": "isForSale",
-                "type": "bool"
-            },
-            {
-                "name": "isAuction",
-                "type": "bool"
-            },
-            {
-                "name": "target",
-                "type": "address"
-            },
-            {
-                "name": "isRedeem",
-                "type": "bool"
             },
             {
                 "name": "startDate",
@@ -77,6 +56,10 @@
             },
             {
                 "name": "endDate",
+                "type": "uint256"
+            },
+            {
+                "name": "timestamp",
                 "type": "uint256"
             }
         ]
@@ -88,14 +71,91 @@
         "verifyingContract": "0x7624eC6AC2fEa6AEd9D4790a860E12259e665294"
     },
     "message": {
-        "tokenId": 5,
-        "tokenURI": "bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4",
-        "price": "3000000000000000",
-        "isForSale": true,
-        "isAuction": false,
-        "target": "0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4",
-        "isRedeem": true,
-        "startDate": "0",
-        "endDate": "0"
+        "tokenId": 8,
+        "startDate": "1658421842000",
+        "endDate": "1658771042000",
+        "amount": "3000000000000000",
+        "timestamp": "1658500688911"
+    }
+}
+
+{
+    "data": {
+      "verifyNFTBeforeBiddingEVM": {
+        "success": true,
+        "message": null,
+        "data": {
+          "id": "61",
+          "token_id": 8,
+          "last_bid_amount": 0.003,
+          "should_bid_atleast_amount": 0.0033,
+          "minimum_bid_amount": 0.003,
+          "bid_voucher": {
+            "tokenId": 8,
+            "startDate": "1658421842000",
+            "endDate": "1658771042000",
+            "amount": "3300000000000000",
+            "timestamp": "1658513626181"
+          }
+        }
+      }
+    }
+  }
+
+  0xedb2fbe5c87a071e4bb8d0bd86a0322472dfcb447ef778f6289e5cf27b41f365230a5f7f9808116bcc5d7e22dab1e6d86f7346339ef7d8356ec5f87d8824212a1b {
+    "types": {
+        "EIP712Domain": [
+            {
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "name": "version",
+                "type": "string"
+            },
+            {
+                "name": "chainId",
+                "type": "uint256"
+            },
+            {
+                "name": "verifyingContract",
+                "type": "address"
+            }
+        ],
+        "BidVoucher": [
+            {
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "name": "startDate",
+                "type": "uint256"
+            },
+            {
+                "name": "endDate",
+                "type": "uint256"
+            },
+            {
+                "name": "timestamp",
+                "type": "uint256"
+            }
+        ]
+    },
+    "domain": {
+        "name": "XungibleEIP712",
+        "version": "1",
+        "chainId": 1337,
+        "verifyingContract": "0x7624eC6AC2fEa6AEd9D4790a860E12259e665294"
+    },
+    "message": {
+        "tokenId": 8,
+        "startDate": "1658421842000",
+        "endDate": "1658771042000",
+        "amount": "3300000000000000",
+        "timestamp": "1658513626181"
     }
 }
