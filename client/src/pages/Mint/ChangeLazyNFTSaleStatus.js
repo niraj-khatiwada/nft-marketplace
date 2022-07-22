@@ -9,13 +9,15 @@ import useNetwork from '../../hooks/useNetwork'
 import VoucherService from './VoucherService'
 
 const voucher = {
-  tokenId: 1,
-  tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
-  price: '3000000000000000',
-  isForSale: true,
   isAuction: false,
-  target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
+  isForSale: true,
   isRedeem: true,
+  price: '3000000000000000',
+  target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
+  tokenId: 5,
+  startDate: '0',
+  endDate: '0',
+  tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
 }
 
 export default function Home() {

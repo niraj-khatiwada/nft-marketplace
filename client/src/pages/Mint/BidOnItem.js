@@ -13,7 +13,7 @@ export default function Home() {
   const {
     account,
     library,
-    custom: { waitTransactionToConfirm, signTypedDataForVoucher },
+    custom: { signTypedDataForVoucher },
   } = useWeb3()
   const { contract, contractAddress } = useContract()
   const { chainId } = useNetwork()
@@ -22,15 +22,11 @@ export default function Home() {
   const [error, setError] = React.useState('')
 
   const voucher = {
-    isAuction: true,
-    isForSale: true,
-    isRedeem: true,
-    price: '3000000000000000',
-    target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
     tokenId: 8,
-    tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
-    startDate: '1658425442000',
+    startDate: '1658421842000',
     endDate: '1658771042000',
+    amount: '3300000000000000',
+    timestamp: '1658513626181',
   }
 
   const mintToken = async () => {
@@ -42,12 +38,13 @@ export default function Home() {
         contractAddress,
         chainId
       )
-      const voucherParams = await voucherService.createVoucherParams(voucher)
+      const voucherParams = await voucherService.createBidVoucherParams(voucher)
       const signature = await signTypedDataForVoucher({
         domain: voucherParams.domain,
         types: voucherParams.types,
         message: voucherParams.message,
         from: account,
+        primaryType: 'BidVoucher',
       })
 
       // confirm the post with backend directly now
@@ -57,12 +54,9 @@ export default function Home() {
       // Call this graphql mutation for backend confirmation
       // Base64 encode message
 
-      // const {data} =  await confirmPostEVM({message: btoa(JSON.stringify(voucherParams.message)), signature})
+      // const {data} =  await confirmBidOnItemEVM({message: btoa(JSON.stringify(voucherParams.message)), signature})
 
       // isSuccess = data?.confirmPostEVM?.success
-
-      // If success go to post details
-      // else throw error
     } catch (error) {
       console.log('Mint Error', error)
       setError('Something went wrong...')
@@ -75,20 +69,19 @@ export default function Home() {
       {account?.length ? (
         <div className="m-3">
           <h4 className="text-dark">
-            <strong>Lazy Mint</strong>
+            <strong>Bid on Item</strong>
           </h4>
 
           <pre>{JSON.stringify(voucher, null, 2)}</pre>
-          {voucher.isAuction ? (
-            <h5>
-              Starts in {getDateFromNow(new Date(+voucher.startDate))}
-              {' | '}
-              {formatDate(new Date(+voucher.startDate))}
-            </h5>
-          ) : null}
+          <h5>
+            Start{+new Date() > +voucher.startDate ? 'ed' : "'s"}{' '}
+            {getDateFromNow(new Date(+voucher.startDate))}
+            {' | '}
+            {formatDate(new Date(+voucher.startDate))}
+          </h5>
 
           <Button className="my-4" onClick={mintToken}>
-            Mint
+            Bid
           </Button>
           {error?.length > 0 ? <p className="text-danger">{error}</p> : null}
         </div>

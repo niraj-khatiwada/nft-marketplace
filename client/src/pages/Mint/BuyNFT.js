@@ -6,7 +6,6 @@ import Navbar from '../../components/Navbar'
 import useWeb3 from '../../hooks/useWeb3'
 import useContract from '../../hooks/useContract'
 import useNetwork from '../../hooks/useNetwork'
-import VoucherService from './VoucherService'
 
 export default function Home() {
   const {

@@ -48,6 +48,9 @@ function Home() {
             >
               Change Lazy NFT Sale Status
             </Button>
+            <Button as={Link} to="/bid" className="mt-4 bg-primary">
+              Bid on Item
+            </Button>
           </div>
           <NFTsForSale />
         </>

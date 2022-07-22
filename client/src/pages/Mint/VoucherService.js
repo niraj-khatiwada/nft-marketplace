@@ -52,6 +52,40 @@ class VoucherService {
     }
   }
 
+  async createBidVoucherParams({
+    tokenId,
+    startDate,
+    endDate,
+    signer,
+    amount,
+    timestamp,
+  }) {
+    const bidVoucher = {
+      tokenId,
+      startDate,
+      endDate,
+      signer,
+      amount,
+      timestamp,
+    }
+    const domain = await this._signingDomain()
+    const types = {
+      EIP712Domain: domain.types,
+      BidVoucher: [
+        { name: 'tokenId', type: 'uint256' },
+        { name: 'amount', type: 'uint256' },
+        { name: 'startDate', type: 'uint256' },
+        { name: 'endDate', type: 'uint256' },
+        { name: 'timestamp', type: 'uint256' },
+      ],
+    }
+    return {
+      types,
+      domain: domain.data,
+      message: bidVoucher,
+    }
+  }
+
   async _signingDomain() {
     return {
       data: {

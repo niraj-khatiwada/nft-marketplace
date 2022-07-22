@@ -9,6 +9,9 @@ const LazyLoadedProfilePage = React.lazy(() => import('./pages/Profile/index'))
 const LazyLoadedRestoreLazyNFTPage = React.lazy(() =>
   import('./pages/Mint/RestoreNFT')
 )
+const LazyLoadedBidOnItemPage = React.lazy(() =>
+  import('./pages/Mint/BidOnItem')
+)
 const LazyLoadedBuyNFTPage = React.lazy(() => import('./pages/Mint/BuyNFT'))
 const LazyLoadedNFTSaleStatusChangePage = React.lazy(() =>
   import('./pages/Mint/ChangeLazyNFTSaleStatus')
@@ -59,6 +62,11 @@ export default function Router() {
             render={(...props) => (
               <LazyLoadedNFTSaleStatusChangePage {...props} />
             )}
+          />
+          <Route
+            exact
+            path="/bid"
+            render={(...props) => <LazyLoadedBidOnItemPage {...props} />}
           />
           <Route
             exact

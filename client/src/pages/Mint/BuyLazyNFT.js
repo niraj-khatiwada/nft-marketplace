@@ -6,7 +6,6 @@ import Navbar from '../../components/Navbar'
 import useWeb3 from '../../hooks/useWeb3'
 import useContract from '../../hooks/useContract'
 import useNetwork from '../../hooks/useNetwork'
-import VoucherService from './VoucherService'
 
 export default function Home() {
   const {
@@ -26,10 +25,12 @@ export default function Home() {
     isRedeem: true,
     isAuction: false,
     isForSale: true,
-    price: '50000000000000000',
-    target: '0x36C10991DFf0ea1ea2e2982D4e840c2B0544cE2c',
-    tokenId: 4,
-    tokenURI: 'bafkreig5htoszduyx2oas2n6a5jqtqjza7y43tubcirzxcpy4hlffhjcfm',
+    price: '3000000000000000',
+    target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
+    tokenId: 5,
+    tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
+    startDate: '0',
+    endDate: '0',
   }
 
   const redeemToken = async () => {
@@ -47,18 +48,21 @@ export default function Home() {
             success: true,
             message: null,
             data: {
-              id: '35',
+              id: '58',
               is_lazy_minted: true,
-              token_id: 7,
+              token_id: 5,
               signature:
-                '0x819dcb81561b9a089e680a274c8b5fc51803c5a50959ce06a878cc6c21e4136b73d92bbdc1c2b1f20596f9b06f7d899d4fcdbf538a09f5b3388e1c6c0cd2f5391b',
+                '0xb3c0c7e2df9576f0308f8c512d097f1d7259bf75660c984dea26ac1386666c10245212acb60c8c0b9dc3cb38a3dcdb41284cde729c8b5a9200bb823b9646196f1c',
+              price: null,
               voucher: {
                 isRedeem: true,
                 isAuction: false,
                 isForSale: true,
-                price: '1000000000000000000',
-                target: '0x6907Af89C3DF4E885820AC19751e63DE2699D9bC',
-                tokenId: 7,
+                price: '3000000000000000',
+                target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
+                tokenId: 5,
+                tokenURI:
+                  'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
               },
             },
           },
@@ -74,7 +78,7 @@ export default function Home() {
       // // For example
       if (isLazyMinted) {
         const signature =
-          '0xc11436441fbeed8d51fae4fc4e3e3ffed30a999f677f3eb348a08374ff0e0e7b5de15eebfeff838ce9ab434537adcc8d4ef2a7155f9b6c8ce9b626e073ce71771b'
+          '0xb3c0c7e2df9576f0308f8c512d097f1d7259bf75660c984dea26ac1386666c10245212acb60c8c0b9dc3cb38a3dcdb41284cde729c8b5a9200bb823b9646196f1c'
 
         const transaction = await contract?.methods
           ?.redeemToken({

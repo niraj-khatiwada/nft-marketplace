@@ -15,6 +15,8 @@ const DEFAULT_BLOCKS_TO_WAIT = 0
 export default function useWeb3() {
   const web3 = useWeb3React()
 
+  console.log(web3)
+
   const [isLoading, setIsLoading] = React.useState(false)
   const firstRef = React.useRef(true)
 
@@ -147,7 +149,13 @@ export default function useWeb3() {
     }
   }
 
-  function signTypedDataForVoucher({ domain, types, message, from }) {
+  function signTypedDataForVoucher({
+    domain,
+    types,
+    message,
+    from,
+    primaryType = 'NFTVoucher',
+  }) {
     return new Promise((resolve, reject) =>
       web3.library?.currentProvider?.send(
         {
@@ -158,7 +166,7 @@ export default function useWeb3() {
               domain,
               types,
               message,
-              primaryType: 'NFTVoucher',
+              primaryType,
             }),
           ],
           from: from,
