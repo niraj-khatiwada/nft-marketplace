@@ -125,6 +125,7 @@ export default function Home() {
           <Button className="my-4" onClick={mintToken} disabled={isDisabled}>
             Mint
           </Button>
+
           {error?.length > 0 ? <p className="text-danger">{error}</p> : null}
         </div>
       ) : null}

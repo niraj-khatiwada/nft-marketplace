@@ -16,6 +16,13 @@ const LazyLoadedBuyNFTPage = React.lazy(() => import('./pages/Mint/BuyNFT'))
 const LazyLoadedNFTSaleStatusChangePage = React.lazy(() =>
   import('./pages/Mint/ChangeLazyNFTSaleStatus')
 )
+const LazyLoadedBidAcceptanceSigningPage = React.lazy(() =>
+  import('./pages/Mint/BidAcceptanceSign')
+)
+
+const LazyLoadedClaimAuctionItemPage = React.lazy(() =>
+  import('./pages/Mint/ClaimAuctionItem')
+)
 
 const LazyLoadedBuyLazyNFTPage = React.lazy(() =>
   import('./pages/Mint/BuyLazyNFT')
@@ -72,6 +79,18 @@ export default function Router() {
             exact
             path="/profile"
             render={(...props) => <LazyLoadedProfilePage {...props} />}
+          />
+          <Route
+            exact
+            path="/sign-bid-acceptance"
+            render={(...props) => (
+              <LazyLoadedBidAcceptanceSigningPage {...props} />
+            )}
+          />
+          <Route
+            exact
+            path="/claim-auction-item"
+            render={(...props) => <LazyLoadedClaimAuctionItemPage {...props} />}
           />
         </Switch>
       </React.Suspense>

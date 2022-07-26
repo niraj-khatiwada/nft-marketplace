@@ -51,6 +51,20 @@ function Home() {
             <Button as={Link} to="/bid" className="mt-4 bg-primary">
               Bid on Item
             </Button>
+            <Button
+              as={Link}
+              to="/sign-bid-acceptance"
+              className="mt-4 bg-primary"
+            >
+              Accept Bid
+            </Button>
+            <Button
+              as={Link}
+              to="/claim-auction-item"
+              className="mt-4 bg-primary"
+            >
+              Claim Auction Item
+            </Button>
           </div>
           <NFTsForSale />
         </>

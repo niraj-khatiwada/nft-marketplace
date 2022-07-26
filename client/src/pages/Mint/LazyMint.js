@@ -27,10 +27,10 @@ export default function Home() {
     isRedeem: true,
     price: '3000000000000000',
     target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
-    tokenId: 8,
+    tokenId: 1,
     tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
-    startDate: '1658425442000',
-    endDate: '1658771042000',
+    startDate: '1658849764000',
+    endDate: '1658850904000',
   }
 
   const mintToken = async () => {
