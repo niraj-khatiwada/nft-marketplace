@@ -1,5 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useWeb3React } from '@web3-react/core'
+
+import { getConnectorName } from '../../helpers/connectors'
 
 import { Button } from 'react-bootstrap'
 import Navbar from '../../components/Navbar'
@@ -10,14 +13,6 @@ import useNetwork from '../../hooks/useNetwork'
 
 function Home() {
   const { account, library } = useWeb3()
-
-  const { contract, contractAddress } = useContract()
-
-  const { chainId, network } = useNetwork()
-
-  console.log('--account', account)
-
-  console.log('--chainId', chainId)
 
   return (
     <>

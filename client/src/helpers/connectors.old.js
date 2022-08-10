@@ -1,7 +1,5 @@
-import { initializeConnector } from '@web3-react/core'
-import { WalletConnect } from '@web3-react/walletconnect'
-import { MetaMask } from '@web3-react/metamask'
-import { Network } from '@web3-react/network'
+import { InjectedConnector } from '@web3-react/injected-connector'
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
 const localChainId = process.env.REACT_APP_CHAIN_ID
 const mode = process.env.REACT_APP_MODE
@@ -32,7 +30,7 @@ const NETWORK_MAPPING = {
 
 export const RPC_URLS = {
   1: 'https://mainnet.infura.io/v3/',
-  4: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+  4: 'https://rinkeby.infura.io/v3/981bab6ba769415fbec4cedf4120d0b9',
   137: 'https://polygon-rpc.com/',
   80001: 'https://rpc-mumbai.maticvigil.com/',
   [localChainId]: process.env.REACT_APP_RPC_SERVER,
@@ -46,7 +44,7 @@ export const CURRENCY = {
   1337: 'ETH',
 }
 
-export const CHAIN_IDS = Object.keys(
+const CHAIN_IDS = Object.keys(
   NETWORK_MAPPING?.[
     mode === 'production'
       ? 'mainnet'
@@ -56,37 +54,22 @@ export const CHAIN_IDS = Object.keys(
   ]
 )?.map((chainId) => +chainId)
 
-export const [metamask, metamaskHooks] = initializeConnector(
-  (actions) => new MetaMask({ actions })
-)
+export const injected = new InjectedConnector({
+  supportedChainIds: CHAIN_IDS,
+})
 
-export const [walletconnect, walletConnectHooks] = initializeConnector(
-  (actions) =>
-    new WalletConnect({
-      defaultChainId: CHAIN_IDS[0],
-      actions,
-      options: {
-        rpc: RPC_URLS,
-        qrcode: true,
-        clientMeta: {
-          url: process.env.REACT_APP_DOMAIN ?? '',
-          name: 'Xungible',
-          description: 'NFT Marketplace',
-          icons: [],
-        },
-      },
-    })
-)
+export const walletconnect = new WalletConnectConnector({
+  rpc: RPC_URLS,
+  qrcode: true,
+  pollingInterval: 15000,
+  supportedChainIds: CHAIN_IDS,
+  clientMeta: { name: 'Xungible', description: 'NFT Marketplace', icons: [] },
+})
 
-export const [network, networkHooks] = initializeConnector(
-  (actions) =>
-    new Network({ actions, urlMap: RPC_URLS, defaultChainId: CHAIN_IDS[0] })
-)
-
-export function getConnectorName(connector) {
-  if (connector instanceof MetaMask) return 'METAMASK'
-  if (connector instanceof WalletConnect) return 'WALLET_CONNECT'
-  return 'UNKNOWN'
+export function resetWalletConnector(connector) {
+  if (connector && connector instanceof WalletConnectConnector) {
+    connector.walletConnectProvider = undefined
+  }
 }
 
 // Info

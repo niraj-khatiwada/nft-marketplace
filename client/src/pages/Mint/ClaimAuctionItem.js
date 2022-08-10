@@ -28,25 +28,26 @@ export default function Home() {
         success: true,
         message: null,
         data: {
-          id: '5',
+          id: '9',
           signature:
-            '0xc048126c71ddab7aa9200ad6bd893e38447ea41840c898e206675b1024e66b426cdcd04876d21a9578b45ae7bfc3ca830e2de275ad8adcaae16237325154202d1c',
+            '0x9e0a87728c5c5aa3d128d6c00dd1fe287aea0fa71e74dc0df05f76bacb253c144ea22f767b36ab89418073f5cefabdc33ffa65df088216b65b309d8a2e85733d1c',
           voucher: {
-            tokenId: 1,
+            tokenId: 2,
             tokenURI:
               'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
             isForSale: true,
             isRedeem: true,
             isAuction: true,
-            price: '900000000000000000',
-            startDate: '1658849764000',
-            endDate: '1658850904000',
-            target: '0x6907Af89C3DF4E885820AC19751e63DE2699D9bC',
+            price: '800000000000000000',
+            startDate: '1658860619000',
+            endDate: '1658861159000',
+            target: '0x8F022D290F1DD3e0e5f1eABC215FF639BF7c0Ac4',
           },
         },
       },
     },
   }
+
   const redeemToken = async () => {
     try {
       setIsLoading(true)

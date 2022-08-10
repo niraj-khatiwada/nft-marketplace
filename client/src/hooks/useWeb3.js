@@ -1,82 +1,257 @@
-// @ts-check
 import React from 'react'
 import { useWeb3React } from '@web3-react/core'
+import Web3 from 'web3'
 
 import {
-  injected,
+  metamask,
+  metamaskHooks,
   walletconnect,
-  resetWalletConnector,
+  walletConnectHooks,
+  CURRENCY,
+  CHAIN_IDS,
+  getConnectorName as _getConnectorName,
 } from '../helpers/connectors'
-import { CURRENCY } from '../helpers/connectors'
 
 const DEFAULT_INTERVAL = 500
 const DEFAULT_BLOCKS_TO_WAIT = 0
 
+const {
+  useChainId: useChainIdFromMetamask,
+  useIsActive: useIsMetamaskActive,
+  useIsActivating,
+} = metamaskHooks
+const {
+  useChainId: useChainIdFromWalletConnect,
+  useIsActive: useIsWalletConnectActive,
+} = walletConnectHooks
+
+export const errorsMapping = {
+  UnsupportedChainIdError: {
+    name: 'UnsupportedChainIdError',
+    message: 'Chain Id is not supported',
+  },
+  NoMetaMaskError: {
+    name: 'NoMetaMaskError',
+    message:
+      'Metamask extension is not installed or is not supported in this platform',
+  },
+}
+
 export default function useWeb3() {
+  const [error, setError] = React.useState(null)
+  const walletConnectedRef = React.useRef(null)
+  const mountedRef = React.useRef(false)
+
   const web3 = useWeb3React()
 
-  console.log(web3)
+  const chainId = web3?.chainId
+
+  const chainIdFromMetamask = useChainIdFromMetamask()
+  const chainIdFromWalletConnect = useChainIdFromWalletConnect()
+
+  const isMetamaskActive = useIsMetamaskActive()
+  const isWalletConnectActive = useIsWalletConnectActive()
 
   const [isLoading, setIsLoading] = React.useState(false)
-  const firstRef = React.useRef(true)
 
-  const disconnectWallet = () => {
+  const isValidChainID = React.useMemo(
+    () => (typeof chainId === 'number' ? CHAIN_IDS.includes(chainId) : null),
+    [chainId]
+  )
+
+  const connectorName = React.useMemo(
+    () => (isValidChainID ? _getConnectorName(web3.connector) : null),
+    [web3.connector, isValidChainID]
+  )
+
+  const library = React.useMemo(
+    () =>
+      web3 == null ||
+      web3.account == null ||
+      connectorName == null ||
+      connectorName === 'UNKNOWN'
+        ? null
+        : new Web3(
+            connectorName === 'METAMASK'
+              ? metamask.provider
+              : walletconnect.provider
+          ),
+    [
+      web3,
+      metamask.provider,
+      walletconnect.provider,
+      connectorName,
+      chainIdFromMetamask,
+      chainIdFromWalletConnect,
+    ]
+  )
+
+  const disconnectWallet = React.useCallback(() => {
     try {
       setIsLoading(true)
-      web3.deactivate()
+      setError(null)
+      if (web3?.connector?.deactivate) {
+        web3.connector.deactivate()
+      } else {
+        web3?.connector?.resetState()
+      }
       localStorage.removeItem('connector')
-      localStorage.removeItem('walletconnect')
-      localStorage.removeItem('WALLETCONNECT_DEEPLINK_CHOICE')
-    } catch (ex) {
-      console.log(ex)
+      walletConnectedRef.current = null
+    } catch (error) {
+      console.log('Wallet disconnect error', error)
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [web3])
 
-  const connectMetamask = async () => {
+  const connectMetamask = React.useCallback(async () => {
     try {
       setIsLoading(true)
-      await web3.activate(injected)
+      const isValid = CHAIN_IDS.includes(chainIdFromMetamask)
+      if (!(chainIdFromMetamask == null) && !isValid) {
+        setError(errorsMapping.UnsupportedChainIdError)
+        setIsLoading(false)
+        return
+      }
+      await metamask.activate(isValid ? chainIdFromMetamask : CHAIN_IDS[0])
       window.localStorage.setItem('connector', 'metamask')
-      // connected to metamask
-    } catch (ex) {
-      console.log(ex)
-      disconnectWallet()
+      window.localStorage.setItem(
+        'chainId',
+        `${isValid ? chainIdFromMetamask : CHAIN_IDS[0]}`
+      )
+      walletConnectedRef.current = 'METAMASK'
+    } catch (_error) {
+      console.log('Metamask Wallet Connection Issue', _error)
+      if (_error?.name === 'NoMetaMaskError') {
+        setError(errorsMapping.NoMetaMaskError)
+      }
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [chainIdFromMetamask, metamask])
 
-  const connectWalletConnect = async () => {
+  const connectWalletConnect = React.useCallback(async () => {
     try {
       setIsLoading(true)
-      resetWalletConnector(walletconnect)
-      await web3.activate(walletconnect)
-      window.localStorage.setItem('connector', 'walletconnect')
-    } catch (ex) {
-      console.log(ex)
-      disconnectWallet()
+      const isValid = CHAIN_IDS.includes(chainIdFromWalletConnect)
+      if (!(chainIdFromWalletConnect == null) && !isValid) {
+        setError(errorsMapping.UnsupportedChainIdError)
+        setIsLoading(false)
+        return
+      }
+      await walletconnect.activate(
+        isValid ? chainIdFromWalletConnect : CHAIN_IDS[0]
+      )
+
+      window.localStorage.setItem('connector', 'wallet_connect')
+      walletConnectedRef.current = 'WALLET_CONNECT'
+    } catch (error) {
+      console.log('Wallet Connect connection issue', error)
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [chainIdFromWalletConnect, walletconnect])
 
   React.useEffect(() => {
-    if (!(web3 == null) && firstRef.current) {
-      firstRef.current = false
-      const savedConnector = window.localStorage.getItem('connector')
-      switch (savedConnector) {
-        case 'metamask':
+    if (walletConnectedRef.current === 'METAMASK') {
+      if (isMetamaskActive) {
+        if (
+          !(chainIdFromMetamask == null) &&
+          !CHAIN_IDS.includes(chainIdFromMetamask)
+        ) {
+          setError(errorsMapping.UnsupportedChainIdError)
+        } else {
+          setError(null)
+        }
+      } else {
+        if (CHAIN_IDS.includes(chainIdFromMetamask)) {
+          setError(null)
           connectMetamask()
-          break
-        case 'walletconnect':
+        }
+      }
+    } else if (walletConnectedRef.current === 'WALLET_CONNECT') {
+      if (isWalletConnectActive) {
+        if (
+          !(chainIdFromWalletConnect == null) &&
+          !CHAIN_IDS.includes(chainIdFromWalletConnect)
+        ) {
+          setError(errorsMapping.UnsupportedChainIdError)
+        } else {
+          setError(null)
+        }
+      } else {
+        if (CHAIN_IDS.includes(chainIdFromWalletConnect)) {
+          setError(null)
           connectWalletConnect()
-          break
-        default:
+        }
       }
     }
-  }, [web3 == null, connectMetamask, connectWalletConnect])
+  }, [
+    chainIdFromMetamask,
+    isMetamaskActive,
+    connectMetamask,
+    chainIdFromWalletConnect,
+    isWalletConnectActive,
+    connectWalletConnect,
+  ])
+
+  React.useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true
+      if (isMetamaskActive) {
+        if (
+          !(chainIdFromMetamask == null) &&
+          !CHAIN_IDS.includes(chainIdFromMetamask)
+        ) {
+          // disconnectWallet()
+        } else {
+          walletConnectedRef.current = 'METAMASK'
+        }
+      } else if (isWalletConnectActive) {
+        if (
+          !(chainIdFromWalletConnect == null) &&
+          !CHAIN_IDS.includes(chainIdFromWalletConnect)
+        ) {
+          // disconnectWallet()
+        } else {
+          walletConnectedRef.current = 'WALLET_CONNECT'
+        }
+      }
+    }
+  }, [
+    chainIdFromMetamask,
+    isMetamaskActive,
+    // disconnectWallet,
+    chainIdFromWalletConnect,
+    isWalletConnectActive,
+  ])
+
+  React.useEffect(() => {
+    if (isMetamaskActive) {
+      walletConnectedRef.current = 'METAMASK'
+      // if (!(chainIdFromMetamask == null)) {
+      //   if (CHAIN_IDS.includes(chainIdFromMetamask)) {
+      //     setError(null)
+      //   } else {
+      //     setError(errorsMapping.UnsupportedChainIdError)
+      //   }
+      // }
+    } else if (isWalletConnectActive) {
+      walletConnectedRef.current = 'WALLET_CONNECT'
+      // if (!(chainIdFromWalletConnect == null)) {
+      //   if (CHAIN_IDS.includes(chainIdFromWalletConnect)) {
+      //     setError(null)
+      //   } else {
+      //     setError(errorsMapping.UnsupportedChainIdError)
+      //   }
+      // }
+    }
+  }, [
+    isMetamaskActive,
+    // chainIdFromMetamask,
+    // chainIdFromWalletConnect,
+    isWalletConnectActive,
+  ])
 
   const formatBalance = (balance) => {
     return !(balance == null)
@@ -89,7 +264,7 @@ export default function useWeb3() {
     const blocksToWait = DEFAULT_BLOCKS_TO_WAIT
     var transactionReceiptAsync = async function (txnHash, resolve, reject) {
       try {
-        var receipt = web3.library?.eth?.getTransactionReceipt(txnHash)
+        var receipt = library?.eth?.getTransactionReceipt(txnHash)
         if (!receipt) {
           setTimeout(function () {
             transactionReceiptAsync(txnHash, resolve, reject)
@@ -103,12 +278,12 @@ export default function useWeb3() {
               }, interval)
             else {
               try {
-                var block = await web3.library?.eth.getBlock(
+                var block = await library?.eth.getBlock(
                   resolvedReceipt.blockNumber
                 )
-                var current = await web3.library?.eth.getBlock('latest')
+                var current = await library?.eth.getBlock('latest')
                 if (current.number - block.number >= blocksToWait) {
-                  var txn = await web3.library?.eth.getTransaction(txnHash)
+                  var txn = await library?.eth.getTransaction(txnHash)
                   if (txn.blockNumber != null) resolve(resolvedReceipt)
                   else
                     reject(
@@ -149,49 +324,60 @@ export default function useWeb3() {
     }
   }
 
-  function signTypedDataForVoucher({
-    domain,
-    types,
-    message,
-    from,
-    primaryType = 'NFTVoucher',
-  }) {
-    return new Promise((resolve, reject) =>
-      web3.library?.currentProvider?.send(
-        {
-          method: 'eth_signTypedData_v4',
-          params: [
-            from,
-            JSON.stringify({
-              domain,
-              types,
-              message,
-              primaryType,
-            }),
-          ],
-          from: from,
-        },
-        function (err, result) {
-          if (err) return reject(err)
-          if (result.error) {
-            return reject(result.error)
+  const signTypedDataForVoucher = React.useCallback(
+    ({ domain, types, message, from, primaryType = 'NFTVoucher' }) => {
+      const _connector = _getConnectorName(library?.currentProvider)
+      return new Promise((resolve, reject) =>
+        library.currentProvider.sendAsync(
+          {
+            method: 'eth_signTypedData_v4',
+            params: [
+              from,
+              JSON.stringify({
+                domain,
+                types,
+                message,
+                primaryType,
+              }),
+            ],
+            from: from,
+          },
+          function (err, result) {
+            if (err) return reject(err)
+            if (result.error) {
+              return reject(result.error)
+            }
+            resolve(_connector === 'METAMASK' ? result.result : result)
           }
-          resolve(result.result)
-        }
+        )
       )
-    )
-  }
+    },
+    [library]
+  )
+
+  React.useEffect(() => {
+    if (typeof isValidChainID === 'boolean') {
+      setError(isValidChainID ? null : errorsMapping.UnsupportedChainIdError)
+    }
+  }, [isValidChainID])
 
   return {
     ...web3,
+    account: error == null ? web3?.account : null,
+    accounts: error == null ? web3?.accounts : [],
+    library: error == null ? library : null,
+    error: web3.isActive ? error : null,
+    active: web3.isActive,
     custom: {
-      isLoading,
+      isLoading: isLoading || web3.isActivating,
       connectMetamask,
       connectWalletConnect,
       disconnectWallet,
       formatBalance,
       waitTransactionToConfirm,
       signTypedDataForVoucher,
+      connectorName,
+      isValidChainID,
     },
   }
 }

@@ -24,14 +24,17 @@ export default function Home() {
 
   // Voucher is returned from API, see below
   const voucher = {
-    tokenId: 1,
-    tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
-    price: '2000000000000000',
+    isAuction: false,
     isForSale: true,
     isRedeem: true,
-    isAuction: false,
-    target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
+    price: '100000000000000',
+    target: '0x8af64d0B00D8243E2555d9322DD077100E90e717',
+    tokenId: 2,
+    tokenURI: 'bafkreiew6uequavjrck3za5shdlnirxwlt7ye5ybkdadwokczw4tnewzae',
+    startDate: '0',
+    endDate: '0',
   }
+
   const mintToken = async () => {
     try {
       setIsLoading(true)
@@ -68,7 +71,13 @@ export default function Home() {
       */
 
       const signature =
-        '0x7c3d7a2cc5182e92c85f397c3d1e1cb0004f419248b9fcc48e823f024f2bcf261c8d0972d21924f94d4ffee6e0c8416dfd11072d8e073765b1edaac55328110b1c'
+        '0x1424911f850ddff9d16564d18805a206691726bdc2264c20669833e6ab320f1d3ced687583b75772e081363d8daea6500e1ad270db64cd66ed9ea89f85ac090f1b'
+
+      const signer = await contract?.methods
+        ?.verifyVoucher({ ...voucher, signature })
+        .call()
+
+      console.log('_--', signer)
 
       const transaction = await contract?.methods
         ?.mintToken({

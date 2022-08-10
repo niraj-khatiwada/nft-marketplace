@@ -22,17 +22,16 @@ export default function Home() {
   const [error, setError] = React.useState('')
 
   const voucher = {
-    tokenId: 1,
+    tokenId: 2,
     tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
     isForSale: true,
     isRedeem: true,
     isAuction: true,
-    price: '900000000000000000',
-    startDate: '1658849764000',
-    endDate: '1658850904000',
-    target: '0x6907Af89C3DF4E885820AC19751e63DE2699D9bC',
+    price: '800000000000000000',
+    startDate: '1658860619000',
+    endDate: '1658861159000',
+    target: '0x8F022D290F1DD3e0e5f1eABC215FF639BF7c0Ac4',
   }
-
   const mintToken = async () => {
     try {
       setError('')

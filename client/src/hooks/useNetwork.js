@@ -1,15 +1,13 @@
 import React from 'react'
-import { useWeb3React } from '@web3-react/core'
 
+import useWeb3React from './useWeb3'
 import { NETWORKS } from '../helpers/connectors'
 
-export default function useBalance() {
+export default function useNetwork() {
   const { chainId, error } = useWeb3React()
 
-  console.log('--', error?.name)
-
   return {
-    chainId: chainId,
-    network: NETWORKS?.[chainId] ?? null,
+    chainId: !(error == null) ? null : chainId,
+    network: !(error == null) ? null : NETWORKS?.[chainId] ?? null,
   }
 }

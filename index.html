@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/token.css">
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <header class="">
+            <div class="d-flex justify-content-between align-items-center nav-container">
+                <div id="hamburgerBtn" class="hamburger-container">
+                    <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M1 12H17C17.55 12 18 11.55 18 11C18 10.45 17.55 10 17 10H1C0.45 10 0 10.45 0 11C0 11.55 0.45 12 1 12ZM1 7H17C17.55 7 18 6.55 18 6C18 5.45 17.55 5 17 5H1C0.45 5 0 5.45 0 6C0 6.55 0.45 7 1 7ZM0 1C0 1.55 0.45 2 1 2H17C17.55 2 18 1.55 18 1C18 0.45 17.55 0 17 0H1C0.45 0 0 0.45 0 1Z"
+                            fill="#1C304F" />
+                    </svg>
+
+                </div>
+                <div class="header-logo-container">
+                    <a href="/">
+                        <img src="/assets/images/xungibleLogo.png" alt="" class="logo">
+                    </a>
+                </div>
+                <nav id="menu">
+                    <ul class="d-flex align-items-center navbar-container">
+                        <li class="nav-list-item"><a href="/" class="link top-nav-link">Home</a></li>
+                        <li class="nav-list-item"><a href="/about" class="link top-nav-link">About us</a></li>
+                        <li class="nav-list-item"><a href="/marketingtoken"
+                                class="link top-nav-link top-nav-link-active">XGBL</a></li>
+
+                        <li class="nav-list-item"><a href="/xungibleballz" class="link top-nav-link ">Xungiballz
+                                NFTs</a></li>
+                        <li class="nav-list-item">
+                            <a href="/assets/pdfs/Whitepaper2.pdf"
+                                class="link top-nav-link">Whitepaper</a>
+                        </li>
+
+                        <li id="dropdownContainer" class="nav-list-item dropdown-container">
+                            <a href="#" class="link top-nav-link">Community
+                                <span class="chevron">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 10L7 4L13 10" stroke="#425A7E" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </span>
+                            </a>
+
+                            <div id="" class="dropdown">
+                                <ul class="">
+                                    <li class="nav-list-item"><a href="https://twitter.com/Xungible" target="_blank"
+                                            class="ink top-nav-link dropdown-link">Twitter</a>
+                                    </li>
+                                    <li class="nav-list-item"><a href="https://discord.gg/y8h5hKhBXq"
+                                            class="ink top-nav-link dropdown-link" target="_blank">Discord</a>
+                                    </li>
+                                    <li class="nav-list-item"><a href="https://t.me/+bmp4rll6PeJjOWQ8"
+                                            class="ink top-nav-link dropdown-link" target="_blank">Telegram</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <a href="#newsletter" class=" btn-gradient getStarted-btn">
+                    Get Notified
+                </a>
+            </div>
+        </header>
+        <main>
+
+            <div class="d-flex align-items-center justify-content-between main-landing">
+                <div class="landing-content-container">
+                    <h1 id="title" class="title landing-title">
+                        <%= it.page_3.title ? it.page_3.title : '' %>
+                    </h1>
+                    <p id="subtitle" class="tagline">
+                        <%= it.page_3.sub_title ? it.page_3.sub_title : '' %>
+                    </p>
+                    <a href="https://xrpl.services/?issuer=rMy6sCaDVF1C2BT3qmNG6kgjVDZqZ74uoF&currency=5847424C00000000000000000000000000000000&limit=68498312859.547615" class="btn-gradient cta-btn">XGBL Trustline</a >
+                </div>
+                <div class="landing-img-container">
+
+                    <img id="titleImage" src="<%= it.page_3.title_image  ? it.page_3.title_image  : ''%>" alt=""
+                        class="landing-img">
+                </div>
+            </div>
+            <div class="token-info-section">
+                <div class="token-chart-container">
+                    <div class="d-flex justify-content-between align-items-center chart-header">
+                        <h3 class="title chart-title">
+                            Price Statistics
+                        </h3>
+                        <div class="d-flex chart-scope-container">
+                            <a class="btn-gradient scope-btn scope-btn-gradient">24h</a>
+                            <a class="btn-gradient scope-btn">7d</a>
+                            <a class="btn-gradient scope-btn">14d</a>
+                            <a class="btn-gradient scope-btn">Max</a>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center token-detail">
+                        <div class="currency-type-container">
+                            <span class="currency-type">
+                                $
+                            </span>
+                        </div>
+                        <div class="token-price-container">
+                            <h4>price</h4>
+                            <p class="token-price-detail">XGBL (USD) = <span id="tokenPriceUsd">$ 0.0000085</span>
+                                (<span id="chartPercentage" class="red-highlight-text">-0.95%</span> in last <span
+                                    id="chartScopeDuration">24h</span>)</p>
+                        </div>
+                    </div>
+
+                    <div class="price-stats-chart">
+                        <div id="errorContainer" class="chart-error-container">
+                            <span class="description">Could not load data from the data source.
+                                Press the <a href="" class="refresh-link">refresh</a>
+                                button to reload the page. Possible problems can include bad network connection, server
+                                down, etc.</span>
+                        </div>
+                        <canvas id="priceStatisticsChart">
+
+                        </canvas>
+                    </div>
+                </div>
+                <div class="d-flex token-info-group">
+                </div>
+                <!--<div class="token-table-container">
+
+                    <table class="table table-bordered mg-b-0 text-md-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Address</th>
+                                <th>Quantity (Token)</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rBHJ9Ux391anbV3qanuYTr4nZcHU7WnmMp"
+                                        target="_blank">
+                                        rBHJ9Ux391anbV3qanuYTr4nZcHU7WnmMp
+                                    </a>
+                                </td>
+                                <td>18745407894.07200</td>
+                                <td>27.37 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rwQRvpYeKZ14qtDkhH1BvkgNvGLwbZKxTv"
+                                        target="_blank">
+                                        rwQRvpYeKZ14qtDkhH1BvkgNvGLwbZKxTv
+                                    </a>
+                                </td>
+                                <td>5436303627.25350</td>
+                                <td>7.94 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rhymALu4ZkvSyX5pBimToVK4jVyxCbgosc"
+                                        target="_blank">
+                                        rhymALu4ZkvSyX5pBimToVK4jVyxCbgosc
+                                    </a>
+                                </td>
+                                <td>2717680001.00000</td>
+                                <td>3.97 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r3CnxZHbnMXKJemwwVGNeA3iNDWfDZgxwi"
+                                        target="_blank">
+                                        r3CnxZHbnMXKJemwwVGNeA3iNDWfDZgxwi
+                                    </a>
+                                </td>
+                                <td>1320258792.20570</td>
+                                <td>1.93 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rH37awfRXKXQFSFMZbV8b6vXYBsrKpPr8S"
+                                        target="_blank">
+                                        rH37awfRXKXQFSFMZbV8b6vXYBsrKpPr8S
+                                    </a>
+                                </td>
+                                <td>1162001879.78630</td>
+                                <td>1.7 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">6</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rN7NUD9fPGjpKVUaUcshbj7XG5MLVwpKD2"
+                                        target="_blank">
+                                        rN7NUD9fPGjpKVUaUcshbj7XG5MLVwpKD2
+                                    </a>
+                                </td>
+                                <td>1119788421.75060</td>
+                                <td>1.63 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">7</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/raz653JVqjZA5tkyWdAddMo9zRyMfpoXCj"
+                                        target="_blank">
+                                        raz653JVqjZA5tkyWdAddMo9zRyMfpoXCj
+                                    </a>
+                                </td>
+                                <td>1071364966.56380</td>
+                                <td>1.56 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">8</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rwdJ4yHed4Rmhxt3YBSNpYJkqAJDBifwis"
+                                        target="_blank">
+                                        rwdJ4yHed4Rmhxt3YBSNpYJkqAJDBifwis
+                                    </a>
+                                </td>
+                                <td>1034717025.20050</td>
+                                <td>1.51 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">9</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rSTXZRXjJBVNLazrb6D2i7mjvbCzpknfc"
+                                        target="_blank">
+                                        rSTXZRXjJBVNLazrb6D2i7mjvbCzpknfc
+                                    </a>
+                                </td>
+                                <td>933333334.00000</td>
+                                <td>1.36 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">10</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rpW1Su5fsBhJGxjrgm8kidKuazAjQuWQZf"
+                                        target="_blank">
+                                        rpW1Su5fsBhJGxjrgm8kidKuazAjQuWQZf
+                                    </a>
+                                </td>
+                                <td>890311086.05179</td>
+                                <td>1.3 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">11</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rCswdo8YCa1VYvo2JTPSbmRQa4L1kmJjo"
+                                        target="_blank">
+                                        rCswdo8YCa1VYvo2JTPSbmRQa4L1kmJjo
+                                    </a>
+                                </td>
+                                <td>810644321.69816</td>
+                                <td>1.18 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">12</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rnxQtmM9Ck6DNqqQ2sbk89v18KCGDGwifn"
+                                        target="_blank">
+                                        rnxQtmM9Ck6DNqqQ2sbk89v18KCGDGwifn
+                                    </a>
+                                </td>
+                                <td>734099033.00000</td>
+                                <td>1.07 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">13</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rpgX7f6CWC7xvdmEEJyqncbM88GcysN4uG"
+                                        target="_blank">
+                                        rpgX7f6CWC7xvdmEEJyqncbM88GcysN4uG
+                                    </a>
+                                </td>
+                                <td>660032381.00000</td>
+                                <td>0.96 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">14</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rH8Nrszm3XrHLB98bVvnsvcW7J5Ehq9aEm"
+                                        target="_blank">
+                                        rH8Nrszm3XrHLB98bVvnsvcW7J5Ehq9aEm
+                                    </a>
+                                </td>
+                                <td>559477396.66845</td>
+                                <td>0.82 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">15</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rJT7zz7woPpsESZAvJYE4LLiqXR73LVcew"
+                                        target="_blank">
+                                        rJT7zz7woPpsESZAvJYE4LLiqXR73LVcew
+                                    </a>
+                                </td>
+                                <td>552445381.00000</td>
+                                <td>0.81 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">16</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rBacMTNGDdQDrniqnsk3ZLQAYwbZ7BYznP"
+                                        target="_blank">
+                                        rBacMTNGDdQDrniqnsk3ZLQAYwbZ7BYznP
+                                    </a>
+                                </td>
+                                <td>501482460.25342</td>
+                                <td>0.73 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">17</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rJ1T6hbwchaJZKpwoyeALF73K8RZGQE8vV"
+                                        target="_blank">
+                                        rJ1T6hbwchaJZKpwoyeALF73K8RZGQE8vV
+                                    </a>
+                                </td>
+                                <td>457014446.99899</td>
+                                <td>0.67 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">18</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rpBaV4HEbX1nUqFR3ZqZngo5pb5xn2Cmu9"
+                                        target="_blank">
+                                        rpBaV4HEbX1nUqFR3ZqZngo5pb5xn2Cmu9
+                                    </a>
+                                </td>
+                                <td>437378836.07841</td>
+                                <td>0.64 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">19</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rp4ynG8WKgSYY6VvPH2uuf6V7BzVs41oHq"
+                                        target="_blank">
+                                        rp4ynG8WKgSYY6VvPH2uuf6V7BzVs41oHq
+                                    </a>
+                                </td>
+                                <td>368834666.59247</td>
+                                <td>0.54 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">20</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rGE7BbrUDc3iyHTmLQvxFZUdtNrQpgTQfL"
+                                        target="_blank">
+                                        rGE7BbrUDc3iyHTmLQvxFZUdtNrQpgTQfL
+                                    </a>
+                                </td>
+                                <td>340103759.20330</td>
+                                <td>0.5 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">21</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rfEgsZmqKtW25WrJUFZpMZ7H584d9fA3mv"
+                                        target="_blank">
+                                        rfEgsZmqKtW25WrJUFZpMZ7H584d9fA3mv
+                                    </a>
+                                </td>
+                                <td>331739083.50839</td>
+                                <td>0.48 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">22</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r3krdN5hemUh8ovmJb4Wkg9u3Vae492ijv"
+                                        target="_blank">
+                                        r3krdN5hemUh8ovmJb4Wkg9u3Vae492ijv
+                                    </a>
+                                </td>
+                                <td>331281324.14067</td>
+                                <td>0.48 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">23</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r34AukVaQTh9NJtAn8jowBEGaavXY8Aht"
+                                        target="_blank">
+                                        r34AukVaQTh9NJtAn8jowBEGaavXY8Aht
+                                    </a>
+                                </td>
+                                <td>330032381.00000</td>
+                                <td>0.48 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">24</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r9j4VZfrQFVdk58UiUEtwAuX6ETvocqcHW"
+                                        target="_blank">
+                                        r9j4VZfrQFVdk58UiUEtwAuX6ETvocqcHW
+                                    </a>
+                                </td>
+                                <td>301967114.70253</td>
+                                <td>0.44 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">25</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rHMqBQRBPjEgtMuMHgLrta9B8C49cvHNYU"
+                                        target="_blank">
+                                        rHMqBQRBPjEgtMuMHgLrta9B8C49cvHNYU
+                                    </a>
+                                </td>
+                                <td>254822414.00000</td>
+                                <td>0.37 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">26</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r4nSct2GTdaLyn9cPTDFn6yaSaSQdXJhwR"
+                                        target="_blank">
+                                        r4nSct2GTdaLyn9cPTDFn6yaSaSQdXJhwR
+                                    </a>
+                                </td>
+                                <td>247597077.02644</td>
+                                <td>0.36 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">27</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rHYgfKHSAWjYKNk4UcgB94ccbYMFqAPAZV"
+                                        target="_blank">
+                                        rHYgfKHSAWjYKNk4UcgB94ccbYMFqAPAZV
+                                    </a>
+                                </td>
+                                <td>245382354.99758</td>
+                                <td>0.36 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">28</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rEk2Sb7HDHz5LhXpUxTv9dnHbwYy5GPzuM"
+                                        target="_blank">
+                                        rEk2Sb7HDHz5LhXpUxTv9dnHbwYy5GPzuM
+                                    </a>
+                                </td>
+                                <td>239927894.00000</td>
+                                <td>0.35 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">29</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r9WQxAjnXaD9jpwXD7er36BzYmxgt9mcUi"
+                                        target="_blank">
+                                        r9WQxAjnXaD9jpwXD7er36BzYmxgt9mcUi
+                                    </a>
+                                </td>
+                                <td>231857381.00010</td>
+                                <td>0.34 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">30</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r9XzGaAC8irxvUMVPYmU8Zuw8C19wtJGG"
+                                        target="_blank">
+                                        r9XzGaAC8irxvUMVPYmU8Zuw8C19wtJGG
+                                    </a>
+                                </td>
+                                <td>226496542.06281</td>
+                                <td>0.33 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">31</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rHc9JFpYqomJP8tYfQaAuB1ttqcBL5ZNVp"
+                                        target="_blank">
+                                        rHc9JFpYqomJP8tYfQaAuB1ttqcBL5ZNVp
+                                    </a>
+                                </td>
+                                <td>217761022.52662</td>
+                                <td>0.32 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">32</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rMWFSs9nzPCMxvXi3Z4xTWLTW5msuWgVEc"
+                                        target="_blank">
+                                        rMWFSs9nzPCMxvXi3Z4xTWLTW5msuWgVEc
+                                    </a>
+                                </td>
+                                <td>212583687.33932</td>
+                                <td>0.31 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">33</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/raHwwFZ53xMf1GqUsYFsvYqFm6hcHZpcGm"
+                                        target="_blank">
+                                        raHwwFZ53xMf1GqUsYFsvYqFm6hcHZpcGm
+                                    </a>
+                                </td>
+                                <td>208361776.75792</td>
+                                <td>0.3 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">34</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r36W5KJSd9xcs4nRH3vKJQGj4yNptqj9F6"
+                                        target="_blank">
+                                        r36W5KJSd9xcs4nRH3vKJQGj4yNptqj9F6
+                                    </a>
+                                </td>
+                                <td>182356790.13500</td>
+                                <td>0.27 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">35</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r9rNYVD5W7mJ1XtaRDztyfcvTpSPabVmUm"
+                                        target="_blank">
+                                        r9rNYVD5W7mJ1XtaRDztyfcvTpSPabVmUm
+                                    </a>
+                                </td>
+                                <td>171461680.32267</td>
+                                <td>0.25 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">36</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rwgf4G2h2T17L2fDABgzRK3Fzy2tuEQ5nV"
+                                        target="_blank">
+                                        rwgf4G2h2T17L2fDABgzRK3Fzy2tuEQ5nV
+                                    </a>
+                                </td>
+                                <td>166791296.47192</td>
+                                <td>0.24 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">37</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rGHuEzHfVGFis5C4QW3DzKdUNRqLmwqogj"
+                                        target="_blank">
+                                        rGHuEzHfVGFis5C4QW3DzKdUNRqLmwqogj
+                                    </a>
+                                </td>
+                                <td>166610282.98047</td>
+                                <td>0.24 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">38</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r3Gm8TgUdhDSijiCPTH13KUjP6W6iKv59u"
+                                        target="_blank">
+                                        r3Gm8TgUdhDSijiCPTH13KUjP6W6iKv59u
+                                    </a>
+                                </td>
+                                <td>165205170.08436</td>
+                                <td>0.24 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">39</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rNRyFGgm3nwSJjx5YVi8pdbZbkLY71nDpu"
+                                        target="_blank">
+                                        rNRyFGgm3nwSJjx5YVi8pdbZbkLY71nDpu
+                                    </a>
+                                </td>
+                                <td>165032381.00000</td>
+                                <td>0.24 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">40</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rLF8CczQLCgrWwLAL9ZACJYTDJGKfqtPU"
+                                        target="_blank">
+                                        rLF8CczQLCgrWwLAL9ZACJYTDJGKfqtPU
+                                    </a>
+                                </td>
+                                <td>165032381.00000</td>
+                                <td>0.24 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">41</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rsbMnJNyQpMMQqTz1ZoUHxZG9K1WpD9AMZ"
+                                        target="_blank">
+                                        rsbMnJNyQpMMQqTz1ZoUHxZG9K1WpD9AMZ
+                                    </a>
+                                </td>
+                                <td>165032348.00000</td>
+                                <td>0.24 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">42</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rDDQmnQZZfT6Gw7NeBc934DsTZ9SzLHh9W"
+                                        target="_blank">
+                                        rDDQmnQZZfT6Gw7NeBc934DsTZ9SzLHh9W
+                                    </a>
+                                </td>
+                                <td>164377854.94735</td>
+                                <td>0.24 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">43</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rsgRXA2jZGzUiB9WSmmUNrTA3ZzX236xNT"
+                                        target="_blank">
+                                        rsgRXA2jZGzUiB9WSmmUNrTA3ZzX236xNT
+                                    </a>
+                                </td>
+                                <td>162769582.72581</td>
+                                <td>0.24 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">44</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rwxvzhydd8uK3wYBFSjzVKzzTDM4cdFwDc"
+                                        target="_blank">
+                                        rwxvzhydd8uK3wYBFSjzVKzzTDM4cdFwDc
+                                    </a>
+                                </td>
+                                <td>157337299.06082</td>
+                                <td>0.23 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">45</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r9mu66uvBZ5rYZZ4jrB4tzS3YL8XfbC9iY"
+                                        target="_blank">
+                                        r9mu66uvBZ5rYZZ4jrB4tzS3YL8XfbC9iY
+                                    </a>
+                                </td>
+                                <td>151678993.74628</td>
+                                <td>0.22 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">46</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rnbTo6oRHwHdaAXRTGaPoT29CnWotrXTus"
+                                        target="_blank">
+                                        rnbTo6oRHwHdaAXRTGaPoT29CnWotrXTus
+                                    </a>
+                                </td>
+                                <td>151190052.23410</td>
+                                <td>0.22 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">47</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r3C4Az78zWboxTF38ZPd4BQrnpoMyYKmUg"
+                                        target="_blank">
+                                        r3C4Az78zWboxTF38ZPd4BQrnpoMyYKmUg
+                                    </a>
+                                </td>
+                                <td>150788245.55371</td>
+                                <td>0.22 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">48</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/raiCURBo5VxyheKt3Qa5wz92dZy37HMjWv"
+                                        target="_blank">
+                                        raiCURBo5VxyheKt3Qa5wz92dZy37HMjWv
+                                    </a>
+                                </td>
+                                <td>150085173.89731</td>
+                                <td>0.22 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">49</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/raGQSpkqRanQXLcDDNHfrcDbBpsqPkCLLA"
+                                        target="_blank">
+                                        raGQSpkqRanQXLcDDNHfrcDbBpsqPkCLLA
+                                    </a>
+                                </td>
+                                <td>147790801.79706</td>
+                                <td>0.22 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">50</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rfkKBgJMeHGGiKXgUfaziP6dBZVJZvCVbu"
+                                        target="_blank">
+                                        rfkKBgJMeHGGiKXgUfaziP6dBZVJZvCVbu
+                                    </a>
+                                </td>
+                                <td>144486843.06558</td>
+                                <td>0.21 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">51</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rUcAnVZmLdgEkqerzE1khcB417gTt5DKGc"
+                                        target="_blank">
+                                        rUcAnVZmLdgEkqerzE1khcB417gTt5DKGc
+                                    </a>
+                                </td>
+                                <td>135166539.30561</td>
+                                <td>0.2 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">52</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rL7Lmmu32nSroxmA6dwF9QKkerMmUJcGt2"
+                                        target="_blank">
+                                        rL7Lmmu32nSroxmA6dwF9QKkerMmUJcGt2
+                                    </a>
+                                </td>
+                                <td>132281514.22852</td>
+                                <td>0.19 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">53</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rLW7XLUwqSB5AnE8VruAjx4Ru96cijvSgb"
+                                        target="_blank">
+                                        rLW7XLUwqSB5AnE8VruAjx4Ru96cijvSgb
+                                    </a>
+                                </td>
+                                <td>132032414.00640</td>
+                                <td>0.19 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">54</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rENrt7gpHxgyTHGUNn1QLDpzKFpEc7it8W"
+                                        target="_blank">
+                                        rENrt7gpHxgyTHGUNn1QLDpzKFpEc7it8W
+                                    </a>
+                                </td>
+                                <td>130568228.23634</td>
+                                <td>0.19 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">55</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rhLheyofUnFhcoetP1vEYWVZNG7AU7cdUv"
+                                        target="_blank">
+                                        rhLheyofUnFhcoetP1vEYWVZNG7AU7cdUv
+                                    </a>
+                                </td>
+                                <td>128971540.79481</td>
+                                <td>0.19 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">56</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rEDRkJhbt8vfmvUDBGMASZADTDi2CieYKD"
+                                        target="_blank">
+                                        rEDRkJhbt8vfmvUDBGMASZADTDi2CieYKD
+                                    </a>
+                                </td>
+                                <td>121331809.29429</td>
+                                <td>0.18 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">57</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r5yAn3yYhnR6WQ9AMci4GczDnZ9ustW8N"
+                                        target="_blank">
+                                        r5yAn3yYhnR6WQ9AMci4GczDnZ9ustW8N
+                                    </a>
+                                </td>
+                                <td>120000000.00000</td>
+                                <td>0.18 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">58</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rMyZo4vQJyJiySS3EJY7fANU9HR1E2mN4"
+                                        target="_blank">
+                                        rMyZo4vQJyJiySS3EJY7fANU9HR1E2mN4
+                                    </a>
+                                </td>
+                                <td>118809081.19677</td>
+                                <td>0.17 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">59</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rP1U7br6xhNpPxV8onXhDfdg8F8BGP5iFH"
+                                        target="_blank">
+                                        rP1U7br6xhNpPxV8onXhDfdg8F8BGP5iFH
+                                    </a>
+                                </td>
+                                <td>117993436.37809</td>
+                                <td>0.17 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">60</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rNh64RtJZNN2rkrw9ywDVDwJ6jE3PnqLFV"
+                                        target="_blank">
+                                        rNh64RtJZNN2rkrw9ywDVDwJ6jE3PnqLFV
+                                    </a>
+                                </td>
+                                <td>117622177.00000</td>
+                                <td>0.17 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">61</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rJcF1xeKDYU6Pm3DQDcuoRZq2zMmkFGW1U"
+                                        target="_blank">
+                                        rJcF1xeKDYU6Pm3DQDcuoRZq2zMmkFGW1U
+                                    </a>
+                                </td>
+                                <td>113853741.10236</td>
+                                <td>0.17 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">62</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rKYGcCZKcihYsPSeho4Y7dPyvy3VGCNx3N"
+                                        target="_blank">
+                                        rKYGcCZKcihYsPSeho4Y7dPyvy3VGCNx3N
+                                    </a>
+                                </td>
+                                <td>112280369.15637</td>
+                                <td>0.16 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">63</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rn59rc3d16d6FWxuXUbkEpL6NkWPfShUit"
+                                        target="_blank">
+                                        rn59rc3d16d6FWxuXUbkEpL6NkWPfShUit
+                                    </a>
+                                </td>
+                                <td>111222112.18390</td>
+                                <td>0.16 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">64</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rM5qararAeiMkvTYLrRwysA5jNthqspsva"
+                                        target="_blank">
+                                        rM5qararAeiMkvTYLrRwysA5jNthqspsva
+                                    </a>
+                                </td>
+                                <td>110252118.92776</td>
+                                <td>0.16 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">65</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rAyWrjVbW3pZ25GkzCa6wxxYEu6TnR5dA"
+                                        target="_blank">
+                                        rAyWrjVbW3pZ25GkzCa6wxxYEu6TnR5dA
+                                    </a>
+                                </td>
+                                <td>108548829.78872</td>
+                                <td>0.16 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">66</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rPedCyPZh5rFAR9xv8BFDNXMnteqQEXzbD"
+                                        target="_blank">
+                                        rPedCyPZh5rFAR9xv8BFDNXMnteqQEXzbD
+                                    </a>
+                                </td>
+                                <td>107556942.76684</td>
+                                <td>0.16 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">67</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rpi8bcGg4cqR2TeCDiLFLuSAhcusdWj5V4"
+                                        target="_blank">
+                                        rpi8bcGg4cqR2TeCDiLFLuSAhcusdWj5V4
+                                    </a>
+                                </td>
+                                <td>106970645.12563</td>
+                                <td>0.16 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">68</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/ra3vqnxHULyMXpcXUNjtEffRfY1hunsgeD"
+                                        target="_blank">
+                                        ra3vqnxHULyMXpcXUNjtEffRfY1hunsgeD
+                                    </a>
+                                </td>
+                                <td>106853667.74525</td>
+                                <td>0.16 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">69</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rs5dADm4YKsXGqgaD5hmu6DJSRCX21bv6z"
+                                        target="_blank">
+                                        rs5dADm4YKsXGqgaD5hmu6DJSRCX21bv6z
+                                    </a>
+                                </td>
+                                <td>106179542.89548</td>
+                                <td>0.16 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">70</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rnxnSxwofEWCsEG3At93fA2RtkMRNYotzf"
+                                        target="_blank">
+                                        rnxnSxwofEWCsEG3At93fA2RtkMRNYotzf
+                                    </a>
+                                </td>
+                                <td>105411860.44135</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">71</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/raGrFYzyKtnRGN4XQNovcvimEqPKr2vu3z"
+                                        target="_blank">
+                                        raGrFYzyKtnRGN4XQNovcvimEqPKr2vu3z
+                                    </a>
+                                </td>
+                                <td>103664643.92297</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">72</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r9911zpx891y9XBwpdkAEThkrcFP1LnFDK"
+                                        target="_blank">
+                                        r9911zpx891y9XBwpdkAEThkrcFP1LnFDK
+                                    </a>
+                                </td>
+                                <td>102493717.41446</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">73</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rHirH2nJ4kKd9j5qn4EGyooAciePak6VZX"
+                                        target="_blank">
+                                        rHirH2nJ4kKd9j5qn4EGyooAciePak6VZX
+                                    </a>
+                                </td>
+                                <td>102392539.97930</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">74</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r4YhXmNLG4jnY4TzAzrNUNqNy8p997yHet"
+                                        target="_blank">
+                                        r4YhXmNLG4jnY4TzAzrNUNqNy8p997yHet
+                                    </a>
+                                </td>
+                                <td>101972681.00000</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">75</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rSUozobzLoRDkvRvA2jW5myivByzLFVda"
+                                        target="_blank">
+                                        rSUozobzLoRDkvRvA2jW5myivByzLFVda
+                                    </a>
+                                </td>
+                                <td>101717478.50141</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">76</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r3GkRYFseZ9ea2e82C6gCgELhB1sDKvRvV"
+                                        target="_blank">
+                                        r3GkRYFseZ9ea2e82C6gCgELhB1sDKvRvV
+                                    </a>
+                                </td>
+                                <td>101414962.76563</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">77</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r32d5sxTjQYeDKp26D4q9ezGe5tGYjNECi"
+                                        target="_blank">
+                                        r32d5sxTjQYeDKp26D4q9ezGe5tGYjNECi
+                                    </a>
+                                </td>
+                                <td>101390885.50523</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">78</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rp1nu7hJVyKBT3mVxCY1mVcaC4FPX2w7yA"
+                                        target="_blank">
+                                        rp1nu7hJVyKBT3mVxCY1mVcaC4FPX2w7yA
+                                    </a>
+                                </td>
+                                <td>101363213.41084</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">79</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rNs6E2oBX4pJy9gkHrAgHp9Ey8M8M5GoCx"
+                                        target="_blank">
+                                        rNs6E2oBX4pJy9gkHrAgHp9Ey8M8M5GoCx
+                                    </a>
+                                </td>
+                                <td>100502594.22146</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">80</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rpYymoBK7R9rsJDV5KHxjnNBbHarvPafJL"
+                                        target="_blank">
+                                        rpYymoBK7R9rsJDV5KHxjnNBbHarvPafJL
+                                    </a>
+                                </td>
+                                <td>100380456.55012</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">81</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rhoEBbSmpZKr8GkFZ6WG2ZX1HjHVux1EVJ"
+                                        target="_blank">
+                                        rhoEBbSmpZKr8GkFZ6WG2ZX1HjHVux1EVJ
+                                    </a>
+                                </td>
+                                <td>100277030.91686</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">82</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rnr7shn5XPTJ3sv8wUXGgyGZu9WvHWRDyo"
+                                        target="_blank">
+                                        rnr7shn5XPTJ3sv8wUXGgyGZu9WvHWRDyo
+                                    </a>
+                                </td>
+                                <td>100000000.97560</td>
+                                <td>0.15 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">83</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r4kVygawRhRZnzV1UEVPbH9QDTfMwte9ND"
+                                        target="_blank">
+                                        r4kVygawRhRZnzV1UEVPbH9QDTfMwte9ND
+                                    </a>
+                                </td>
+                                <td>96480000.00000</td>
+                                <td>0.14 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">84</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/r4VgJ7fHoNKbGPkLQGYhBUwrm6wTzerjWg"
+                                        target="_blank">
+                                        r4VgJ7fHoNKbGPkLQGYhBUwrm6wTzerjWg
+                                    </a>
+                                </td>
+                                <td>95904821.02453</td>
+                                <td>0.14 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">85</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rn3dNiCYrySXMz1HJSS2xKbQeZEogV4n3x"
+                                        target="_blank">
+                                        rn3dNiCYrySXMz1HJSS2xKbQeZEogV4n3x
+                                    </a>
+                                </td>
+                                <td>93341949.50493</td>
+                                <td>0.14 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">86</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rBDgMLez4qA8MBYXoj99ebAnYR5Lb9rMNe"
+                                        target="_blank">
+                                        rBDgMLez4qA8MBYXoj99ebAnYR5Lb9rMNe
+                                    </a>
+                                </td>
+                                <td>92568040.58337</td>
+                                <td>0.14 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">87</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rrsffGmniu4kXtRfpQmBrbKHpemWDvveP6"
+                                        target="_blank">
+                                        rrsffGmniu4kXtRfpQmBrbKHpemWDvveP6
+                                    </a>
+                                </td>
+                                <td>89827117.84847</td>
+                                <td>0.13 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">88</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rD4HRrWLKmxw4kQhQtB7o8pX9464EyD6ov"
+                                        target="_blank">
+                                        rD4HRrWLKmxw4kQhQtB7o8pX9464EyD6ov
+                                    </a>
+                                </td>
+                                <td>88834833.89687</td>
+                                <td>0.13 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">89</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rMnsQY8xu7pMBD9kUDeTaUQ6bsyCVhEurr"
+                                        target="_blank">
+                                        rMnsQY8xu7pMBD9kUDeTaUQ6bsyCVhEurr
+                                    </a>
+                                </td>
+                                <td>87456959.04544</td>
+                                <td>0.13 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">90</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rhcm4d4qftYSZHV58uXnBYqQzg5BKZZp9V"
+                                        target="_blank">
+                                        rhcm4d4qftYSZHV58uXnBYqQzg5BKZZp9V
+                                    </a>
+                                </td>
+                                <td>86412056.92370</td>
+                                <td>0.13 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">91</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rnPyjevXxmoEwYAQmWZvozWQHNRQ8XoTgm"
+                                        target="_blank">
+                                        rnPyjevXxmoEwYAQmWZvozWQHNRQ8XoTgm
+                                    </a>
+                                </td>
+                                <td>86071727.59153</td>
+                                <td>0.13 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">92</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rEGYHBkPKJHmYu985rtkxZonoxNav29EFQ"
+                                        target="_blank">
+                                        rEGYHBkPKJHmYu985rtkxZonoxNav29EFQ
+                                    </a>
+                                </td>
+                                <td>85702626.92926</td>
+                                <td>0.13 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">93</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rLVCW8NW8HY4k56Q7vMnQgsKbE7CYKcq3A"
+                                        target="_blank">
+                                        rLVCW8NW8HY4k56Q7vMnQgsKbE7CYKcq3A
+                                    </a>
+                                </td>
+                                <td>84267917.66557</td>
+                                <td>0.12 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">94</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rHRHgy9yR77pUSxYE5KNCGb6wn4gyF5XpX"
+                                        target="_blank">
+                                        rHRHgy9yR77pUSxYE5KNCGb6wn4gyF5XpX
+                                    </a>
+                                </td>
+                                <td>84263532.65465</td>
+                                <td>0.12 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">95</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rB4gmPisgJzSahJrpDMsuVhYoJn94kMUuK"
+                                        target="_blank">
+                                        rB4gmPisgJzSahJrpDMsuVhYoJn94kMUuK
+                                    </a>
+                                </td>
+                                <td>84182348.00000</td>
+                                <td>0.12 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">96</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rwDmuYwkqEKhtW5Z7xy13u8e3Efqeofnvg"
+                                        target="_blank">
+                                        rwDmuYwkqEKhtW5Z7xy13u8e3Efqeofnvg
+                                    </a>
+                                </td>
+                                <td>82532422.24990</td>
+                                <td>0.12 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">97</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rBwWPBGLcYknC8jFxanSoDX16g2SN4tUo9"
+                                        target="_blank">
+                                        rBwWPBGLcYknC8jFxanSoDX16g2SN4tUo9
+                                    </a>
+                                </td>
+                                <td>82341568.00000</td>
+                                <td>0.12 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">98</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rL1gAARYEfw83hvxXVJhGpximKW97x4htY"
+                                        target="_blank">
+                                        rL1gAARYEfw83hvxXVJhGpximKW97x4htY
+                                    </a>
+                                </td>
+                                <td>82207641.36128</td>
+                                <td>0.12 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">99</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rD2cy6FALWLcnzUwfj47qHYgEzweSxnPR5"
+                                        target="_blank">
+                                        rD2cy6FALWLcnzUwfj47qHYgEzweSxnPR5
+                                    </a>
+                                </td>
+                                <td>76757381.00000</td>
+                                <td>0.11 %</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">100</th>
+                                <td>
+                                    <a href="https://xrpscan.com/account/rDjwYgxdCdTN4wrX8r1SVX9dbAYMW8Q92R"
+                                        target="_blank">
+                                        rDjwYgxdCdTN4wrX8r1SVX9dbAYMW8Q92R
+                                    </a>
+                                </td>
+                                <td>73708242.63338</td>
+                                <td>0.11 %</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>-->
+
+            </div>
+            <section class="text-center exchanges">
+                <h2 id="heading" class=" title section-title">
+                    <%= it.page_3.heading ? it.page_3.heading : '' %>
+                </h2>
+                <p id="headingContent" class="description">
+                    <%= it.page_3.heading_content ? it.page_3.heading_content : '' %>
+                </p>
+                <div class="exchange-imgs">
+                    <div class="exchange-img-container">
+                        <a href="https://xumm.app/" target="_blank">
+                            <img id="imageOne" src="<%= it.page_3.image_1  ? it.page_3.image_1  : ''%>" alt=""
+                                class="exchange-img">
+                        </a>
+                    </div>
+                    <div class="exchange-img-container">
+                        <a href="https://xmc.onxrp.com/projects/XGBL" target="_blank">
+                            <img id="imageTwo" src="<%= it.page_3.image_2  ? it.page_3.image_2  : ''%>" alt=""
+                                class="exchange-img">
+                        </a>
+                    </div>
+                    <div class="exchange-img-container">
+                        <a href="https://sologenic.org/trade?network=mainnet&market=5847424C00000000000000000000000000000000%2BrMy6sCaDVF1C2BT3qmNG6kgjVDZqZ74uoF%2FXRP"
+                            target="_blank">
+                            <img id="imageThree" src="<%= it.page_3.image_3  ? it.page_3.image_3  : ''%>" alt=""
+                                class="exchange-img">
+                        </a>
+                    </div>
+                    <div class="exchange-img-container">
+                        <a href="https://xrplcoins.com/coin/XGBL" target="_blank">
+                            <img id="imageFour" src="<%= it.page_3.image_4  ? it.page_3.image_4  : ''%>" alt=""
+                                class="exchange-img">
+                        </a>
+                    </div>
+                    <div class="exchange-img-container">
+                        <a href="https://www.swft.pro/" target="_blank">
+                            <img id="" src="/assets/images/swift.png" alt="" class="exchange-img">
+                        </a>
+                    </div>
+                </div>
+                <p class="text-center text">More exchanges coming soon....</p>
+                <div class="exchange-imgs">
+                    <div class="exchange-img-container" target="_blank">
+                        <a href="https://staykx.com/">
+                            <img id="imageOne" src="/assets/images/staykX.png" alt="" class="exchange-img">
+                        </a>
+                    </div>
+                </div>
+                <p id="" class="description">
+                    StaykX provides a safe way for XGBL holders to stake their tokens and earn passive income through
+                    daily rewards.
+                </p>
+            </section>
+            <div id="newsletter" class="newsletter-container">
+                <div class="d-flex flex-column justify-content-center align-items-center newsletter">
+                    <div class="newsletter-content">
+                        <h3 class="text-center title newsletter-title">
+                            Stay in the NFT loop
+                        </h3>
+                        <div class="newsletter-text-container">
+                            <p class="text-center text newsletter-text">
+                                XungiBallz will offer holders special access, privileges and benefits within the
+                                Xungible
+                                platform.
+                            </p>
+                        </div>
+                    </div>
+                    <form action="" id="emailForm" class="newsletter-form">
+                        <div class="d-flex align-items-center justify-content-center form-group">
+                            <input id="email" type="email" class="newsletter-input"
+                                placeholder="Enter your Email Address" required>
+                            <button type="submit" class="btn submit-btn">
+                                <svg width="36" height="34" viewBox="0 0 36 34" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M1.27875 30.5998L5.15875 17.1798L1.27875 3.75976C0.798753 2.11976 2.47875 0.659763 4.03875 1.39976L34.2388 15.3798C35.7788 16.0998 35.7788 18.2998 34.2388 18.9998L4.03875 32.9798C2.47875 33.6998 0.798753 32.2598 1.27875 30.5998Z"
+                                        stroke="white" stroke-width="1.2" stroke-miterlimit="10" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M5.16016 17.1797H14.7402" stroke="white" stroke-width="1.2"
+                                        stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-container">
+                <div class="d-flex footer-main-content">
+                    <div class="footer-content-container">
+                        <div class="logo-container">
+                            <a href="/">
+                                <img src="/assets/images/xungibleLogo.png" alt="" class="logo">
+                            </a>
+                        </div>
+                        <p class="description footer-description">
+                            Supporting blockchain communities all over the world.
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-between footer-nav-wrapper">
+                        <div class="footer-nav-container">
+                            <h5 class="title footer-nav-title">About Us</h5>
+                            <ul class="footer-nav">
+                                <li class="list-item footer-list-item">
+                                    <a href="/about" class="link footer-nav-link">About Us</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer-nav-container">
+                            <h5 class="title footer-nav-title">Community</h5>
+                            <ul class="footer-nav">
+
+                                <li class="list-item footer-list-item">
+                                    <a href="https://twitter.com/Xungible" target="_blank"
+                                        class="link footer-nav-link">Twitter</a>
+                                </li>
+                                <li class="list-item footer-list-item">
+                                    <a href="https://discord.gg/y8h5hKhBXq" target="_blank"
+                                        class="link footer-nav-link">Discord</a>
+                                </li>
+                                <li class="list-item footer-list-item">
+                                    <a href="https://t.me/+bmp4rll6PeJjOWQ8" target="_blank"
+                                        class="link footer-nav-link">Telegram</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer-nav-container">
+                            <h5 class="title footer-nav-title">Explore</h5>
+                            <ul class="footer-nav">
+                                <li class="list-item footer-list-item">
+                                    <a href="/marketingtoken" class="link footer-nav-link">XGBL</a>
+                                </li>
+                                <li class="list-item footer-list-item"><a href="/xungibleballz"
+                                        class="link footer-nav-link">Xungiballs NFTs</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="d-flex justify-content-start footer-end">
+                    <% /* <div class="footer-links">
+                        <a href="" class="link footer-link">Privacy Policy</a>
+                        <a href="" class="link footer-link">Terms and Conditions</a>
+                </div> */ %>
+                <p class="copyrights">
+                    2022 &copy; Xungible
+                </p>
+            </div>
+
+
+        </footer>
+    </div>
+    <script src="/js/frontend.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script>
+
+        //custom tooltip
+        const getOrCreateTooltip = (chart) => {
+            let tooltipEl = chart.canvas.parentNode.querySelector('div');
+
+            if (!tooltipEl) {
+                tooltipEl = document.createElement('div');
+                tooltipEl.style.background = 'white';
+                tooltipEl.style.borderRadius = '3px';
+                tooltipEl.style.color = 'white';
+                tooltipEl.style.opacity = 1;
+                tooltipEl.style.pointerEvents = 'none';
+                tooltipEl.style.position = 'absolute';
+                tooltipEl.style.transform = 'translate(-50%, 0)';
+                tooltipEl.style.transition = 'all .1s ease';
+
+                const table = document.createElement('table');
+                table.style.margin = '0px';
+
+                tooltipEl.appendChild(table);
+                chart.canvas.parentNode.appendChild(tooltipEl);
+            }
+
+            return tooltipEl;
+        };
+
+        const externalTooltipHandler = (context) => {
+            // Tooltip Element
+            const { chart, tooltip } = context;
+            const tooltipEl = getOrCreateTooltip(chart);
+
+            // Hide if no tooltip
+            if (tooltip.opacity === 0) {
+                tooltipEl.style.opacity = 0;
+                return;
+            }
+
+            // Set Text
+            if (tooltip.body) {
+                const titleLines = tooltip.title || [];
+                const bodyLines = tooltip.body.map(b => b.lines);
+
+                const tableHead = document.createElement('thead');
+
+                titleLines.forEach(title => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderWidth = 0;
+
+                    const th = document.createElement('th');
+                    th.style.borderWidth = 0;
+                    const text = document.createTextNode(title);
+
+                    th.appendChild(text);
+                    tr.appendChild(th);
+                    tableHead.appendChild(tr);
+                });
+
+                const tableBody = document.createElement('tbody');
+                bodyLines.forEach((body, i) => {
+                    const colors = tooltip.labelColors[i];
+
+                    const span = document.createElement('span');
+                    span.style.background = colors.backgroundColor;
+                    span.style.borderColor = colors.borderColor;
+                    span.style.borderWidth = '2px';
+                    span.style.marginRight = '10px';
+                    span.style.height = '10px';
+                    span.style.width = '10px';
+                    span.style.display = 'inline-block';
+
+                    const tr = document.createElement('tr');
+                    tr.style.backgroundColor = 'inherit';
+                    tr.style.borderWidth = 0;
+
+                    const td = document.createElement('td');
+                    td.style.borderWidth = 0;
+
+                    const text = document.createTextNode(body);
+
+                    td.appendChild(span);
+                    td.appendChild(text);
+                    tr.appendChild(td);
+                    tableBody.appendChild(tr);
+                });
+
+                const tableRoot = tooltipEl.querySelector('table');
+
+                // Remove old children
+                while (tableRoot.firstChild) {
+                    tableRoot.firstChild.remove();
+                }
+
+                // Add new children
+                tableRoot.appendChild(tableHead);
+                tableRoot.appendChild(tableBody);
+            }
+
+            const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
+
+            // Display, position, and set styles for font
+            tooltipEl.style.opacity = 1;
+            tooltipEl.style.left = positionX + tooltip.caretX + 'px';
+            tooltipEl.style.top = positionY + tooltip.caretY + 'px';
+            tooltipEl.style.font = tooltip.options.bodyFont.string;
+            tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px';
+        };
+
+
+
+
+        const dataArray = [];
+        const dataLabels = [];
+        const getData = async () => {
+
+            const response = await fetch("https://data.ripple.com/v2/exchanges/5847424C00000000000000000000000000000000+rMy6sCaDVF1C2BT3qmNG6kgjVDZqZ74uoF/XRP?descending=0&result=tesSUCCESS&limit=400&interval=1day");
+           
+            const data = await response.json();
+            
+            const exchanges = data.exchanges;
+            exchanges.forEach((exchange) => {
+                let price = exchange.close;
+                dataArray.push(Number(price).toFixed(6));
+                dataLabels.push(exchange.close_time.split("T")[0]);
+            });
+
+
+        }
+        const chart = document.getElementById("priceStatisticsChart").getContext('2d');
+        let MIchart;
+
+        const initChart = async (chart) => {
+            try {
+                await getData();
+
+                const gradient = chart.createLinearGradient(0, 0, 0, 400);
+                gradient.addColorStop(0, "rgba(28, 97, 190, 0.25)");
+                gradient.addColorStop(0.4, "rgba(255,255,255, 0)");
+                gradient.addColorStop(1, "rgba(255,255,255, 0)");
+
+                const labels = [
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec',
+                ];
+
+                const footer = (tooltipItems) => {
+                    let sum = 0;
+
+                    tooltipItems.forEach(function (tooltipItem) {
+                        sum += tooltipItem.parsed.y;
+                    });
+                    return 'Sum: ' + sum;
+                };
+
+
+                const data = {
+                    labels: dataLabels,
+                    datasets: [
+                        {
+                            label: 'This Month',
+                            data: dataArray,
+                            borderColor: "#1C61BE",
+                            backgroundColor: gradient,
+                            fill: true,
+                            tension: .3,
+                            pointRadius: 10,
+                            pointBorderColor: 'transparent',
+                            pointBackgroundColor: "transparent",
+                            pointHoverBorderColor: "white",
+                            pointHoverBackgroundColor: "blue",
+                            pointHoverBorderWidth: 4,
+                            piontHoverRadius: 10,
+
+                        },
+                    ]
+                };
+                //tooltip callbacks
+                const titleTooltip = (tooltipItems) => {
+                    return tooltipItems.title;
+                }
+
+                const config = {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false,
+
+                            },
+                            tooltip: {
+                                displayColors: false,
+                                backgroundColor: "#fff",
+                                bodyColor: "#000",
+                                titleColor: "#000",
+                                bodyFont: {
+                                    size: 18,
+                                    weight: 700,
+                                },
+
+                                callbacks: {
+                                    title: titleTooltip,
+                                    label: function (context) {
+                                        let label = context.dataset.label || '';
+
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label = '$' + context.dataset.data[context.dataIndex];
+                                        }
+                                        return label;
+                                    }
+                                },
+
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false,
+                                }, ticks: {
+                                    callback: function (index, value) {
+                                        if (index == 0 || index == dataArray.length - 1) {
+                                            return dataLabels[index];
+                                        }
+                                    }
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    color: '#D0D5DD',
+                                    display: false,
+                                },
+                                ticks: {
+                                    callback: function (value) {
+                                        return Number(value).toFixed(7);
+                                    },
+                                    beginAtZero: true,
+                                },
+                            },
+                        },
+                    },
+                };
+                MIchart = new Chart(chart, config);
+
+            } catch (error) {
+                console.log(error);
+                const errorContainer = document.getElementById("errorContainer");
+                errorContainer.style.display = "flex";
+            }
+        }
+        initChart(chart);
+        // chart scope btns
+        const scopeBtns = [...document.querySelectorAll(".chart-scope-container .scope-btn")];
+
+        scopeBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                // close previously active scopes
+                scopeBtns.forEach((prevScopes) => {
+                    prevScopes.classList.remove("scope-btn-gradient");
+                })
+                btn.classList.add("scope-btn-gradient");
+                <% /* if (scopeBtns.indexOf(btn) == 0) {
+                    addData(MIchart, dataLabels, dataArray);
+                } else if (scopeBtns.indexOf(btn) == 1) {
+                    addData(MIchart, dataLabels, dataArray);
+                } else if (scopeBtns.indexOf(btn) == 2) {
+                    addData(MIchart, dataLabels, dataArray);
+                } else if (scopeBtns.indexOf(btn) == 3) {
+                    addData(MIchart, dataLabels, dataArray);
+                } */ %>
+            });
+        });
+
+        async function addData(chart, label, data) {
+            let scopeDate = new Date(dataLabels[dataLabels.length - 1]);
+            let date = new Date();
+            date = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+            scopeDate = Date.UTC(scopeDate.getFullYear(), scopeDate.getMonth(), scopeDate.getDate());
+
+            let newLabel = [scopeDate];
+            newLabel.push(Math.floor(Math.abs(scopeDate)) / (1000 * 3600 * 24));
+            let i = dataLabels.length - 1;
+            while ((Math.floor(Math.abs(date - scopeDate)) / (1000 * 3600 * 24)) <= 7 && i >= 0) {
+                --i;
+                scopeDate = new Date(dataLabels[dataLabels.length - i])
+                date = new Date();
+                date = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+                scopeDate = Date.UTC(scopeDate.getFullYear(), scopeDate.getMonth(), scopeDate.getDate());
+                newLabel.push(Math.floor(Math.abs(scopeDate)) / (1000 * 3600 * 24));
+            }
+
+
+            //console.log(Math.floor(Math.abs(date - scopeDate)) / (1000 * 3600 * 24));
+            console.log(newLabel);
+            chart.data.labels.push(newLabel);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(data);
+            });
+            chart.update();
+        }
+    </script>
+
+</body>
+
+</html>

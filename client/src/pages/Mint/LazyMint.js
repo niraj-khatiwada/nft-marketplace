@@ -12,25 +12,24 @@ import { getDateFromNow, formatDate } from '../../helpers/datetime'
 export default function Home() {
   const {
     account,
-    library,
-    custom: { waitTransactionToConfirm, signTypedDataForVoucher },
+
+    custom: { signTypedDataForVoucher },
   } = useWeb3()
   const { contract, contractAddress } = useContract()
   const { chainId } = useNetwork()
-  const history = useHistory()
 
   const [error, setError] = React.useState('')
 
   const voucher = {
-    isAuction: true,
+    isAuction: false,
     isForSale: true,
     isRedeem: true,
-    price: '3000000000000000',
-    target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
-    tokenId: 1,
-    tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
-    startDate: '1658849764000',
-    endDate: '1658850904000',
+    price: '100000000000000',
+    target: '0x8af64d0B00D8243E2555d9322DD077100E90e717',
+    tokenId: 2,
+    tokenURI: 'bafkreiew6uequavjrck3za5shdlnirxwlt7ye5ybkdadwokczw4tnewzae',
+    startDate: '0',
+    endDate: '0',
   }
 
   const mintToken = async () => {
@@ -42,13 +41,17 @@ export default function Home() {
         contractAddress,
         chainId
       )
+
       const voucherParams = await voucherService.createVoucherParams(voucher)
+
       const signature = await signTypedDataForVoucher({
         domain: voucherParams.domain,
         types: voucherParams.types,
         message: voucherParams.message,
         from: account,
       })
+
+      console.log('---lazy')
 
       // confirm the post with backend directly now
 
@@ -96,3 +99,5 @@ export default function Home() {
     </>
   )
 }
+
+// 0xdb98a81244DfA478273d9Ff89fE773A81D4c4778

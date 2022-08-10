@@ -2,11 +2,11 @@ import React from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { Button, Spinner } from 'react-bootstrap'
 
-import {
-  injected,
-  walletconnect,
-  resetWalletConnector,
-} from '../helpers/connectors'
+// import {
+//   injected,
+//   walletconnect,
+//   resetWalletConnector,
+// } from '../helpers/connectors'
 import Balance from './Balance'
 import Network from './Network'
 import SendFundToOwner from './SendFundToOwner'

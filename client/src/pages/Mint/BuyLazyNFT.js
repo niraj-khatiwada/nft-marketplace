@@ -25,12 +25,12 @@ export default function Home() {
     isRedeem: true,
     isAuction: false,
     isForSale: true,
-    price: '3000000000000000',
-    target: '0x9859C69D69E0F3AB2D8826dc73764D0DC5f050D4',
-    tokenId: 5,
-    tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
+    price: '10000000000000000',
+    tokenId: 69,
+    target: '0x4f2FD14488F070fd57eAe413149a7B9FE29Ce776',
     startDate: '0',
     endDate: '0',
+    tokenURI: 'bafkreidp4z5ddp7co7tzkz52vbkgohxj4v3uz66nhjnhdv7dyoamle6kyu',
   }
 
   const redeemToken = async () => {

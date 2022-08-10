@@ -1,11 +1,12 @@
 import React from 'react'
-import { useWeb3React } from '@web3-react/core'
 import { useQuery } from 'react-query'
+
+import useWeb3 from './useWeb3'
 
 const TOKEN_CONTRACT_ADDRESS = process.env.REACT_APP_TOKEN_CONTRACT_ADDRESS
 
 export default function useContract() {
-  const { library } = useWeb3React()
+  const { library } = useWeb3()
 
   const getContract = React.useCallback(async () => {
     if (library?.eth?.Contract) {

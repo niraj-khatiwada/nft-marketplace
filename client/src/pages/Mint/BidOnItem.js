@@ -22,11 +22,11 @@ export default function Home() {
   const [error, setError] = React.useState('')
 
   const voucher = {
-    tokenId: 1,
-    startDate: '1658849764000',
-    endDate: '1658850904000',
-    amount: '900000000000000000',
-    timestamp: '1658849957207',
+    tokenId: 2,
+    startDate: '1658860619000',
+    endDate: '1658861159000',
+    amount: '800000000000000000',
+    timestamp: '1658860952645',
   }
 
   const mintToken = async () => {

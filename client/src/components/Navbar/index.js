@@ -4,14 +4,14 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { Link } from 'react-router-dom'
 
-import useWeb3 from '../../hooks/useWeb3'
+import useWeb3, { errorsMapping } from '../../hooks/useWeb3'
 import useBalance from '../../hooks/useBalance'
+import useNetwork from '../../hooks/useNetwork'
 
-function CollapsibleExample() {
+function NavigationBar() {
   const {
     account,
     error,
-
     custom: {
       disconnectWallet,
       connectMetamask,
@@ -20,10 +20,11 @@ function CollapsibleExample() {
     },
   } = useWeb3()
   const { formatted } = useBalance()
+  const { network } = useNetwork()
 
   const renderError = React.useMemo(() => {
     switch (error?.name) {
-      case 'UnsupportedChainIdError':
+      case errorsMapping?.UnsupportedChainIdError?.name:
         return (
           <div className="d-flex align-items-center my-3">
             <div className="mx-3">
@@ -36,6 +37,26 @@ function CollapsibleExample() {
                 </Spinner>
                 <span className="text-primary d-inline-block ms-2">
                   Waiting for network change
+                </span>
+              </div>
+            </div>
+            <Button className="ms-2" onClick={disconnectWallet}>
+              Disconnect Wallet
+            </Button>
+          </div>
+        )
+      case errorsMapping?.NoMetaMaskError?.name:
+        return (
+          <div className="d-flex align-items-center my-3">
+            <div className="mx-3">
+              <span className="text-danger m-0 d-block">
+                Metamask extension was not found.
+              </span>
+              <div className="d-flex align-items-center">
+                <span className="text-warning d-inline-block">
+                  Metamask extension is not installed or is not supported in
+                  this platform. If you are on mobile platform, connect Metamask
+                  through Wallet Connect option.
                 </span>
               </div>
             </div>
@@ -83,6 +104,7 @@ function CollapsibleExample() {
                   </>
                 ) : (
                   <div className="d-flex align-items-center">
+                    <p className="m-0 me-2">{network}</p>
                     <Link to="/profile">
                       <p className="m-0 me-2">My Profile</p>
                     </Link>
@@ -110,4 +132,4 @@ function CollapsibleExample() {
   )
 }
 
-export default CollapsibleExample
+export default React.memo(NavigationBar)
