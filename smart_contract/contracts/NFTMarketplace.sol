@@ -2,12 +2,13 @@
 
 pragma solidity ^0.8.14;
 
+import "./PriceConsumerV3.sol";
 import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "../node_modules/@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "../node_modules/@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 
-contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
+contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable, PriceConsumerV3 {
     bytes32 internal constant V_HASH =
         keccak256(
             "NFTVoucher(uint256 tokenId,string tokenURI,uint256 price,bool isForSale,bool isAuction,address target,bool isRedeem,uint256 startDate,uint256 endDate)"
@@ -48,6 +49,7 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
     mapping(address => uint256) private _mapOwnerToItemsCreatedCount; /* address: nft item created count */
     mapping(address => uint256) private _mapOwnerToItemsForSaleCount; /* address: nft item for sale count */
     mapping(address => uint256[]) private _mapOwnerToTokenIdOfItemsSold; /* address: token id of nft item sold */
+    mapping(uint256 => bool) private _mapIsTokenBurned; /* tokenId -> true */
 
     uint256 private _numberOfItems; // Does not keep track of burned tokens
     uint256 private _numberOfItemsForSale; // Keep track of active number of items on sale
@@ -66,6 +68,11 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         string memory _symbol,
         string memory _initBaseURI
     ) ERC721(_name, _symbol) EIP712("XungibleEIP712", "1") {
+        require(
+            bytes(_name).length > 0 &&
+                bytes(_symbol).length > 0 &&
+                bytes(_initBaseURI).length > 0
+        );
         changeBaseURI(_initBaseURI);
     }
 
@@ -152,6 +159,7 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
         require(msg.sender == ERC721.ownerOf(tokenId)); // NOT_THE_NFT_OWNER
         NFTItem memory item = _removeNFT(tokenId);
         _burn(tokenId);
+        _mapIsTokenBurned[tokenId] = true;
         emit TokenBurned(item, msg.sender);
     }
 
@@ -267,6 +275,10 @@ contract NFTMarketplace is ERC721URIStorage, EIP712, Ownable {
             _mapOwnerToItemsForSaleCount[userAddress], // Total NFT Items Owned for sale
             _mapOwnerToTokenIdOfItemsSold[userAddress].length // Total NFT Items Sold,
         ];
+    }
+
+    function isTokenBurned(uint256 tokenId) public view returns (bool) {
+        return _mapIsTokenBurned[tokenId];
     }
 
     // Get chain id of contract

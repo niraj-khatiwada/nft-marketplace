@@ -4,15 +4,15 @@
       "success": true,
       "message": "Post created successfully. Proceed to minting and confirm to make it live",
       "data": {
-        "postId": "37",
+        "postId": "45",
         "voucher": {
           "isAuction": false,
           "isForSale": true,
           "isRedeem": true,
-          "price": "100000000000000",
-          "target": "0x8af64d0B00D8243E2555d9322DD077100E90e717",
+          "price": "3000000000000000",
+          "target": "0x36C10991DFf0ea1ea2e2982D4e840c2B0544cE2c",
           "tokenId": 2,
-          "tokenURI": "bafkreiew6uequavjrck3za5shdlnirxwlt7ye5ybkdadwokczw4tnewzae",
+          "tokenURI": "bafkreighhoaeph2kbsnzpxv3z7qfsfsvaguh7l3re6y4vxt7epkx6qgulq",
           "startDate": "0",
           "endDate": "0"
         }

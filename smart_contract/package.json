@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@chainlink/contracts": "^0.4.2",
     "@openzeppelin/contracts": "^4.6.0"
   },
   "devDependencies": {
