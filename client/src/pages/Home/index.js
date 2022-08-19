@@ -2,8 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useWeb3React } from '@web3-react/core'
 
-import { getConnectorName } from '../../helpers/connectors'
-
 import { Button } from 'react-bootstrap'
 import Navbar from '../../components/Navbar'
 import useWeb3 from '../../hooks/useWeb3'
@@ -12,7 +10,7 @@ import useContract from '../../hooks/useContract'
 import useNetwork from '../../hooks/useNetwork'
 
 function Home() {
-  const { account, library } = useWeb3()
+  const { account } = useWeb3()
 
   return (
     <>

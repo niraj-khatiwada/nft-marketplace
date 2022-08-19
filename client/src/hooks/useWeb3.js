@@ -326,7 +326,7 @@ export default function useWeb3() {
 
   const signTypedDataForVoucher = React.useCallback(
     ({ domain, types, message, from, primaryType = 'NFTVoucher' }) => {
-      const _connector = _getConnectorName(library?.currentProvider)
+      const _connector = walletConnectedRef.current
       return new Promise((resolve, reject) =>
         library.currentProvider.sendAsync(
           {

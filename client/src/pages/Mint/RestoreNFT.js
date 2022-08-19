@@ -24,13 +24,13 @@ export default function Home() {
 
   // Voucher is returned from API, see below
   const voucher = {
-    isAuction: false,
+    tokenId: 1,
+    tokenURI: 'bafkreiclg55rpej4ngu2ms5obwtlo7cmbjqerhtgi5umjxbgsmqhrt6rl4',
+    price: '3000000000000000',
     isForSale: true,
+    isAuction: false,
+    target: '0x36C10991DFf0ea1ea2e2982D4e840c2B0544cE2c',
     isRedeem: true,
-    price: '100000000000000',
-    target: '0x8af64d0B00D8243E2555d9322DD077100E90e717',
-    tokenId: 2,
-    tokenURI: 'bafkreiew6uequavjrck3za5shdlnirxwlt7ye5ybkdadwokczw4tnewzae',
     startDate: '0',
     endDate: '0',
   }
@@ -71,13 +71,7 @@ export default function Home() {
       */
 
       const signature =
-        '0x1424911f850ddff9d16564d18805a206691726bdc2264c20669833e6ab320f1d3ced687583b75772e081363d8daea6500e1ad270db64cd66ed9ea89f85ac090f1b'
-
-      const signer = await contract?.methods
-        ?.verifyVoucher({ ...voucher, signature })
-        .call()
-
-      console.log('_--', signer)
+        '0x3e184222e68fdbac2b427831250f28dd662d7eff6d13babb03e92e2f2d9951ce329ceb122fa26b50eaffecc01c837463d7de4b8457bfda05f421539b9b1671851c'
 
       const transaction = await contract?.methods
         ?.mintToken({

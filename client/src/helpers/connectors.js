@@ -46,6 +46,14 @@ export const CURRENCY = {
   1337: 'ETH',
 }
 
+export const CHAIN = {
+  1: 'ETHEREUM',
+  4: 'ETHEREUM',
+  137: 'POLYGON',
+  80001: 'POLYGON',
+  1337: 'ETHEREUM',
+}
+
 export const CHAIN_IDS = Object.keys(
   NETWORK_MAPPING?.[
     mode === 'production'

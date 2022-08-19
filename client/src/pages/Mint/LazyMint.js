@@ -24,10 +24,10 @@ export default function Home() {
     isAuction: false,
     isForSale: true,
     isRedeem: true,
-    price: '100000000000000',
-    target: '0x8af64d0B00D8243E2555d9322DD077100E90e717',
+    price: '3000000000000000',
+    target: '0x36C10991DFf0ea1ea2e2982D4e840c2B0544cE2c',
     tokenId: 2,
-    tokenURI: 'bafkreiew6uequavjrck3za5shdlnirxwlt7ye5ybkdadwokczw4tnewzae',
+    tokenURI: 'bafkreighhoaeph2kbsnzpxv3z7qfsfsvaguh7l3re6y4vxt7epkx6qgulq',
     startDate: '0',
     endDate: '0',
   }
@@ -44,6 +44,8 @@ export default function Home() {
 
       const voucherParams = await voucherService.createVoucherParams(voucher)
 
+      console.log('---', voucherParams)
+
       const signature = await signTypedDataForVoucher({
         domain: voucherParams.domain,
         types: voucherParams.types,
@@ -51,11 +53,9 @@ export default function Home() {
         from: account,
       })
 
-      console.log('---lazy')
-
       // confirm the post with backend directly now
 
-      console.log(signature, JSON.stringify(voucherParams, null, 4))
+      console.log(signature, JSON.stringify(voucherParams.message, null, 2))
 
       // Call this graphql mutation for backend confirmation
       // Base64 encode message

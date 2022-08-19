@@ -21,16 +21,27 @@ export default function Home() {
   const [isLoading, setIsLoading] = React.useState(false)
   const [receipt, setReceipt] = React.useState(null)
 
+  // const voucher = {
+  //   isRedeem: true,
+  //   isAuction: false,
+  //   isForSale: true,
+  //   price: '10000000000000000',
+  //   tokenId: 69,
+  //   target: '0x4f2FD14488F070fd57eAe413149a7B9FE29Ce776',
+  //   startDate: '0',
+  //   endDate: '0',
+  //   tokenURI: 'bafkreidp4z5ddp7co7tzkz52vbkgohxj4v3uz66nhjnhdv7dyoamle6kyu',
+  // }
   const voucher = {
-    isRedeem: true,
+    endDate: '0',
     isAuction: false,
     isForSale: true,
-    price: '10000000000000000',
-    tokenId: 69,
-    target: '0x4f2FD14488F070fd57eAe413149a7B9FE29Ce776',
+    isRedeem: true,
+    price: '1000000000000000',
     startDate: '0',
-    endDate: '0',
-    tokenURI: 'bafkreidp4z5ddp7co7tzkz52vbkgohxj4v3uz66nhjnhdv7dyoamle6kyu',
+    target: '0xb8225699705d2A746F1cf7AD9A1bA83e2Cc2f1ea',
+    tokenId: 2,
+    tokenURI: 'bafkreie7ub7cnqcdg6ikn4wxrxxrrhb5izk5ko2rnefh2fzwtvknuymgkm',
   }
 
   const redeemToken = async () => {
@@ -83,7 +94,8 @@ export default function Home() {
         const transaction = await contract?.methods
           ?.redeemToken({
             ...voucher,
-            signature: signature,
+            signature:
+              '0xa7a6667bd40c97204e2eab0c239f27adda93759cffb13640c0970c8b57da652e1461e38d04fdbc73bb78cc81a8c1a6eff010015fbdc826e5fc36d50d14a1ac091c',
           })
           .send({
             from: account,
