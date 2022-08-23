@@ -113,12 +113,8 @@ export default function useWeb3() {
         setIsLoading(false)
         return
       }
-      await metamask.activate(isValid ? chainIdFromMetamask : CHAIN_IDS[0])
+      await metamask.activate(isValid ? chainIdFromMetamask : null)
       window.localStorage.setItem('connector', 'metamask')
-      window.localStorage.setItem(
-        'chainId',
-        `${isValid ? chainIdFromMetamask : CHAIN_IDS[0]}`
-      )
       walletConnectedRef.current = 'METAMASK'
     } catch (_error) {
       console.log('Metamask Wallet Connection Issue', _error)
@@ -139,10 +135,7 @@ export default function useWeb3() {
         setIsLoading(false)
         return
       }
-      await walletconnect.activate(
-        isValid ? chainIdFromWalletConnect : CHAIN_IDS[0]
-      )
-
+      await walletconnect.activate(isValid ? chainIdFromWalletConnect : null)
       window.localStorage.setItem('connector', 'wallet_connect')
       walletConnectedRef.current = 'WALLET_CONNECT'
     } catch (error) {
